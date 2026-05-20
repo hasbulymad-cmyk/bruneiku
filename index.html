@@ -9,7 +9,7 @@
 <title>Wawasan Brunei 2035</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital@1&family=Syne:wght@400;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -93,7 +93,7 @@ nav.hidden { opacity: 0; pointer-events: none; }
 .reveal {
   opacity: 0;
   transform: translateY(30px);
-  transition: opacity 0.85s ease, transform 0.85s ease;
+  transition: opacity 0.9s cubic-bezier(0.16,1,0.3,1), transform 0.9s cubic-bezier(0.16,1,0.3,1);
 }
 .reveal.in { opacity: 1; transform: translateY(0); }
 .d1 { transition-delay: 0.1s;  }
@@ -258,10 +258,11 @@ section { position: relative; overflow: hidden; }
 }
 
 .mission-quote {
-  font-family: 'Syne', sans-serif;
-  font-size: clamp(1.1rem, 3.2vw, 1.5rem);
-  font-weight: 600;
-  line-height: 1.6;
+  font-family: 'Playfair Display', Georgia, serif;
+  font-style: italic;
+  font-size: clamp(1.15rem, 3.2vw, 1.6rem);
+  font-weight: 400;
+  line-height: 1.75;
   color: var(--white);
   position: relative;
   padding-left: 1.5rem;
@@ -484,13 +485,15 @@ section { position: relative; overflow: hidden; }
 }
 
 .pillar {
-  background: var(--card);
-  border: 1px solid var(--border);
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08);
   border-radius: 20px;
   padding: 2rem 1.5rem;
   position: relative;
   overflow: hidden;
-  transition: border-color 0.3s, background 0.3s, transform 0.35s, box-shadow 0.35s;
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  transition: border-color 0.35s cubic-bezier(0.16,1,0.3,1), background 0.35s cubic-bezier(0.16,1,0.3,1), transform 0.35s cubic-bezier(0.16,1,0.3,1), box-shadow 0.35s cubic-bezier(0.16,1,0.3,1);
 }
 
 .pillar:hover {
@@ -868,6 +871,45 @@ section { position: relative; overflow: hidden; }
   transform: scale(1.4);
 }
 
+/* ════════════════════════════════════════
+   Ambient blobs
+════════════════════════════════════════ */
+.blob {
+  position: fixed;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 0;
+  filter: blur(90px);
+  opacity: 0.065;
+  will-change: transform;
+  animation: blobDrift var(--dur, 22s) ease-in-out infinite;
+}
+
+@keyframes blobDrift {
+  0%,100% { transform: translate(0, 0) scale(1); }
+  33%      { transform: translate(40px, -60px) scale(1.06); }
+  66%      { transform: translate(-30px, 30px) scale(0.94); }
+}
+
+/* ── Scroll progress bar ── */
+#scroll-progress {
+  position: fixed;
+  top: 0; left: 0;
+  height: 2px;
+  width: 0%;
+  background: linear-gradient(90deg, #B88A00, #FFD100, #FFF5A0);
+  z-index: 200;
+  transition: width 0.08s linear;
+  pointer-events: none;
+}
+
+/* ── Reduced motion ── */
+@media (prefers-reduced-motion: reduce) {
+  .reveal { transition: none !important; opacity: 1 !important; transform: none !important; }
+  .blob, .scroll-line, .tl-item.now::before, .p-fill { animation: none !important; }
+  .p-fill { transition: none !important; }
+}
+
 @media (max-width: 640px) {
   /* Decorative chrome */
   .progress-dot { display: none; }
@@ -922,6 +964,9 @@ section { position: relative; overflow: hidden; }
 <body>
 
 <canvas id="cvs"></canvas>
+<div id="scroll-progress"></div>
+<div class="blob" style="width:700px;height:700px;background:#FFD100;left:-8%;top:-5%;--dur:30s"></div>
+<div class="blob" style="width:450px;height:450px;background:#FFD100;right:-6%;bottom:10%;--dur:22s;animation-delay:-12s"></div>
 
 <!-- Nav -->
 <nav id="nav">
@@ -1410,6 +1455,14 @@ const countIO = new IntersectionObserver(entries => {
 }, { threshold: 0.5 });
 
 document.querySelectorAll('[data-to]').forEach(el => countIO.observe(el));
+
+// ── Scroll progress bar ─────────────────────────────────────
+const scrollProg = document.getElementById('scroll-progress');
+window.addEventListener('scroll', () => {
+  const s = document.documentElement.scrollTop;
+  const h = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+  scrollProg.style.width = (s / h * 100) + '%';
+}, { passive: true });
 </script>
 </body>
 </html>
