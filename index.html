@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Bruneiku — Haiku from the Heart of Borneo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --gold: #C9A84C;
+    --gold-light: #F2D878;
+    --gold-dim: #6E5A22;
+    --bg: #070707;
+    --card-bg: rgba(14, 11, 6, 0.97);
+    --text: #F0EAD6;
+    --text-dim: #6A6050;
+  }
+
+  html, body { height: 100%; overflow-x: hidden; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100dvh;
+    padding: 2.5rem 1.5rem;
+    position: relative;
+  }
+
+  canvas#stars {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    pointer-events: none;
+  }
+
+  /* Subtle radial glow */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: radial-gradient(ellipse 70% 50% at 50% 50%, rgba(201,168,76,0.055) 0%, transparent 70%);
+    z-index: 0;
+    pointer-events: none;
+  }
+
+  .container {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: 400px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.25rem;
+  }
+
+  /* ── Header ── */
+  .header { text-align: center; margin-bottom: 0.25rem; }
+
+  .logo {
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    font-size: 0.68rem;
+    letter-spacing: 0.45em;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 0.35rem;
+  }
+
+  .tagline {
+    font-size: 0.62rem;
+    letter-spacing: 0.18em;
+    color: var(--text-dim);
+    text-transform: uppercase;
+  }
+
+  /* ── Card ── */
+  .card {
+    width: 100%;
+    background: var(--card-bg);
+    border: 1px solid rgba(201,168,76,0.18);
+    border-radius: 18px;
+    padding: 2.25rem 2rem 2rem;
+    position: relative;
+    overflow: hidden;
+    box-shadow:
+      0 0 0 1px rgba(201,168,76,0.06),
+      0 25px 70px rgba(0,0,0,0.85),
+      inset 0 1px 0 rgba(201,168,76,0.12);
+    transition: border-color 0.4s ease;
+  }
+
+  .card:hover {
+    border-color: rgba(201,168,76,0.32);
+  }
+
+  /* Gold shimmer top line */
+  .card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 8%; right: 8%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    opacity: 0.5;
+  }
+
+  /* Corner accent */
+  .card::after {
+    content: '✦';
+    position: absolute;
+    top: 1rem; right: 1.25rem;
+    color: var(--gold);
+    opacity: 0.25;
+    font-size: 0.65rem;
+  }
+
+  .category-badge {
+    display: inline-block;
+    font-size: 0.55rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--gold);
+    border: 1px solid rgba(201,168,76,0.28);
+    border-radius: 20px;
+    padding: 0.22rem 0.8rem;
+    margin-bottom: 1.6rem;
+    font-weight: 500;
+    transition: opacity 0.3s ease;
+  }
+
+  .haiku-container {
+    min-height: 6.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+    margin-bottom: 1.75rem;
+  }
+
+  .haiku-line {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: clamp(1.3rem, 5vw, 1.6rem);
+    line-height: 1.5;
+    color: var(--text);
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 0.55s ease, transform 0.55s ease;
+  }
+
+  .haiku-line.l2 {
+    padding-left: 1.25rem;
+    color: rgba(240,234,214,0.8);
+  }
+
+  .haiku-line.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .syllables {
+    font-size: 0.58rem;
+    letter-spacing: 0.35em;
+    color: var(--text-dim);
+    text-align: center;
+    opacity: 0;
+    transition: opacity 0.6s ease;
+    font-weight: 300;
+  }
+
+  .syllables.visible { opacity: 1; }
+
+  /* ── Buttons ── */
+  .btn-generate {
+    width: 100%;
+    background: linear-gradient(110deg, #B8912E 0%, #F2D878 45%, #C9A84C 100%);
+    background-size: 200% 100%;
+    background-position: 0% 0%;
+    border: none;
+    border-radius: 12px;
+    padding: 0.95rem 2rem;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: #0A0700;
+    cursor: pointer;
+    transition: background-position 0.5s ease, transform 0.2s ease, box-shadow 0.3s ease;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .btn-generate:hover {
+    background-position: 100% 0%;
+    transform: translateY(-2px);
+    box-shadow: 0 10px 35px rgba(201,168,76,0.38);
+  }
+
+  .btn-generate:active { transform: translateY(0); }
+
+  .btn-generate .spark {
+    display: inline-block;
+    margin-right: 0.45rem;
+    transition: transform 0.4s ease;
+  }
+  .btn-generate:hover .spark { transform: rotate(20deg) scale(1.25); }
+
+  .btn-copy {
+    width: 100%;
+    background: transparent;
+    border: 1px solid rgba(201,168,76,0.25);
+    border-radius: 12px;
+    padding: 0.8rem 2rem;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.68rem;
+    font-weight: 500;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--gold);
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .btn-copy:hover {
+    background: rgba(201,168,76,0.07);
+    border-color: rgba(201,168,76,0.45);
+  }
+
+  .btn-copy.copied {
+    border-color: rgba(201,168,76,0.55);
+    color: var(--gold-light);
+  }
+
+  /* ── Footer ── */
+  .footer {
+    font-size: 0.58rem;
+    letter-spacing: 0.18em;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    text-align: center;
+    opacity: 0.45;
+    margin-top: 0.25rem;
+  }
+
+  /* ── Pulse on generate ── */
+  @keyframes cardPulse {
+    0%   { box-shadow: 0 0 0 1px rgba(201,168,76,0.06), 0 25px 70px rgba(0,0,0,0.85), inset 0 1px 0 rgba(201,168,76,0.12); }
+    50%  { box-shadow: 0 0 0 1px rgba(201,168,76,0.22), 0 25px 70px rgba(0,0,0,0.85), 0 0 40px rgba(201,168,76,0.1), inset 0 1px 0 rgba(201,168,76,0.2); }
+    100% { box-shadow: 0 0 0 1px rgba(201,168,76,0.06), 0 25px 70px rgba(0,0,0,0.85), inset 0 1px 0 rgba(201,168,76,0.12); }
+  }
+
+  .card.pulse { animation: cardPulse 0.8s ease; }
+</style>
+</head>
+<body>
+
+<canvas id="stars"></canvas>
+
+<div class="container">
+  <div class="header">
+    <div class="logo">✦ &nbsp; Bruneiku &nbsp; ✦</div>
+    <div class="tagline">Haiku from the Heart of Borneo</div>
+  </div>
+
+  <div class="card" id="card">
+    <div class="category-badge" id="category">Nature</div>
+    <div class="haiku-container">
+      <div class="haiku-line l1" id="line1"></div>
+      <div class="haiku-line l2" id="line2"></div>
+      <div class="haiku-line l1" id="line3"></div>
+    </div>
+    <div class="syllables" id="syllables">5 &nbsp;·&nbsp; 7 &nbsp;·&nbsp; 5</div>
+  </div>
+
+  <button class="btn-generate" id="btnGenerate">
+    <span class="spark">✦</span>Generate
+  </button>
+
+  <button class="btn-copy" id="btnCopy">Copy for Threads</button>
+
+  <div class="footer">Made in Brunei 🇧🇳 &nbsp;·&nbsp; bruneiku</div>
+</div>
+
+<script>
+// ── Starfield ──────────────────────────────────────────────────────────────
+const canvas = document.getElementById('stars');
+const ctx = canvas.getContext('2d');
+let stars = [], W, H, frame = 0;
+
+function resize() {
+  W = canvas.width = window.innerWidth;
+  H = canvas.height = window.innerHeight;
+}
+
+function initStars() {
+  stars = [];
+  for (let i = 0; i < 110; i++) {
+    stars.push({
+      x: Math.random() * W,
+      y: Math.random() * H,
+      r: Math.random() * 1.1 + 0.15,
+      base: Math.random() * 0.5 + 0.08,
+      speed: Math.random() * 0.4 + 0.05,
+      phase: Math.random() * Math.PI * 2,
+    });
+  }
+}
+
+function animateStars() {
+  ctx.clearRect(0, 0, W, H);
+  frame++;
+  for (const s of stars) {
+    const a = s.base + Math.sin(frame * s.speed * 0.03 + s.phase) * 0.15;
+    ctx.beginPath();
+    ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+    ctx.fillStyle = `rgba(201,168,76,${a})`;
+    ctx.fill();
+  }
+  requestAnimationFrame(animateStars);
+}
+
+window.addEventListener('resize', () => { resize(); initStars(); });
+resize(); initStars(); animateStars();
+
+// ── Haiku data ─────────────────────────────────────────────────────────────
+const poems = [
+  { cat: 'Nature',       lines: ['Jungle mist lifts slow', 'fireflies dance in Temburong', 'dusk paints the sky gold'] },
+  { cat: 'Architecture', lines: ['Golden dome shines bright', "Omar Ali's reflection", 'peace lives here always'] },
+  { cat: 'Water Village',lines: ['Water village wakes', 'children run on wooden planks', 'the tide comes back home'] },
+  { cat: 'Food',         lines: ['Nasi katok calls', 'twenty cents, the nation eats', 'this is happiness'] },
+  { cat: 'Spiritual',    lines: ['Azan fills the air', 'Brunei stills on Friday noon', 'faith guides every step'] },
+  { cat: 'Nature',       lines: ['Rain drums on tin roofs', 'the river swells, rushes on', 'we wait, drink our tea'] },
+  { cat: 'Landmarks',    lines: ['Oil wells burn all night', "Seria's eternal flame", 'small nation, deep soul'] },
+  { cat: 'Wildlife',     lines: ['Hornbill calls at dawn', 'above Ulu Temburong', 'the jungle breathes on'] },
+  { cat: 'Night Life',   lines: ['Gadong glows at dusk', 'rojak, satay, laughing crowds', 'Brunei after dark'] },
+  { cat: 'Water Village',lines: ['Stilts above the tide', 'mangroves guard the silent shore', 'roots run deep as time'] },
+  { cat: 'Pride',        lines: ['Gold and black, our pride', "the Sultan's flag never fades", 'this land holds its breath'] },
+  { cat: 'Wildlife',     lines: ['Proboscis nose droops', "by the Brunei River's bank", 'strange beauty, all ours'] },
+  { cat: 'Nature',       lines: ['Green hills touch the sky', 'Temburong stays evergreen', "God's gift, this small isle"] },
+  { cat: 'Food',         lines: ['Ambuyat stretches', 'shared at the bamboo table', 'family holds on'] },
+  { cat: 'Spiritual',    lines: ['Friday silence falls', 'the city holds its own breath', 'then the azan calls'] },
+  { cat: 'Water Village',lines: ['Morning light on planks', 'the fisherman rows through mist', 'Brunei never rushed'] },
+  { cat: 'Food',         lines: ['Katok steam rises', 'midnight hunger, open stall', 'we eat, we belong'] },
+  { cat: 'Everyday Life',lines: ['Air con on full blast', 'we call this jacket weather', 'Brunei people know'] },
+  { cat: 'Architecture', lines: ['Blue dome, painted gold', "Jame'Asr at golden hour", 'the call finds us all'] },
+  { cat: 'Nature',       lines: ['Grey clouds roll in fast', 'Brunei rain — sudden and warm', 'umbrellas bloom red'] },
+  { cat: 'Identity',     lines: ['Many tongues, one voice', 'beneath the Bornean sky', 'Brunei remembers'] },
+  { cat: 'Spiritual',    lines: ['Moon rises early', 'the bazaar wakes up hungry', 'we break fast as one'] },
+  { cat: 'Pride',        lines: ['Yellow flags line streets', 'drumbeats fill the stadium', 'forty years of peace'] },
+  { cat: 'Landmarks',    lines: ['Black lake, sacred ground', 'Tasek Merimbun at rest', 'old souls live in roots'] },
+  { cat: 'Water Village',lines: ['Fireflies light the dark', 'water village glows at dusk', 'the river is home'] },
+  { cat: 'Nature',       lines: ['Brunei dawn, cool grey', "the muezzin's voice lifts the mist", 'new day, same blessing'] },
+  { cat: 'Pride',        lines: ['This is where we stand', 'small on the map, wide in heart', 'Brunei, always mine'] },
+  { cat: 'Everyday Life',lines: ['Three roundabouts passed', 'still cannot find where to park', 'Brunei life, aiya'] },
+  { cat: 'Nature',       lines: ['Humid air, thick heat', 'Shahbandar runners press on', 'the hill does not care'] },
+  { cat: 'Landmarks',    lines: ['Bandar at sunset', 'the sky turns amber and red', 'the sea takes it all'] },
+];
+
+let current = -1;
+
+function next() {
+  let idx;
+  do { idx = Math.floor(Math.random() * poems.length); } while (idx === current);
+  current = idx;
+  return poems[idx];
+}
+
+const el = {
+  card:     document.getElementById('card'),
+  cat:      document.getElementById('category'),
+  l1:       document.getElementById('line1'),
+  l2:       document.getElementById('line2'),
+  l3:       document.getElementById('line3'),
+  syl:      document.getElementById('syllables'),
+  generate: document.getElementById('btnGenerate'),
+  copy:     document.getElementById('btnCopy'),
+};
+
+function reveal(poem, animate) {
+  el.cat.textContent = poem.cat;
+
+  if (!animate) {
+    el.l1.textContent = poem.lines[0];
+    el.l2.textContent = poem.lines[1];
+    el.l3.textContent = poem.lines[2];
+    [el.l1, el.l2, el.l3, el.syl].forEach(e => e.classList.add('visible'));
+    return;
+  }
+
+  [el.l1, el.l2, el.l3, el.syl].forEach(e => e.classList.remove('visible'));
+  el.l1.textContent = el.l2.textContent = el.l3.textContent = '';
+
+  el.card.classList.remove('pulse');
+  void el.card.offsetWidth; // reflow to re-trigger animation
+  el.card.classList.add('pulse');
+
+  setTimeout(() => { el.l1.textContent = poem.lines[0]; el.l1.classList.add('visible'); }, 80);
+  setTimeout(() => { el.l2.textContent = poem.lines[1]; el.l2.classList.add('visible'); }, 310);
+  setTimeout(() => { el.l3.textContent = poem.lines[2]; el.l3.classList.add('visible'); }, 540);
+  setTimeout(() => { el.syl.classList.add('visible'); }, 820);
+}
+
+// Init
+reveal(poems[current = Math.floor(Math.random() * poems.length)], false);
+
+el.generate.addEventListener('click', () => {
+  reveal(next(), true);
+  el.copy.textContent = 'Copy for Threads';
+  el.copy.classList.remove('copied');
+});
+
+el.copy.addEventListener('click', () => {
+  const p = poems[current];
+  const text = `${p.lines[0]}\n${p.lines[1]}\n${p.lines[2]}\n\n🇧🇳 #Brunei #Bruneiku #BorneoPoetry`;
+
+  const done = () => {
+    el.copy.textContent = 'Copied! Paste on Threads 🇧🇳';
+    el.copy.classList.add('copied');
+    setTimeout(() => {
+      el.copy.textContent = 'Copy for Threads';
+      el.copy.classList.remove('copied');
+    }, 3000);
+  };
+
+  if (navigator.clipboard) {
+    navigator.clipboard.writeText(text).then(done).catch(() => fallback(text, done));
+  } else {
+    fallback(text, done);
+  }
+});
+
+function fallback(text, cb) {
+  const t = document.createElement('textarea');
+  t.value = text;
+  t.style.position = 'fixed';
+  t.style.opacity = '0';
+  document.body.appendChild(t);
+  t.select();
+  document.execCommand('copy');
+  document.body.removeChild(t);
+  cb();
+}
+</script>
+</body>
+</html>
