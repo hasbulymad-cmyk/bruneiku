@@ -747,9 +747,51 @@ section { position: relative; overflow: hidden; }
   transform: scale(1.4);
 }
 
-@media (max-width: 480px) {
+@media (max-width: 640px) {
+  /* Decorative chrome */
   .progress-dot { display: none; }
   nav .nav-links { display: none; }
+
+  /* Hero */
+  #hero { padding: 3.5rem 1.25rem 4rem; }
+  .hero-sub { font-size: clamp(0.88rem, 3.5vw, 1rem); }
+  .hero-scroll span { font-size: 0.65rem; }
+
+  /* Section padding */
+  #mission, #pillars, #strategies, #numbers, #sectors, #timeline { padding: 4.5rem 0; }
+  #progress { padding: 4rem 0; }
+
+  /* Small text floors */
+  .tag { font-size: 0.65rem; }
+  .progress-head { font-size: 0.68rem; flex-wrap: wrap; gap: 0.25rem; }
+  .pstat-l { font-size: 0.65rem; }
+
+  /* Progress stats: 3-col to 1-col */
+  .progress-stats { grid-template-columns: 1fr; }
+  .pstat { padding: 1rem; }
+
+  /* Strategies: 2-col to 1-col */
+  .strat-grid { grid-template-columns: 1fr; }
+
+  /* Numbers: 2-col to 1-col */
+  .num-grid { grid-template-columns: 1fr; }
+  .num-card { padding: 1.25rem 1.1rem; }
+
+  /* Timeline */
+  .tl-list { padding-left: 1.6rem; }
+  .tl-item::before { left: -1.44rem; }
+  .tl-item.now::before { left: -1.6rem; }
+  .tl-desc { max-width: 100%; }
+
+  /* Sectors */
+  .sector { padding: 1.1rem 1.1rem; }
+  .sector-chevron { font-size: 0.9rem; }
+  .sector-num { font-size: 0.6rem; }
+
+  /* Closing */
+  #closing { padding: 5rem 0 4rem; }
+  .closing-sub { font-size: 0.68rem; }
+  .closing-footer { font-size: 0.65rem; }
 }
 </style>
 </head>
@@ -834,18 +876,9 @@ section { position: relative; overflow: hidden; }
       </p>
     </div>
     <div class="progress-stats reveal d2">
-      <div class="pstat">
-        <span class="pstat-n">18</span>
-        <span class="pstat-l">Years since<br>launch (2008)</span>
-      </div>
-      <div class="pstat">
-        <span class="pstat-n">9</span>
-        <span class="pstat-l">Years left to<br>reach 2035</span>
-      </div>
-      <div class="pstat">
-        <span class="pstat-n">3</span>
-        <span class="pstat-l">Core aspirations<br>driving the vision</span>
-      </div>
+      <div class="pstat"><span class="pstat-n">18</span><span class="pstat-l">Years since<br>launch (2008)</span></div>
+      <div class="pstat"><span class="pstat-n">9</span><span class="pstat-l">Years left to<br>reach 2035</span></div>
+      <div class="pstat"><span class="pstat-n">3</span><span class="pstat-l">Core aspirations<br>driving the vision</span></div>
     </div>
   </div>
 </section>
@@ -855,46 +888,14 @@ section { position: relative; overflow: hidden; }
     <span class="tag reveal">Key milestones</span>
     <h2 class="reveal d1" style="font-family:'Syne',sans-serif;font-size:clamp(1.3rem,4vw,1.9rem);font-weight:700;margin-bottom:2.5rem;line-height:1.2;">From vision to reality.</h2>
     <div class="tl-list reveal d2">
-      <div class="tl-item done">
-        <span class="tl-year">2008</span>
-        <span class="tl-title">Wawasan Brunei 2035 Proclaimed</span>
-        <p class="tl-desc">His Majesty Sultan Hassanal Bolkiah officially announces the national long-term vision, setting targets for education, quality of life, and economic diversification by 2035.</p>
-      </div>
-      <div class="tl-item done">
-        <span class="tl-year">2014</span>
-        <span class="tl-title">Supreme Council Established</span>
-        <p class="tl-desc">A Supreme Council for Wawasan Brunei 2035 is created by royal decree to oversee, monitor, and drive implementation across all government ministries and agencies.</p>
-      </div>
-      <div class="tl-item done">
-        <span class="tl-year">2016</span>
-        <span class="tl-title">Wawasan Framework &amp; KPIs Introduced</span>
-        <p class="tl-desc">A comprehensive measurement framework with 12 National Outcomes and Key Performance Indicators is launched to hold the nation accountable to progress.</p>
-      </div>
-      <div class="tl-item done">
-        <span class="tl-year">2017</span>
-        <span class="tl-title">Non-Oil Exports: Just 3%</span>
-        <p class="tl-desc">A stark baseline. Oil and gas dominate the economy almost entirely &mdash; making the diversification challenge clear, and setting the starting line for what comes next.</p>
-      </div>
-      <div class="tl-item done">
-        <span class="tl-year">2020</span>
-        <span class="tl-title">Temburong Bridge Opens</span>
-        <p class="tl-desc">The Sultan Haji Omar Ali Saifuddien Bridge connects Brunei-Muara and Temburong for the first time by road &mdash; a landmark infrastructure project symbolising national unity and opening Temburong&rsquo;s eco-tourism potential.</p>
-      </div>
-      <div class="tl-item done">
-        <span class="tl-year">2023</span>
-        <span class="tl-title">Non-Oil Exports Reach 61%</span>
-        <p class="tl-desc">One of the fastest economic diversification records in the region. From 3% to 61% in six years. The non-oil and gas sector now accounts for 56.6% of GDP.</p>
-      </div>
-      <div class="tl-item now">
-        <span class="tl-year">2026 &mdash; Now</span>
-        <span class="tl-title">The Critical Decade Begins</span>
-        <p class="tl-desc">9 years remain. The next phase requires acceleration in education quality, digital economy growth, tourism development, and social infrastructure. This is where the vision meets delivery.</p>
-      </div>
-      <div class="tl-item future">
-        <span class="tl-year">2035</span>
-        <span class="tl-title">Target: A Nation Transformed</span>
-        <p class="tl-desc">Brunei Darussalam ranks among the world&rsquo;s top 10 nations for quality of life and GDP per capita &mdash; known globally for its educated people, sustainable economy, and preserved natural heritage.</p>
-      </div>
+      <div class="tl-item done"><span class="tl-year">2008</span><span class="tl-title">Wawasan Brunei 2035 Proclaimed</span><p class="tl-desc">His Majesty Sultan Hassanal Bolkiah officially announces the national long-term vision, setting targets for education, quality of life, and economic diversification by 2035.</p></div>
+      <div class="tl-item done"><span class="tl-year">2014</span><span class="tl-title">Supreme Council Established</span><p class="tl-desc">A Supreme Council for Wawasan Brunei 2035 is created by royal decree to oversee, monitor, and drive implementation across all government ministries and agencies.</p></div>
+      <div class="tl-item done"><span class="tl-year">2016</span><span class="tl-title">Wawasan Framework &amp; KPIs Introduced</span><p class="tl-desc">A comprehensive measurement framework with 12 National Outcomes and Key Performance Indicators is launched to hold the nation accountable to progress.</p></div>
+      <div class="tl-item done"><span class="tl-year">2017</span><span class="tl-title">Non-Oil Exports: Just 3%</span><p class="tl-desc">A stark baseline. Oil and gas dominate the economy almost entirely &mdash; making the diversification challenge clear, and setting the starting line for what comes next.</p></div>
+      <div class="tl-item done"><span class="tl-year">2020</span><span class="tl-title">Temburong Bridge Opens</span><p class="tl-desc">The Sultan Haji Omar Ali Saifuddien Bridge connects Brunei-Muara and Temburong for the first time by road &mdash; a landmark infrastructure project symbolising national unity and opening Temburong&rsquo;s eco-tourism potential.</p></div>
+      <div class="tl-item done"><span class="tl-year">2023</span><span class="tl-title">Non-Oil Exports Reach 61%</span><p class="tl-desc">One of the fastest economic diversification records in the region. From 3% to 61% in six years. The non-oil and gas sector now accounts for 56.6% of GDP.</p></div>
+      <div class="tl-item now"><span class="tl-year">2026 &mdash; Now</span><span class="tl-title">The Critical Decade Begins</span><p class="tl-desc">9 years remain. The next phase requires acceleration in education quality, digital economy growth, tourism development, and social infrastructure. This is where the vision meets delivery.</p></div>
+      <div class="tl-item future"><span class="tl-year">2035</span><span class="tl-title">Target: A Nation Transformed</span><p class="tl-desc">Brunei Darussalam ranks among the world&rsquo;s top 10 nations for quality of life and GDP per capita &mdash; known globally for its educated people, sustainable economy, and preserved natural heritage.</p></div>
     </div>
   </div>
 </section>
