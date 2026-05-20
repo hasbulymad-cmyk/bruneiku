@@ -3,52 +3,75 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Brunei 2050 — A Vision for the Nation</title>
+<title>Wawasan Brunei 2035</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
-  --bg:    #04080F;
-  --cyan:  #00E5FF;
-  --gold:  #FFD100;
-  --green: #00FF88;
-  --text:  #DCE8F0;
-  --dim:   #3A4A55;
+  --bg:     #05080E;
+  --gold:   #FFD100;
+  --red:    #CF1020;
+  --white:  #EEF2F6;
+  --dim:    #2E3A45;
+  --muted:  rgba(238,242,246,0.45);
+  --card:   rgba(255,255,255,0.03);
+  --border: rgba(255,255,255,0.07);
 }
 
 html { scroll-behavior: smooth; }
 
 body {
   background: var(--bg);
-  color: var(--text);
+  color: var(--white);
   font-family: 'Inter', sans-serif;
   overflow-x: hidden;
 }
 
-/* ── Shared ── */
 section { position: relative; overflow: hidden; }
+
+/* ── Shared util ── */
+.tag {
+  display: inline-block;
+  font-size: 0.6rem;
+  font-weight: 600;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 1.1rem;
+}
 
 .reveal {
   opacity: 0;
-  transform: translateY(40px);
-  transition: opacity 0.85s ease, transform 0.85s ease;
+  transform: translateY(32px);
+  transition: opacity 0.9s ease, transform 0.9s ease;
 }
-.reveal.visible {
-  opacity: 1;
-  transform: translateY(0);
-}
-.reveal.delay-1 { transition-delay: 0.15s; }
-.reveal.delay-2 { transition-delay: 0.3s;  }
-.reveal.delay-3 { transition-delay: 0.45s; }
-.reveal.delay-4 { transition-delay: 0.6s;  }
-.reveal.delay-5 { transition-delay: 0.75s; }
+.reveal.in { opacity: 1; transform: translateY(0); }
+.d1 { transition-delay: 0.1s; }
+.d2 { transition-delay: 0.22s; }
+.d3 { transition-delay: 0.34s; }
+.d4 { transition-delay: 0.46s; }
+.d5 { transition-delay: 0.58s; }
+.d6 { transition-delay: 0.70s; }
+.d7 { transition-delay: 0.82s; }
+.d8 { transition-delay: 0.94s; }
 
-/* ────────────────────────────────────────────────────────
+/* ────────────────────────────────────────
+   PARTICLES
+──────────────────────────────────────── */
+#cvs {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.6;
+}
+
+/* ────────────────────────────────────────
    HERO
-──────────────────────────────────────────────────────── */
+──────────────────────────────────────── */
 #hero {
   min-height: 100dvh;
   display: flex;
@@ -56,210 +79,223 @@ section { position: relative; overflow: hidden; }
   align-items: center;
   justify-content: center;
   text-align: center;
-  padding: 2rem 1.5rem 6rem;
+  padding: 3rem 1.5rem 7rem;
 }
 
-canvas#particles {
-  position: fixed;
-  inset: 0;
-  z-index: 0;
-  pointer-events: none;
+.hero-inner {
+  position: relative;
+  z-index: 1;
+  max-width: 680px;
 }
 
-.hero-inner { position: relative; z-index: 1; max-width: 700px; }
-
-.hero-flag {
-  font-size: 1.1rem;
-  letter-spacing: 0.3em;
-  color: var(--gold);
+.hero-pre {
+  font-size: 0.65rem;
+  letter-spacing: 0.32em;
   text-transform: uppercase;
-  font-family: 'Inter', sans-serif;
-  font-weight: 500;
+  color: var(--gold);
+  font-weight: 600;
   margin-bottom: 1.5rem;
   opacity: 0;
-  animation: fadeUp 1s 0.3s ease both;
+  animation: up 1s 0.4s ease both;
 }
 
 .hero-title {
   font-family: 'Syne', sans-serif;
   font-weight: 800;
-  font-size: clamp(4rem, 18vw, 9rem);
-  line-height: 0.95;
+  font-size: clamp(2.8rem, 14vw, 7.5rem);
+  line-height: 0.92;
   letter-spacing: -0.03em;
   color: #fff;
   opacity: 0;
-  animation: fadeUp 1s 0.6s ease both;
+  animation: up 1s 0.7s ease both;
 }
 
-.hero-title .year {
+.hero-title .w-gold {
   display: block;
-  background: linear-gradient(135deg, var(--cyan), var(--gold));
+  background: linear-gradient(125deg, #FFD100 0%, #FFF0A0 40%, #FFD100 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
 
-.hero-sub {
-  margin-top: 1.75rem;
-  font-size: clamp(0.95rem, 3vw, 1.15rem);
+.hero-malay {
+  margin-top: 1.4rem;
+  font-size: clamp(0.78rem, 2.5vw, 1rem);
   font-weight: 300;
-  color: rgba(220,232,240,0.6);
-  line-height: 1.7;
-  max-width: 480px;
-  margin-left: auto;
-  margin-right: auto;
+  color: var(--muted);
+  letter-spacing: 0.06em;
   opacity: 0;
-  animation: fadeUp 1s 0.9s ease both;
+  animation: up 1s 1s ease both;
 }
 
 .hero-scroll {
   position: absolute;
-  bottom: 2.5rem;
+  bottom: 2rem;
   left: 50%;
   transform: translateX(-50%);
   z-index: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0.4rem;
+  gap: 0.5rem;
   opacity: 0;
-  animation: fadeUp 1s 1.4s ease both;
+  animation: up 1s 1.5s ease both;
 }
 .hero-scroll span {
-  font-size: 0.58rem;
-  letter-spacing: 0.25em;
+  font-size: 0.55rem;
+  letter-spacing: 0.22em;
   text-transform: uppercase;
   color: var(--dim);
 }
-.scroll-line {
+.scroll-dot {
   width: 1px;
-  height: 40px;
-  background: linear-gradient(to bottom, var(--cyan), transparent);
-  animation: scrollPulse 1.8s ease infinite;
-}
-@keyframes scrollPulse {
-  0%, 100% { opacity: 0.3; transform: scaleY(1); }
-  50%       { opacity: 1;   transform: scaleY(1.15); }
+  height: 44px;
+  background: linear-gradient(to bottom, var(--gold), transparent);
+  animation: pulse 2s ease infinite;
 }
 
-@keyframes fadeUp {
-  from { opacity: 0; transform: translateY(30px); }
+@keyframes up {
+  from { opacity: 0; transform: translateY(28px); }
   to   { opacity: 1; transform: translateY(0); }
 }
-
-/* ────────────────────────────────────────────────────────
-   REALITY CHECK
-──────────────────────────────────────────────────────── */
-#reality {
-  padding: 7rem 1.5rem;
-  background: linear-gradient(180deg, var(--bg) 0%, #060D18 100%);
+@keyframes pulse {
+  0%, 100% { opacity: 0.3; }
+  50%       { opacity: 1; }
 }
 
-.reality-inner {
+/* ────────────────────────────────────────
+   MISSION
+──────────────────────────────────────── */
+#mission {
+  padding: 7rem 1.5rem;
+  background: linear-gradient(180deg, var(--bg) 0%, #080D18 100%);
+}
+
+.mission-inner {
   max-width: 720px;
   margin: 0 auto;
 }
 
-.section-tag {
-  font-size: 0.62rem;
-  letter-spacing: 0.3em;
-  text-transform: uppercase;
-  color: var(--cyan);
-  font-weight: 600;
-  margin-bottom: 1.25rem;
-  display: block;
-}
-
-.reality-statement {
+.mission-quote {
   font-family: 'Syne', sans-serif;
-  font-size: clamp(1.6rem, 5vw, 2.4rem);
-  font-weight: 700;
-  line-height: 1.25;
-  color: #fff;
-  margin-bottom: 2.5rem;
+  font-size: clamp(1.15rem, 3.5vw, 1.6rem);
+  font-weight: 600;
+  line-height: 1.55;
+  color: var(--white);
+  border-left: 2px solid var(--gold);
+  padding-left: 1.5rem;
+  margin-bottom: 2rem;
 }
 
-.reality-statement em {
-  font-style: normal;
-  color: var(--gold);
+.mission-quote em { font-style: normal; color: var(--gold); }
+
+.mission-source {
+  font-size: 0.72rem;
+  color: var(--muted);
+  font-weight: 400;
+  padding-left: 1.5rem;
 }
 
-.stats-row {
+/* ────────────────────────────────────────
+   PROGRESS
+──────────────────────────────────────── */
+#progress {
+  padding: 5rem 1.5rem;
+  background: #080D18;
+}
+
+.progress-inner {
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+.progress-label {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.68rem;
+  color: var(--muted);
+  letter-spacing: 0.08em;
+  margin-bottom: 0.75rem;
+}
+
+.progress-track {
+  width: 100%;
+  height: 6px;
+  background: var(--dim);
+  border-radius: 99px;
+  overflow: hidden;
+  margin-bottom: 0.75rem;
+}
+
+.progress-fill {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, var(--gold), #FFF0A0);
+  border-radius: 99px;
+  transition: width 1.6s cubic-bezier(.4,0,.2,1);
+}
+
+.progress-caption {
+  font-size: 0.72rem;
+  color: var(--muted);
+  text-align: center;
+}
+
+.progress-caption strong { color: var(--gold); }
+
+.progress-stats {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 1px;
   background: var(--dim);
-  border-radius: 16px;
+  border-radius: 14px;
   overflow: hidden;
-  margin-top: 2rem;
+  margin-top: 2.5rem;
 }
 
-.stat {
-  background: #080E18;
+.pstat {
+  background: #08101A;
   padding: 1.5rem 1rem;
   text-align: center;
 }
 
-.stat-number {
+.pstat-n {
   font-family: 'Syne', sans-serif;
-  font-size: clamp(1.5rem, 5vw, 2.2rem);
+  font-size: clamp(1.4rem, 5vw, 2rem);
   font-weight: 800;
-  color: var(--cyan);
+  color: var(--gold);
+  display: block;
   line-height: 1;
   margin-bottom: 0.4rem;
-  display: block;
 }
 
-.stat-label {
-  font-size: 0.68rem;
-  color: rgba(220,232,240,0.45);
+.pstat-l {
+  font-size: 0.65rem;
+  color: var(--muted);
   text-transform: uppercase;
   letter-spacing: 0.08em;
-  line-height: 1.4;
+  line-height: 1.5;
 }
 
-/* ────────────────────────────────────────────────────────
-   BIG STATEMENT
-──────────────────────────────────────────────────────── */
-#statement {
-  padding: 7rem 1.5rem;
-  background: #060D18;
-  text-align: center;
-}
-
-.big-statement {
-  font-family: 'Syne', sans-serif;
-  font-size: clamp(1.5rem, 5.5vw, 3rem);
-  font-weight: 700;
-  line-height: 1.3;
-  max-width: 800px;
-  margin: 0 auto;
-  color: #fff;
-}
-
-.big-statement .hi { color: var(--cyan); }
-.big-statement .hg { color: var(--gold); }
-.big-statement .hv { color: var(--green); }
-
-/* ────────────────────────────────────────────────────────
-   PILLARS
-──────────────────────────────────────────────────────── */
+/* ────────────────────────────────────────
+   THREE PILLARS
+──────────────────────────────────────── */
 #pillars {
-  padding: 5rem 1.25rem 7rem;
-  background: linear-gradient(180deg, #060D18 0%, #04080F 100%);
+  padding: 7rem 1.25rem;
+  background: linear-gradient(180deg, #080D18 0%, #050810 100%);
 }
 
-.pillars-header {
+.section-hd {
   max-width: 720px;
-  margin: 0 auto 3.5rem;
+  margin: 0 auto 2.5rem;
 }
 
-.pillars-title {
+.section-title {
   font-family: 'Syne', sans-serif;
-  font-size: clamp(1.6rem, 5vw, 2.2rem);
+  font-size: clamp(1.4rem, 4.5vw, 2rem);
   font-weight: 700;
-  color: #fff;
   line-height: 1.2;
+  color: #fff;
 }
 
 .pillar-grid {
@@ -271,86 +307,216 @@ canvas#particles {
 }
 
 .pillar {
-  background: rgba(255,255,255,0.025);
-  border: 1px solid rgba(255,255,255,0.07);
+  background: var(--card);
+  border: 1px solid var(--border);
   border-radius: 18px;
-  padding: 1.75rem 1.5rem;
-  transition: border-color 0.3s, background 0.3s;
-  cursor: default;
+  padding: 2rem 1.5rem;
   position: relative;
   overflow: hidden;
+  transition: border-color 0.3s, background 0.3s;
 }
 
-.pillar::before {
+.pillar:hover {
+  background: rgba(255,255,255,0.05);
+  border-color: rgba(255,255,255,0.14);
+}
+
+.pillar::after {
   content: '';
   position: absolute;
   top: 0; left: 0; right: 0;
   height: 2px;
-  opacity: 0;
-  transition: opacity 0.3s;
 }
+.p-gold::after  { background: linear-gradient(90deg, var(--gold), transparent); }
+.p-cyan::after  { background: linear-gradient(90deg, #00E5FF, transparent); }
+.p-green::after { background: linear-gradient(90deg, #00FF88, transparent); }
 
-.pillar:hover::before { opacity: 1; }
-.pillar:hover {
-  background: rgba(255,255,255,0.04);
-  border-color: rgba(255,255,255,0.14);
-}
-
-.pillar.c1::before { background: linear-gradient(90deg, var(--green), transparent); }
-.pillar.c2::before { background: linear-gradient(90deg, var(--gold), transparent); }
-.pillar.c3::before { background: linear-gradient(90deg, var(--cyan), transparent); }
-.pillar.c4::before { background: linear-gradient(90deg, #FF6B9D, transparent); }
-.pillar.c5::before { background: linear-gradient(90deg, #FF9F43, transparent); }
-.pillar.c6::before { background: linear-gradient(90deg, #A29BFE, transparent); }
-
-.pillar-top {
-  display: flex;
-  align-items: flex-start;
-  gap: 1rem;
-  margin-bottom: 0.9rem;
-}
-
-.pillar-icon {
-  font-size: 1.6rem;
-  flex-shrink: 0;
-  line-height: 1;
-}
-
-.pillar-title {
-  font-family: 'Syne', sans-serif;
-  font-size: 1.05rem;
+.pillar-num {
+  font-size: 0.55rem;
   font-weight: 700;
-  color: #fff;
-  line-height: 1.2;
-  padding-top: 0.2rem;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 0.5rem;
 }
 
-.pillar-sub {
+.pillar-icon { font-size: 2rem; margin-bottom: 0.75rem; line-height: 1; }
+
+.pillar-malay {
   font-size: 0.62rem;
-  font-weight: 500;
-  letter-spacing: 0.15em;
+  font-weight: 600;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
   margin-bottom: 0.3rem;
 }
+.p-gold .pillar-malay  { color: var(--gold); }
+.p-cyan .pillar-malay  { color: #00E5FF; }
+.p-green .pillar-malay { color: #00FF88; }
 
-.c1 .pillar-sub { color: var(--green); }
-.c2 .pillar-sub { color: var(--gold); }
-.c3 .pillar-sub { color: var(--cyan); }
-.c4 .pillar-sub { color: #FF6B9D; }
-.c5 .pillar-sub { color: #FF9F43; }
-.c6 .pillar-sub { color: #A29BFE; }
-
-.pillar-text {
-  font-size: 0.88rem;
-  line-height: 1.7;
-  color: rgba(220,232,240,0.55);
+.pillar-name {
+  font-family: 'Syne', sans-serif;
+  font-size: clamp(1.1rem, 3.5vw, 1.3rem);
+  font-weight: 700;
+  color: #fff;
+  line-height: 1.2;
+  margin-bottom: 0.75rem;
 }
 
-/* ────────────────────────────────────────────────────────
+.pillar-body {
+  font-size: 0.87rem;
+  line-height: 1.7;
+  color: var(--muted);
+}
+
+/* ────────────────────────────────────────
+   8 STRATEGIES
+──────────────────────────────────────── */
+#strategies {
+  padding: 6rem 1.25rem 7rem;
+  background: #050810;
+}
+
+.strat-grid {
+  max-width: 720px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+}
+
+.strat {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 1.25rem 1.1rem;
+  transition: border-color 0.25s, background 0.25s;
+}
+
+.strat:hover {
+  background: rgba(255,209,0,0.04);
+  border-color: rgba(255,209,0,0.25);
+}
+
+.strat-icon { font-size: 1.3rem; margin-bottom: 0.5rem; line-height: 1; }
+
+.strat-name {
+  font-family: 'Syne', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 0.35rem;
+  line-height: 1.2;
+}
+
+.strat-desc {
+  font-size: 0.75rem;
+  line-height: 1.55;
+  color: var(--muted);
+}
+
+/* ────────────────────────────────────────
+   REAL NUMBERS
+──────────────────────────────────────── */
+#numbers {
+  padding: 6rem 1.5rem;
+  background: linear-gradient(180deg, #050810 0%, #060D18 100%);
+}
+
+.numbers-inner { max-width: 720px; margin: 0 auto; }
+
+.numbers-statement {
+  font-family: 'Syne', sans-serif;
+  font-size: clamp(1.3rem, 4vw, 1.8rem);
+  font-weight: 700;
+  line-height: 1.35;
+  color: #fff;
+  margin-bottom: 2.5rem;
+}
+
+.numbers-statement .hi { color: var(--gold); }
+
+.num-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1px;
+  background: var(--dim);
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.num-card {
+  background: #07101C;
+  padding: 1.5rem 1.25rem;
+}
+
+.num-val {
+  font-family: 'Syne', sans-serif;
+  font-size: clamp(1.6rem, 6vw, 2.4rem);
+  font-weight: 800;
+  color: var(--gold);
+  line-height: 1;
+  display: block;
+  margin-bottom: 0.35rem;
+}
+
+.num-label {
+  font-size: 0.72rem;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+/* ────────────────────────────────────────
+   SECTORS
+──────────────────────────────────────── */
+#sectors {
+  padding: 6rem 1.25rem 7rem;
+  background: #060D18;
+}
+
+.sector-list {
+  max-width: 720px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  overflow: hidden;
+}
+
+.sector {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  padding: 1.25rem 1.25rem;
+  border-bottom: 1px solid var(--border);
+  background: var(--card);
+  transition: background 0.2s;
+}
+.sector:last-child { border-bottom: none; }
+.sector:hover { background: rgba(255,255,255,0.045); }
+
+.sector-icon { font-size: 1.4rem; flex-shrink: 0; padding-top: 0.1rem; }
+
+.sector-name {
+  font-family: 'Syne', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 0.25rem;
+}
+
+.sector-desc {
+  font-size: 0.78rem;
+  line-height: 1.6;
+  color: var(--muted);
+}
+
+/* ────────────────────────────────────────
    CLOSING
-──────────────────────────────────────────────────────── */
+──────────────────────────────────────── */
 #closing {
-  padding: 8rem 1.5rem;
+  padding: 9rem 1.5rem;
   text-align: center;
   background: var(--bg);
   position: relative;
@@ -360,290 +526,433 @@ canvas#particles {
   content: '';
   position: absolute;
   inset: 0;
-  background: radial-gradient(ellipse 60% 50% at 50% 50%, rgba(0,229,255,0.06) 0%, transparent 70%);
+  background: radial-gradient(ellipse 65% 50% at 50% 50%, rgba(255,209,0,0.07) 0%, transparent 70%);
   pointer-events: none;
 }
 
-.closing-inner {
-  position: relative;
-  z-index: 1;
-  max-width: 620px;
-  margin: 0 auto;
+.closing-inner { position: relative; z-index: 1; max-width: 600px; margin: 0 auto; }
+
+.closing-years {
+  font-family: 'Syne', sans-serif;
+  font-size: clamp(4rem, 20vw, 8rem);
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.04em;
+  background: linear-gradient(135deg, var(--gold), #FFF5A0, var(--gold));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 0.25rem;
+  opacity: 0;
+  animation: none;
+}
+.closing-years.in {
+  animation: up 1s ease both;
 }
 
-.closing-question {
+.closing-years-label {
+  font-size: clamp(0.9rem, 3vw, 1.1rem);
+  color: var(--muted);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 2.5rem;
+}
+
+.closing-line {
   font-family: 'Syne', sans-serif;
-  font-size: clamp(1.6rem, 6vw, 2.8rem);
-  font-weight: 800;
+  font-size: clamp(1.3rem, 4.5vw, 2rem);
+  font-weight: 700;
   color: #fff;
-  line-height: 1.2;
+  line-height: 1.3;
   margin-bottom: 1.5rem;
 }
 
-.closing-question .accent { color: var(--cyan); }
+.closing-line .ac { color: var(--gold); }
 
-.closing-sub {
-  font-size: 0.95rem;
-  color: rgba(220,232,240,0.5);
-  line-height: 1.7;
-  max-width: 480px;
+.closing-body {
+  font-size: 0.88rem;
+  line-height: 1.75;
+  color: var(--muted);
+  max-width: 440px;
   margin: 0 auto 2.5rem;
 }
 
-.closing-flag {
-  font-size: 2.5rem;
-  margin-bottom: 1rem;
-  display: block;
-}
+.closing-flag { font-size: 1.5rem; display: block; margin-bottom: 1rem; }
 
-.closing-made {
-  font-size: 0.62rem;
+.closing-footer {
+  font-size: 0.6rem;
   letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: var(--dim);
+  color: #1E2830;
 }
 
-/* ────────────────────────────────────────────────────────
-   DIVIDER
-──────────────────────────────────────────────────────── */
+/* ────────────────────────────────────────
+   Divider
+──────────────────────────────────────── */
 .divider {
-  width: 100%;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, var(--dim), transparent);
-  opacity: 0.4;
   max-width: 720px;
   margin: 0 auto;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--dim), transparent);
 }
 </style>
 </head>
 <body>
 
-<canvas id="particles"></canvas>
+<canvas id="cvs"></canvas>
 
-<!-- ── HERO ── -->
+<!-- ══════════════════════════════════════
+     HERO
+══════════════════════════════════════ -->
 <section id="hero">
   <div class="hero-inner">
-    <div class="hero-flag">🇧🇳 &nbsp; Negara Brunei Darussalam</div>
+    <div class="hero-pre">🇧🇳 &nbsp; Negara Brunei Darussalam &nbsp; · &nbsp; National Vision</div>
     <h1 class="hero-title">
-      BRUNEI
-      <span class="year">2050</span>
+      WAWASAN
+      <span class="w-gold">BRUNEI</span>
+      2035
     </h1>
-    <p class="hero-sub">
-      A vision for a small nation with an outsized future.<br>
-      We have everything we need. We just haven't started yet.
+    <p class="hero-malay">
+      Rakyat yang Berpendidikan &nbsp;·&nbsp; Kualiti Hidup yang Tinggi &nbsp;·&nbsp; Ekonomi yang Maju dan Mampan
     </p>
   </div>
   <div class="hero-scroll">
-    <div class="scroll-line"></div>
+    <div class="scroll-dot"></div>
     <span>Scroll</span>
   </div>
 </section>
 
-<!-- ── REALITY ── -->
-<section id="reality">
-  <div class="reality-inner">
-    <span class="section-tag reveal">Where we are now</span>
-    <p class="reality-statement reveal delay-1">
-      One of the <em>highest GDPs per capita</em> in Southeast Asia.<br>
-      One of the <em>least known nations</em> on earth.<br>
-      That is not a coincidence. That is an <em>opportunity.</em>
+<!-- ══════════════════════════════════════
+     MISSION
+══════════════════════════════════════ -->
+<section id="mission">
+  <div class="mission-inner">
+    <span class="tag reveal">The Official Vision</span>
+    <p class="mission-quote reveal d1">
+      "By 2035, Brunei Darussalam will be, by the grace of Allah, a nation
+      that is widely recognised for the accomplishments of its
+      <em>well-educated and highly-skilled people</em>,
+      as reflected in their <em>quality of life</em>
+      and a <em>dynamic and sustainable economy</em>."
     </p>
-    <div class="divider reveal delay-2"></div>
-    <div class="stats-row reveal delay-3">
-      <div class="stat">
-        <span class="stat-number" data-target="470000" data-suffix="">470K</span>
-        <span class="stat-label">People.<br>One of the smallest<br>nations on earth.</span>
+    <p class="mission-source reveal d2">
+      — His Majesty Sultan Haji Hassanal Bolkiah Mu'izzaddin Waddaulah &nbsp;·&nbsp; Proclaimed 2008
+    </p>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════
+     PROGRESS
+══════════════════════════════════════ -->
+<section id="progress">
+  <div class="progress-inner">
+    <span class="tag reveal">Where we are</span>
+    <div class="reveal d1">
+      <div class="progress-label">
+        <span>Vision launched &nbsp; 2008</span>
+        <span>We are here &nbsp; 2026</span>
+        <span>Target &nbsp; 2035</span>
       </div>
-      <div class="stat">
-        <span class="stat-number">72%</span>
-        <span class="stat-label">Of land is<br>intact rainforest.<br>Extraordinary.</span>
+      <div class="progress-track">
+        <div class="progress-fill" id="pfill"></div>
       </div>
-      <div class="stat">
-        <span class="stat-number">#1</span>
-        <span class="stat-label">In Southeast Asia<br>for human development<br>per capita potential.</span>
+      <p class="progress-caption">
+        <strong>18 years</strong> in &nbsp;·&nbsp; <strong>9 years</strong> remaining &nbsp;·&nbsp; 67% of the journey complete
+      </p>
+    </div>
+    <div class="progress-stats reveal d2">
+      <div class="pstat">
+        <span class="pstat-n">61%</span>
+        <span class="pstat-l">Non-oil exports<br>share in 2023<br><small style="color:#1E2830">(was 3% in 2017)</small></span>
+      </div>
+      <div class="pstat">
+        <span class="pstat-n">56.6%</span>
+        <span class="pstat-l">Non-oil & gas<br>share of GDP<br>and growing</span>
+      </div>
+      <div class="pstat">
+        <span class="pstat-n">2035</span>
+        <span class="pstat-l">Target: Top 10<br>quality of life<br>globally</span>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ── BIG STATEMENT ── -->
-<section id="statement">
-  <p class="big-statement reveal">
-    The oil will not last forever.<br>
-    The <span class="hv">rainforest</span> will.<br>
-    The <span class="hi">people</span> will.<br>
-    The <span class="hg">story</span> hasn't been told yet.
-  </p>
-</section>
-
-<!-- ── PILLARS ── -->
+<!-- ══════════════════════════════════════
+     THREE PILLARS
+══════════════════════════════════════ -->
 <section id="pillars">
-  <div class="pillars-header">
-    <span class="section-tag reveal">The six pillars</span>
-    <h2 class="pillars-title reveal delay-1">This is what Brunei 2050 looks like.</h2>
+  <div class="section-hd">
+    <span class="tag reveal">Three aspirations</span>
+    <h2 class="section-title reveal d1">The pillars of Wawasan 2035.</h2>
   </div>
-
   <div class="pillar-grid">
 
-    <div class="pillar c1 reveal">
-      <div class="pillar-sub">Pillar 01</div>
-      <div class="pillar-top">
-        <div class="pillar-icon">🌿</div>
-        <div class="pillar-title">The Last Great Rainforest</div>
-      </div>
-      <p class="pillar-text">
-        Brunei has one of the highest proportions of intact rainforest on earth. As the world scrambles to plant trees, we already have them. Temburong becomes a global model — a carbon-credit powerhouse, a biodiversity reserve, and an ecotourism destination that the world pays to protect.
+    <div class="pillar p-gold reveal d1">
+      <div class="pillar-num">Aspiration 01</div>
+      <div class="pillar-icon">🎓</div>
+      <div class="pillar-malay">Rakyat yang Berpendidikan dan Berkelayakan Tinggi</div>
+      <div class="pillar-name">An Educated and Highly Skilled People</div>
+      <p class="pillar-body">
+        Brunei's people will be recognised globally for their accomplishments — measured by the highest international standards. Education that produces not just graduates, but thinkers, innovators, and leaders capable of competing and contributing at the world stage.
       </p>
     </div>
 
-    <div class="pillar c2 reveal delay-1">
-      <div class="pillar-sub">Pillar 02</div>
-      <div class="pillar-top">
-        <div class="pillar-icon">⚡</div>
-        <div class="pillar-title">Own the Energy Transition</div>
-      </div>
-      <p class="pillar-text">
-        Oil made Brunei rich. Green energy will keep us rich. Brunei receives 2,600+ hours of sunlight per year. Solar, hydrogen, and clean energy exports to Singapore and beyond. The nations that transition first will own the next century. We can be one of them.
+    <div class="pillar p-cyan reveal d2">
+      <div class="pillar-num">Aspiration 02</div>
+      <div class="pillar-icon">🌏</div>
+      <div class="pillar-malay">Kualiti Hidup yang Tinggi</div>
+      <div class="pillar-name">Quality of Life Among the World's Top 10</div>
+      <p class="pillar-body">
+        Not just comfortable — exceptional. By 2035, Brunei aims to rank among the top 10 nations globally for quality of life. Healthcare, safety, housing, environment, and social cohesion all measured and improved with intention. A Brunei that the world would want to live in.
       </p>
     </div>
 
-    <div class="pillar c3 reveal delay-2">
-      <div class="pillar-sub">Pillar 03</div>
-      <div class="pillar-top">
-        <div class="pillar-icon">💻</div>
-        <div class="pillar-title">Southeast Asia's Quiet Powerhouse</div>
-      </div>
-      <p class="pillar-text">
-        Political stability. Zero tax on foreign income. Strategic location between Singapore and Sabah. Fast internet. Brunei has every ingredient to become a digital nomad capital, fintech hub, and data centre destination. We just haven't told anyone yet.
-      </p>
-    </div>
-
-    <div class="pillar c4 reveal delay-3">
-      <div class="pillar-sub">Pillar 04</div>
-      <div class="pillar-top">
-        <div class="pillar-icon">🎓</div>
-        <div class="pillar-title">The Generation That Builds It</div>
-      </div>
-      <p class="pillar-text">
-        Half of Brunei's population is under 30. That is not a demographic footnote — that is the country's greatest asset. Fund makers, coders, artists, and entrepreneurs. Build accelerators, not just universities. The next wave of Brunei is already here.
-      </p>
-    </div>
-
-    <div class="pillar c5 reveal delay-4">
-      <div class="pillar-sub">Pillar 05</div>
-      <div class="pillar-top">
-        <div class="pillar-icon">🌍</div>
-        <div class="pillar-title">Export the Culture</div>
-      </div>
-      <p class="pillar-text">
-        Ambuyat. Kampong Ayer. The world's oldest living rainforest. A monarchy that works. Brunei has stories the world has never heard. Fund filmmakers, chefs, writers, designers. Let Brunei be a cultural export — not just an oil export.
-      </p>
-    </div>
-
-    <div class="pillar c6 reveal delay-5">
-      <div class="pillar-sub">Pillar 06</div>
-      <div class="pillar-top">
-        <div class="pillar-icon">🤝</div>
-        <div class="pillar-title">Small Country, Global Soul</div>
-      </div>
-      <p class="pillar-text">
-        Brunei does not need to be loud to be influential. Strategic partnerships, a welcoming innovation zone, and a reputation built on trust and stability. The world's most underrated soft-power asset is sitting right here — waiting to be unlocked.
+    <div class="pillar p-green reveal d3">
+      <div class="pillar-num">Aspiration 03</div>
+      <div class="pillar-icon">⚡</div>
+      <div class="pillar-malay">Ekonomi yang Maju dan Mampan</div>
+      <div class="pillar-name">A Dynamic and Sustainable Economy</div>
+      <p class="pillar-body">
+        GDP per capita among the world's top 10 — built on diversification, not dependence. Oil and gas revenues reinvested into a resilient, knowledge-based economy that will thrive long after the wells run dry. Tourism, digital industries, halal, and green energy leading the way.
       </p>
     </div>
 
   </div>
 </section>
 
-<!-- ── CLOSING ── -->
+<!-- ══════════════════════════════════════
+     8 STRATEGIES
+══════════════════════════════════════ -->
+<section id="strategies">
+  <div class="section-hd" style="max-width:720px;margin:0 auto 2rem;">
+    <span class="tag reveal">How we get there</span>
+    <h2 class="section-title reveal d1">Eight national strategies.</h2>
+  </div>
+  <div class="strat-grid">
+    <div class="strat reveal d1">
+      <div class="strat-icon">📚</div>
+      <div class="strat-name">Education</div>
+      <p class="strat-desc">Prepare every Bruneian for a competitive, knowledge-based world — STEM, vocational, and beyond.</p>
+    </div>
+    <div class="strat reveal d2">
+      <div class="strat-icon">💼</div>
+      <div class="strat-name">Economy</div>
+      <p class="strat-desc">Foster investment in non-oil sectors. Grow the private economy. Reduce hydrocarbon dependency below 30% of GDP.</p>
+    </div>
+    <div class="strat reveal d3">
+      <div class="strat-icon">🛡️</div>
+      <div class="strat-name">Security</div>
+      <p class="strat-desc">Maintain sovereignty, political stability, and resilience against emerging threats — health, climate, and geopolitical.</p>
+    </div>
+    <div class="strat reveal d4">
+      <div class="strat-icon">🏛️</div>
+      <div class="strat-name">Institutional Development</div>
+      <p class="strat-desc">Build a high-performing, transparent public sector. Good governance as a competitive advantage.</p>
+    </div>
+    <div class="strat reveal d5">
+      <div class="strat-icon">🏢</div>
+      <div class="strat-name">Local Business</div>
+      <p class="strat-desc">Grow Brunei's SME ecosystem. Support entrepreneurs through DARe and reduce reliance on government employment.</p>
+    </div>
+    <div class="strat reveal d6">
+      <div class="strat-icon">🌉</div>
+      <div class="strat-name">Infrastructure</div>
+      <p class="strat-desc">World-class roads, ports, digital networks, and utilities — including the Temburong Bridge linking Brunei's divided territory.</p>
+    </div>
+    <div class="strat reveal d7">
+      <div class="strat-icon">🤝</div>
+      <div class="strat-name">Social Security</div>
+      <p class="strat-desc">Ensure every citizen benefits as the nation prospers. Housing, healthcare, and welfare that leaves no one behind.</p>
+    </div>
+    <div class="strat reveal d8">
+      <div class="strat-icon">🌿</div>
+      <div class="strat-name">Environment</div>
+      <p class="strat-desc">Conserve Brunei's extraordinary natural heritage — 72% intact rainforest — while pursuing sustainable development.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════
+     REAL NUMBERS
+══════════════════════════════════════ -->
+<section id="numbers">
+  <div class="numbers-inner">
+    <span class="tag reveal">Progress on the ground</span>
+    <p class="numbers-statement reveal d1">
+      Brunei is already moving.<br>
+      The numbers <span class="hi">prove it.</span>
+    </p>
+    <div class="num-grid reveal d2">
+      <div class="num-card">
+        <span class="num-val">3% → 61%</span>
+        <span class="num-label">Non-oil exports share — from 2017 to 2023. One of the fastest diversification records in the region.</span>
+      </div>
+      <div class="num-card">
+        <span class="num-val">56.6%</span>
+        <span class="num-label">GDP now coming from non-oil & gas sectors. The target of below 30% hydrocarbon dependency is within reach.</span>
+      </div>
+      <div class="num-card">
+        <span class="num-val">72%</span>
+        <span class="num-label">Of Brunei's land area is intact tropical rainforest — one of the highest proportions on earth. A built-in advantage.</span>
+      </div>
+      <div class="num-card">
+        <span class="num-val">#1</span>
+        <span class="num-label">Southeast Asia ranking for government subsidy per capita. Stability and welfare as a foundation for growth.</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════
+     SECTORS
+══════════════════════════════════════ -->
+<section id="sectors">
+  <div style="max-width:720px;margin:0 auto 2rem;">
+    <span class="tag reveal">Economic diversification</span>
+    <h2 class="section-title reveal d1">Five priority sectors.</h2>
+  </div>
+  <div class="sector-list reveal d2">
+    <div class="sector">
+      <div class="sector-icon">⛽</div>
+      <div>
+        <div class="sector-name">Downstream Oil & Gas</div>
+        <p class="sector-desc">Move beyond extraction. Refining, petrochemicals, and LNG value-adding — capturing more economic value from existing reserves before they run out.</p>
+      </div>
+    </div>
+    <div class="sector">
+      <div class="sector-icon">🌾</div>
+      <div>
+        <div class="sector-name">Food & Agriculture</div>
+        <p class="sector-desc">National food security and agribusiness export. Aquaculture, halal food processing, and smart farming in Brunei's fertile interior districts.</p>
+      </div>
+    </div>
+    <div class="sector">
+      <div class="sector-icon">✈️</div>
+      <div>
+        <div class="sector-name">Tourism</div>
+        <p class="sector-desc">Eco-tourism in Temburong, cultural heritage in Kampong Ayer, MICE tourism in BSB. Positioning Brunei as Southeast Asia's most authentic, unhurried destination.</p>
+      </div>
+    </div>
+    <div class="sector">
+      <div class="sector-icon">💻</div>
+      <div>
+        <div class="sector-name">ICT & Digital Economy</div>
+        <p class="sector-desc">Smart nation infrastructure, digital services, fintech, and data economy. Building the platform for a knowledge-based economy that exports intellectual value.</p>
+      </div>
+    </div>
+    <div class="sector">
+      <div class="sector-icon">🌙</div>
+      <div>
+        <div class="sector-name">Halal Industry & Financial Services</div>
+        <p class="sector-desc">Islamic finance, halal certification, and pharmaceutical manufacturing. Brunei as a trusted global hub for the $7 trillion halal economy.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════
+     CLOSING
+══════════════════════════════════════ -->
 <section id="closing">
   <div class="closing-inner">
-    <span class="closing-flag reveal">🇧🇳</span>
-    <h2 class="closing-question reveal delay-1">
-      The question is not<br>
-      <span class="accent">whether Brunei can.</span>
+    <div class="closing-years reveal" id="closingYears">9</div>
+    <p class="closing-years-label reveal d1">Years remaining</p>
+    <h2 class="closing-line reveal d2">
+      This is the decade<br>
+      <span class="ac">that decides everything.</span>
     </h2>
-    <p class="closing-sub reveal delay-2">
-      It's whether we start. The resources exist. The land exists. The people exist. All that's missing is the collective decision to build something extraordinary — together.
+    <p class="closing-body reveal d3">
+      Wawasan Brunei 2035 is not a government document. It is a national contract — between the leadership and the people, between today's decisions and tomorrow's lives. The foundation is laid. The momentum is real.
     </p>
-    <p class="closing-made reveal delay-3">Brunei 2050 &nbsp;·&nbsp; A vision, not a limit &nbsp;·&nbsp; 🇧🇳</p>
+    <span class="closing-flag reveal d4">🇧🇳</span>
+    <p class="closing-footer reveal d5">Wawasan Brunei 2035 &nbsp;·&nbsp; Launched by His Majesty Sultan Hassanal Bolkiah &nbsp;·&nbsp; 2008 – 2035</p>
   </div>
 </section>
 
 <script>
-// ── Particle field ─────────────────────────────────────
-const canvas = document.getElementById('particles');
-const ctx = canvas.getContext('2d');
-let W, H, pts = [], frame = 0;
-const MAX_DIST = 120;
+// ── Particles ────────────────────────────────────────────
+const cvs = document.getElementById('cvs');
+const ctx = cvs.getContext('2d');
+let W, H, pts = [], raf;
 
 function resize() {
-  W = canvas.width  = window.innerWidth;
-  H = canvas.height = window.innerHeight;
+  W = cvs.width  = window.innerWidth;
+  H = cvs.height = window.innerHeight;
 }
 
-function initPts() {
+function spawn() {
   pts = [];
-  const count = Math.floor((W * H) / 18000);
-  for (let i = 0; i < count; i++) {
-    pts.push({
-      x:  Math.random() * W,
-      y:  Math.random() * H,
-      vx: (Math.random() - 0.5) * 0.25,
-      vy: (Math.random() - 0.5) * 0.25,
-      r:  Math.random() * 1.5 + 0.5,
-    });
-  }
+  const n = Math.max(30, Math.floor(W * H / 20000));
+  for (let i = 0; i < n; i++) pts.push({
+    x:  Math.random() * W,
+    y:  Math.random() * H,
+    vx: (Math.random() - 0.5) * 0.22,
+    vy: (Math.random() - 0.5) * 0.22,
+    r:  Math.random() * 1.3 + 0.4,
+  });
 }
 
-function drawPts() {
+function draw() {
   ctx.clearRect(0, 0, W, H);
-  frame++;
-
+  const D = 110;
   for (let i = 0; i < pts.length; i++) {
     const p = pts[i];
-    p.x += p.vx;
-    p.y += p.vy;
+    p.x += p.vx; p.y += p.vy;
     if (p.x < 0 || p.x > W) p.vx *= -1;
     if (p.y < 0 || p.y > H) p.vy *= -1;
-
-    // dot
     ctx.beginPath();
     ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-    ctx.fillStyle = 'rgba(0,229,255,0.35)';
+    ctx.fillStyle = 'rgba(255,209,0,0.4)';
     ctx.fill();
-
-    // lines to neighbours
     for (let j = i + 1; j < pts.length; j++) {
       const q = pts[j];
       const dx = p.x - q.x, dy = p.y - q.y;
-      const d = Math.sqrt(dx*dx + dy*dy);
-      if (d < MAX_DIST) {
+      const d = Math.hypot(dx, dy);
+      if (d < D) {
         ctx.beginPath();
         ctx.moveTo(p.x, p.y);
         ctx.lineTo(q.x, q.y);
-        ctx.strokeStyle = `rgba(0,229,255,${0.12 * (1 - d/MAX_DIST)})`;
+        ctx.strokeStyle = `rgba(255,209,0,${0.1 * (1 - d / D)})`;
         ctx.lineWidth = 0.5;
         ctx.stroke();
       }
     }
   }
-  requestAnimationFrame(drawPts);
+  requestAnimationFrame(draw);
 }
 
-window.addEventListener('resize', () => { resize(); initPts(); });
-resize(); initPts(); drawPts();
+window.addEventListener('resize', () => { resize(); spawn(); });
+resize(); spawn(); draw();
 
-// ── Scroll reveal ──────────────────────────────────────
-const observer = new IntersectionObserver(entries => {
+// ── Scroll reveal ────────────────────────────────────────
+const io = new IntersectionObserver(entries => {
   entries.forEach(e => {
     if (e.isIntersecting) {
-      e.target.classList.add('visible');
-      observer.unobserve(e.target);
+      e.target.classList.add('in');
+      io.unobserve(e.target);
     }
   });
-}, { threshold: 0.12 });
+}, { threshold: 0.1 });
 
-document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+// ── Progress bar fill on scroll ──────────────────────────
+const pfill = document.getElementById('pfill');
+const progressSection = document.getElementById('progress');
+
+new IntersectionObserver(entries => {
+  if (entries[0].isIntersecting) {
+    setTimeout(() => pfill.style.width = '66.7%', 300);
+  }
+}, { threshold: 0.3 }).observe(progressSection);
+
+// ── Closing years counter ────────────────────────────────
+const cyEl = document.getElementById('closingYears');
+new IntersectionObserver(entries => {
+  if (entries[0].isIntersecting) {
+    cyEl.classList.add('in');
+  }
+}, { threshold: 0.5 }).observe(cyEl);
 </script>
 </body>
 </html>
