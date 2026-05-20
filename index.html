@@ -51,6 +51,7 @@ nav {
   backdrop-filter: blur(24px);
   transition: opacity 0.4s;
   max-width: calc(100vw - 2rem);
+  overflow: hidden;
 }
 nav.hidden { opacity: 0; pointer-events: none; }
 
@@ -160,6 +161,7 @@ section { position: relative; overflow: hidden; }
 .hero-inner {
   position: relative;
   z-index: 1;
+  width: 100%;
   max-width: 700px;
 }
 
@@ -183,7 +185,7 @@ section { position: relative; overflow: hidden; }
 .hero-title {
   font-family: 'Syne', sans-serif;
   font-weight: 800;
-  font-size: clamp(3rem, 15vw, 8rem);
+  font-size: clamp(2.6rem, 12.5vw, 8rem);
   line-height: 0.9;
   letter-spacing: -0.03em;
   color: #fff;
