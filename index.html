@@ -3,6 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Wawasan Brunei 2035 — Brunei Darussalam's national vision for an educated people, high quality of life, and a dynamic sustainable economy.">
+<meta property="og:title" content="Wawasan Brunei 2035">
+<meta property="og:description" content="A nation widely recognised for its educated people, quality of life, and dynamic economy. 9 years remaining.">
 <title>Wawasan Brunei 2035</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -11,14 +14,15 @@
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
-  --bg:     #05080E;
+  --bg:     #04070D;
   --gold:   #FFD100;
   --red:    #CF1020;
   --white:  #EEF2F6;
-  --dim:    #2E3A45;
-  --muted:  rgba(238,242,246,0.45);
+  --dim:    #1E2D3A;
+  --muted:  rgba(238,242,246,0.42);
   --card:   rgba(255,255,255,0.03);
-  --border: rgba(255,255,255,0.07);
+  --border: rgba(255,255,255,0.075);
+  --max:    740px;
 }
 
 html { scroll-behavior: smooth; }
@@ -30,48 +34,104 @@ body {
   overflow-x: hidden;
 }
 
-section { position: relative; overflow: hidden; }
+/* ── Nav ── */
+nav {
+  position: fixed;
+  top: 1rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  background: rgba(4,7,13,0.85);
+  border: 1px solid rgba(255,209,0,0.15);
+  border-radius: 99px;
+  padding: 0.45rem 0.75rem;
+  backdrop-filter: blur(20px);
+  transition: opacity 0.4s;
+}
+nav.hidden { opacity: 0; pointer-events: none; }
 
-/* ── Shared util ── */
-.tag {
-  display: inline-block;
-  font-size: 0.6rem;
-  font-weight: 600;
-  letter-spacing: 0.28em;
-  text-transform: uppercase;
+.nav-flag { font-size: 0.85rem; }
+.nav-title {
+  font-family: 'Syne', sans-serif;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
   color: var(--gold);
-  margin-bottom: 1.1rem;
 }
-
-.reveal {
-  opacity: 0;
-  transform: translateY(32px);
-  transition: opacity 0.9s ease, transform 0.9s ease;
+.nav-sep {
+  width: 1px;
+  height: 12px;
+  background: var(--dim);
+  margin: 0 0.2rem;
 }
-.reveal.in { opacity: 1; transform: translateY(0); }
-.d1 { transition-delay: 0.1s; }
-.d2 { transition-delay: 0.22s; }
-.d3 { transition-delay: 0.34s; }
-.d4 { transition-delay: 0.46s; }
-.d5 { transition-delay: 0.58s; }
-.d6 { transition-delay: 0.70s; }
-.d7 { transition-delay: 0.82s; }
-.d8 { transition-delay: 0.94s; }
+.nav-links { display: flex; gap: 0.1rem; }
+.nav-links a {
+  font-size: 0.62rem;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  color: var(--muted);
+  text-decoration: none;
+  padding: 0.25rem 0.55rem;
+  border-radius: 99px;
+  transition: color 0.2s, background 0.2s;
+}
+.nav-links a:hover,
+.nav-links a.active { color: var(--white); background: rgba(255,255,255,0.07); }
 
-/* ────────────────────────────────────────
-   PARTICLES
-──────────────────────────────────────── */
+/* ── Canvas ── */
 #cvs {
   position: fixed;
   inset: 0;
   z-index: 0;
   pointer-events: none;
-  opacity: 0.6;
 }
 
-/* ────────────────────────────────────────
+/* ── Reveal ── */
+.reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.85s ease, transform 0.85s ease;
+}
+.reveal.in { opacity: 1; transform: translateY(0); }
+.d1 { transition-delay: 0.1s;  }
+.d2 { transition-delay: 0.22s; }
+.d3 { transition-delay: 0.34s; }
+.d4 { transition-delay: 0.46s; }
+.d5 { transition-delay: 0.58s; }
+.d6 { transition-delay: 0.7s;  }
+.d7 { transition-delay: 0.82s; }
+.d8 { transition-delay: 0.94s; }
+
+/* ── Shared ── */
+section { position: relative; overflow: hidden; }
+
+.wrap {
+  max-width: var(--max);
+  margin: 0 auto;
+  padding: 0 1.25rem;
+}
+
+.tag {
+  display: inline-block;
+  font-size: 0.58rem;
+  font-weight: 600;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 1rem;
+}
+
+.divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--dim), transparent);
+}
+
+/* ════════════════════════════════════════
    HERO
-──────────────────────────────────────── */
+════════════════════════════════════════ */
 #hero {
   min-height: 100dvh;
   display: flex;
@@ -79,58 +139,75 @@ section { position: relative; overflow: hidden; }
   align-items: center;
   justify-content: center;
   text-align: center;
-  padding: 3rem 1.5rem 7rem;
+  padding: 6rem 1.5rem 8rem;
 }
 
 .hero-inner {
   position: relative;
   z-index: 1;
-  max-width: 680px;
+  max-width: 700px;
 }
 
-.hero-pre {
-  font-size: 0.65rem;
-  letter-spacing: 0.32em;
+.hero-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.62rem;
+  font-weight: 600;
+  letter-spacing: 0.25em;
   text-transform: uppercase;
   color: var(--gold);
-  font-weight: 600;
-  margin-bottom: 1.5rem;
+  border: 1px solid rgba(255,209,0,0.25);
+  border-radius: 99px;
+  padding: 0.3rem 0.9rem;
+  margin-bottom: 2rem;
   opacity: 0;
-  animation: up 1s 0.4s ease both;
+  animation: fadeUp 1s 0.4s ease both;
 }
 
 .hero-title {
   font-family: 'Syne', sans-serif;
   font-weight: 800;
-  font-size: clamp(2.8rem, 14vw, 7.5rem);
-  line-height: 0.92;
+  font-size: clamp(3rem, 15vw, 8rem);
+  line-height: 0.9;
   letter-spacing: -0.03em;
   color: #fff;
   opacity: 0;
-  animation: up 1s 0.7s ease both;
+  animation: fadeUp 1s 0.7s ease both;
 }
 
-.hero-title .w-gold {
+.hero-title .grad {
   display: block;
-  background: linear-gradient(125deg, #FFD100 0%, #FFF0A0 40%, #FFD100 100%);
+  background: linear-gradient(120deg, #FFD100 0%, #FFF5A0 45%, #FFB800 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
 
-.hero-malay {
-  margin-top: 1.4rem;
-  font-size: clamp(0.78rem, 2.5vw, 1rem);
+.hero-year {
+  display: block;
+  font-size: clamp(1.8rem, 8vw, 5rem);
+  letter-spacing: 0.12em;
+  color: rgba(255,255,255,0.12);
+  margin-top: 0.1em;
+}
+
+.hero-sub {
+  margin-top: 2rem;
+  font-size: clamp(0.8rem, 2.5vw, 1rem);
   font-weight: 300;
   color: var(--muted);
-  letter-spacing: 0.06em;
+  line-height: 1.8;
+  letter-spacing: 0.04em;
   opacity: 0;
-  animation: up 1s 1s ease both;
+  animation: fadeUp 1s 1s ease both;
 }
+
+.hero-sub strong { color: rgba(238,242,246,0.7); font-weight: 500; }
 
 .hero-scroll {
   position: absolute;
-  bottom: 2rem;
+  bottom: 2.5rem;
   left: 50%;
   transform: translateX(-50%);
   z-index: 1;
@@ -139,177 +216,267 @@ section { position: relative; overflow: hidden; }
   align-items: center;
   gap: 0.5rem;
   opacity: 0;
-  animation: up 1s 1.5s ease both;
+  animation: fadeUp 1s 1.5s ease both;
 }
 .hero-scroll span {
-  font-size: 0.55rem;
-  letter-spacing: 0.22em;
+  font-size: 0.52rem;
+  letter-spacing: 0.3em;
   text-transform: uppercase;
   color: var(--dim);
 }
-.scroll-dot {
+.scroll-line {
   width: 1px;
   height: 44px;
   background: linear-gradient(to bottom, var(--gold), transparent);
-  animation: pulse 2s ease infinite;
+  animation: breathe 2s ease infinite;
 }
 
-@keyframes up {
+@keyframes fadeUp {
   from { opacity: 0; transform: translateY(28px); }
   to   { opacity: 1; transform: translateY(0); }
 }
-@keyframes pulse {
-  0%, 100% { opacity: 0.3; }
-  50%       { opacity: 1; }
+@keyframes breathe {
+  0%, 100% { opacity: 0.3; transform: scaleY(1); }
+  50%       { opacity: 1;   transform: scaleY(1.1); }
 }
 
-/* ────────────────────────────────────────
+/* ════════════════════════════════════════
    MISSION
-──────────────────────────────────────── */
+════════════════════════════════════════ */
 #mission {
-  padding: 7rem 1.5rem;
-  background: linear-gradient(180deg, var(--bg) 0%, #080D18 100%);
-}
-
-.mission-inner {
-  max-width: 720px;
-  margin: 0 auto;
+  padding: 8rem 0;
+  background: linear-gradient(180deg, var(--bg) 0%, #060D1A 100%);
 }
 
 .mission-quote {
   font-family: 'Syne', sans-serif;
-  font-size: clamp(1.15rem, 3.5vw, 1.6rem);
+  font-size: clamp(1.1rem, 3.2vw, 1.5rem);
   font-weight: 600;
-  line-height: 1.55;
+  line-height: 1.6;
   color: var(--white);
-  border-left: 2px solid var(--gold);
+  position: relative;
   padding-left: 1.5rem;
-  margin-bottom: 2rem;
+  margin-bottom: 1.5rem;
+}
+
+.mission-quote::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 0.2em; bottom: 0.2em;
+  width: 2px;
+  background: linear-gradient(to bottom, var(--gold), rgba(255,209,0,0.2));
+  border-radius: 2px;
 }
 
 .mission-quote em { font-style: normal; color: var(--gold); }
 
 .mission-source {
+  padding-left: 1.5rem;
   font-size: 0.72rem;
   color: var(--muted);
-  font-weight: 400;
-  padding-left: 1.5rem;
 }
 
-/* ────────────────────────────────────────
+/* ════════════════════════════════════════
    PROGRESS
-──────────────────────────────────────── */
+════════════════════════════════════════ */
 #progress {
-  padding: 5rem 1.5rem;
-  background: #080D18;
+  padding: 6rem 0;
+  background: #060D1A;
 }
 
-.progress-inner {
-  max-width: 720px;
-  margin: 0 auto;
-}
-
-.progress-label {
+.progress-head {
   display: flex;
   justify-content: space-between;
-  font-size: 0.68rem;
+  align-items: baseline;
+  margin-bottom: 0.6rem;
+  font-size: 0.65rem;
   color: var(--muted);
-  letter-spacing: 0.08em;
-  margin-bottom: 0.75rem;
 }
 
-.progress-track {
-  width: 100%;
-  height: 6px;
+.progress-head .now { color: var(--gold); font-weight: 600; }
+
+.p-track {
+  height: 5px;
   background: var(--dim);
   border-radius: 99px;
   overflow: hidden;
-  margin-bottom: 0.75rem;
+  margin-bottom: 0.65rem;
 }
 
-.progress-fill {
+.p-fill {
   height: 100%;
-  width: 0%;
-  background: linear-gradient(90deg, var(--gold), #FFF0A0);
+  width: 0;
   border-radius: 99px;
-  transition: width 1.6s cubic-bezier(.4,0,.2,1);
+  background: linear-gradient(90deg, #B88A00, var(--gold), #FFF5A0);
+  transition: width 1.8s cubic-bezier(.4,0,.2,1);
+  position: relative;
 }
 
-.progress-caption {
-  font-size: 0.72rem;
-  color: var(--muted);
+.p-fill::after {
+  content: '';
+  position: absolute;
+  right: -1px; top: -1px; bottom: -1px;
+  width: 6px;
+  background: #fff;
+  border-radius: 99px;
+  box-shadow: 0 0 8px rgba(255,209,0,0.8);
+}
+
+.p-caption {
   text-align: center;
+  font-size: 0.68rem;
+  color: var(--muted);
 }
-
-.progress-caption strong { color: var(--gold); }
+.p-caption strong { color: var(--gold); }
 
 .progress-stats {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 1px;
   background: var(--dim);
-  border-radius: 14px;
+  border-radius: 16px;
   overflow: hidden;
   margin-top: 2.5rem;
 }
 
 .pstat {
-  background: #08101A;
-  padding: 1.5rem 1rem;
+  background: #060F1A;
+  padding: 1.5rem 0.75rem;
   text-align: center;
 }
 
 .pstat-n {
   font-family: 'Syne', sans-serif;
-  font-size: clamp(1.4rem, 5vw, 2rem);
+  font-size: clamp(1.3rem, 4.5vw, 1.9rem);
   font-weight: 800;
   color: var(--gold);
-  display: block;
   line-height: 1;
-  margin-bottom: 0.4rem;
+  display: block;
+  margin-bottom: 0.5rem;
 }
 
 .pstat-l {
-  font-size: 0.65rem;
+  font-size: 0.62rem;
   color: var(--muted);
   text-transform: uppercase;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.07em;
   line-height: 1.5;
 }
 
-/* ────────────────────────────────────────
-   THREE PILLARS
-──────────────────────────────────────── */
-#pillars {
-  padding: 7rem 1.25rem;
-  background: linear-gradient(180deg, #080D18 0%, #050810 100%);
+/* ════════════════════════════════════════
+   TIMELINE
+════════════════════════════════════════ */
+#timeline {
+  padding: 7rem 0;
+  background: linear-gradient(180deg, #060D1A 0%, #050A14 100%);
 }
 
-.section-hd {
-  max-width: 720px;
-  margin: 0 auto 2.5rem;
+.tl-list {
+  position: relative;
+  padding-left: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
 }
 
-.section-title {
+.tl-list::before {
+  content: '';
+  position: absolute;
+  left: 0.4rem;
+  top: 0.4rem;
+  bottom: 0.4rem;
+  width: 1px;
+  background: linear-gradient(to bottom, var(--gold), rgba(255,209,0,0.15));
+}
+
+.tl-item {
+  position: relative;
+  padding: 0 0 2rem 0.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.tl-item::before {
+  content: '';
+  position: absolute;
+  left: -1.64rem;
+  top: 0.4rem;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--dim);
+  border: 1px solid rgba(255,209,0,0.3);
+  transition: background 0.3s;
+}
+
+.tl-item.done::before {
+  background: var(--gold);
+  border-color: var(--gold);
+  box-shadow: 0 0 8px rgba(255,209,0,0.5);
+}
+
+.tl-item.now::before {
+  width: 12px;
+  height: 12px;
+  left: -1.82rem;
+  top: 0.25rem;
+  background: var(--gold);
+  border-color: var(--gold);
+  box-shadow: 0 0 16px rgba(255,209,0,0.7), 0 0 32px rgba(255,209,0,0.3);
+  animation: nowPulse 2s ease infinite;
+}
+
+@keyframes nowPulse {
+  0%, 100% { box-shadow: 0 0 16px rgba(255,209,0,0.7), 0 0 32px rgba(255,209,0,0.3); }
+  50%       { box-shadow: 0 0 24px rgba(255,209,0,1),   0 0 48px rgba(255,209,0,0.5); }
+}
+
+.tl-year {
   font-family: 'Syne', sans-serif;
-  font-size: clamp(1.4rem, 4.5vw, 2rem);
+  font-size: 0.72rem;
   font-weight: 700;
+  letter-spacing: 0.1em;
+  color: var(--gold);
+}
+
+.tl-item.future .tl-year { color: var(--muted); }
+
+.tl-title {
+  font-family: 'Syne', sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--white);
   line-height: 1.2;
-  color: #fff;
+}
+
+.tl-item.future .tl-title { color: rgba(238,242,246,0.4); }
+
+.tl-desc {
+  font-size: 0.8rem;
+  line-height: 1.6;
+  color: var(--muted);
+  max-width: 520px;
+}
+
+/* ════════════════════════════════════════
+   THREE PILLARS
+════════════════════════════════════════ */
+#pillars {
+  padding: 7rem 0;
+  background: #050A14;
 }
 
 .pillar-grid {
-  max-width: 720px;
-  margin: 0 auto;
-  display: grid;
-  grid-template-columns: 1fr;
+  display: flex;
+  flex-direction: column;
   gap: 1rem;
 }
 
 .pillar {
   background: var(--card);
   border: 1px solid var(--border);
-  border-radius: 18px;
+  border-radius: 20px;
   padding: 2rem 1.5rem;
   position: relative;
   overflow: hidden;
@@ -318,67 +485,72 @@ section { position: relative; overflow: hidden; }
 
 .pillar:hover {
   background: rgba(255,255,255,0.05);
-  border-color: rgba(255,255,255,0.14);
+  border-color: rgba(255,255,255,0.13);
 }
 
-.pillar::after {
-  content: '';
+.pillar-accent {
   position: absolute;
   top: 0; left: 0; right: 0;
   height: 2px;
 }
-.p-gold::after  { background: linear-gradient(90deg, var(--gold), transparent); }
-.p-cyan::after  { background: linear-gradient(90deg, #00E5FF, transparent); }
-.p-green::after { background: linear-gradient(90deg, #00FF88, transparent); }
 
 .pillar-num {
   font-size: 0.55rem;
-  font-weight: 700;
+  font-weight: 600;
   letter-spacing: 0.28em;
   text-transform: uppercase;
   color: var(--muted);
-  margin-bottom: 0.5rem;
+  margin-bottom: 1rem;
 }
 
-.pillar-icon { font-size: 2rem; margin-bottom: 0.75rem; line-height: 1; }
+.pillar-icon { font-size: 1.9rem; margin-bottom: 0.75rem; }
 
 .pillar-malay {
-  font-size: 0.62rem;
-  font-weight: 600;
+  font-size: 0.58rem;
+  font-weight: 700;
   letter-spacing: 0.12em;
   text-transform: uppercase;
   margin-bottom: 0.3rem;
 }
-.p-gold .pillar-malay  { color: var(--gold); }
-.p-cyan .pillar-malay  { color: #00E5FF; }
-.p-green .pillar-malay { color: #00FF88; }
 
 .pillar-name {
   font-family: 'Syne', sans-serif;
-  font-size: clamp(1.1rem, 3.5vw, 1.3rem);
+  font-size: clamp(1.05rem, 3.5vw, 1.25rem);
   font-weight: 700;
   color: #fff;
-  line-height: 1.2;
+  line-height: 1.25;
   margin-bottom: 0.75rem;
 }
 
 .pillar-body {
-  font-size: 0.87rem;
-  line-height: 1.7;
+  font-size: 0.85rem;
+  line-height: 1.75;
   color: var(--muted);
 }
 
-/* ────────────────────────────────────────
+.pillar-target {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-top: 1.1rem;
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 0.3rem 0.75rem;
+  border-radius: 99px;
+  border: 1px solid;
+}
+
+/* ════════════════════════════════════════
    8 STRATEGIES
-──────────────────────────────────────── */
+════════════════════════════════════════ */
 #strategies {
-  padding: 6rem 1.25rem 7rem;
-  background: #050810;
+  padding: 7rem 0;
+  background: linear-gradient(180deg, #050A14 0%, #040810 100%);
 }
 
 .strat-grid {
-  max-width: 720px;
-  margin: 0 auto;
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 0.75rem;
@@ -387,100 +559,93 @@ section { position: relative; overflow: hidden; }
 .strat {
   background: var(--card);
   border: 1px solid var(--border);
-  border-radius: 14px;
+  border-radius: 15px;
   padding: 1.25rem 1.1rem;
   transition: border-color 0.25s, background 0.25s;
 }
 
 .strat:hover {
-  background: rgba(255,209,0,0.04);
-  border-color: rgba(255,209,0,0.25);
+  background: rgba(255,209,0,0.03);
+  border-color: rgba(255,209,0,0.2);
 }
 
-.strat-icon { font-size: 1.3rem; margin-bottom: 0.5rem; line-height: 1; }
+.strat-icon { font-size: 1.3rem; margin-bottom: 0.55rem; }
 
 .strat-name {
   font-family: 'Syne', sans-serif;
-  font-size: 0.9rem;
+  font-size: 0.88rem;
   font-weight: 700;
   color: #fff;
-  margin-bottom: 0.35rem;
+  margin-bottom: 0.3rem;
   line-height: 1.2;
 }
 
 .strat-desc {
-  font-size: 0.75rem;
-  line-height: 1.55;
+  font-size: 0.73rem;
+  line-height: 1.6;
   color: var(--muted);
 }
 
-/* ────────────────────────────────────────
-   REAL NUMBERS
-──────────────────────────────────────── */
+/* ════════════════════════════════════════
+   NUMBERS
+════════════════════════════════════════ */
 #numbers {
-  padding: 6rem 1.5rem;
-  background: linear-gradient(180deg, #050810 0%, #060D18 100%);
+  padding: 7rem 0;
+  background: #040810;
 }
 
-.numbers-inner { max-width: 720px; margin: 0 auto; }
-
-.numbers-statement {
+.numbers-hl {
   font-family: 'Syne', sans-serif;
-  font-size: clamp(1.3rem, 4vw, 1.8rem);
+  font-size: clamp(1.25rem, 4vw, 1.75rem);
   font-weight: 700;
   line-height: 1.35;
   color: #fff;
   margin-bottom: 2.5rem;
 }
 
-.numbers-statement .hi { color: var(--gold); }
+.numbers-hl em { font-style: normal; color: var(--gold); }
 
 .num-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 1px;
   background: var(--dim);
-  border-radius: 16px;
+  border-radius: 18px;
   overflow: hidden;
 }
 
 .num-card {
-  background: #07101C;
+  background: #060E1A;
   padding: 1.5rem 1.25rem;
 }
 
 .num-val {
   font-family: 'Syne', sans-serif;
-  font-size: clamp(1.6rem, 6vw, 2.4rem);
+  font-size: clamp(1.5rem, 5.5vw, 2.2rem);
   font-weight: 800;
   color: var(--gold);
   line-height: 1;
   display: block;
-  margin-bottom: 0.35rem;
+  margin-bottom: 0.4rem;
 }
 
 .num-label {
   font-size: 0.72rem;
   color: var(--muted);
-  line-height: 1.5;
+  line-height: 1.55;
 }
 
-/* ────────────────────────────────────────
+/* ════════════════════════════════════════
    SECTORS
-──────────────────────────────────────── */
+════════════════════════════════════════ */
 #sectors {
-  padding: 6rem 1.25rem 7rem;
-  background: #060D18;
+  padding: 7rem 0;
+  background: linear-gradient(180deg, #040810 0%, #060D1A 100%);
 }
 
 .sector-list {
-  max-width: 720px;
-  margin: 0 auto;
-  display: flex;
-  flex-direction: column;
-  gap: 0;
   border: 1px solid var(--border);
-  border-radius: 18px;
+  border-radius: 20px;
   overflow: hidden;
 }
 
@@ -488,112 +653,183 @@ section { position: relative; overflow: hidden; }
   display: flex;
   align-items: flex-start;
   gap: 1rem;
-  padding: 1.25rem 1.25rem;
+  padding: 1.25rem 1.5rem;
   border-bottom: 1px solid var(--border);
   background: var(--card);
+  cursor: pointer;
   transition: background 0.2s;
+  -webkit-tap-highlight-color: transparent;
 }
 .sector:last-child { border-bottom: none; }
-.sector:hover { background: rgba(255,255,255,0.045); }
+.sector:hover, .sector.open { background: rgba(255,255,255,0.04); }
 
-.sector-icon { font-size: 1.4rem; flex-shrink: 0; padding-top: 0.1rem; }
+.sector-left {
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.4rem;
+  padding-top: 0.15rem;
+}
+
+.sector-icon { font-size: 1.4rem; line-height: 1; }
+
+.sector-num {
+  font-size: 0.5rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: var(--dim);
+}
+
+.sector-right { flex: 1; min-width: 0; }
+
+.sector-hd {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
 
 .sector-name {
   font-family: 'Syne', sans-serif;
   font-size: 0.95rem;
   font-weight: 700;
   color: #fff;
-  margin-bottom: 0.25rem;
+  line-height: 1.2;
 }
+
+.sector-chevron {
+  flex-shrink: 0;
+  font-size: 0.7rem;
+  color: var(--muted);
+  transition: transform 0.3s;
+}
+.sector.open .sector-chevron { transform: rotate(180deg); }
 
 .sector-desc {
   font-size: 0.78rem;
-  line-height: 1.6;
+  line-height: 1.65;
   color: var(--muted);
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.4s ease, margin-top 0.3s ease, opacity 0.3s ease;
+  opacity: 0;
+  margin-top: 0;
+}
+.sector.open .sector-desc {
+  max-height: 200px;
+  opacity: 1;
+  margin-top: 0.5rem;
 }
 
-/* ────────────────────────────────────────
+/* ════════════════════════════════════════
    CLOSING
-──────────────────────────────────────── */
+════════════════════════════════════════ */
 #closing {
-  padding: 9rem 1.5rem;
+  padding: 9rem 0 7rem;
   text-align: center;
   background: var(--bg);
-  position: relative;
 }
 
 #closing::before {
   content: '';
   position: absolute;
   inset: 0;
-  background: radial-gradient(ellipse 65% 50% at 50% 50%, rgba(255,209,0,0.07) 0%, transparent 70%);
+  background: radial-gradient(ellipse 60% 50% at 50% 45%, rgba(255,209,0,0.07) 0%, transparent 65%);
   pointer-events: none;
 }
 
-.closing-inner { position: relative; z-index: 1; max-width: 600px; margin: 0 auto; }
+.closing-inner {
+  position: relative;
+  z-index: 1;
+  max-width: 580px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
 
-.closing-years {
+.closing-n {
   font-family: 'Syne', sans-serif;
-  font-size: clamp(4rem, 20vw, 8rem);
+  font-size: clamp(5rem, 22vw, 10rem);
   font-weight: 800;
   line-height: 1;
   letter-spacing: -0.04em;
-  background: linear-gradient(135deg, var(--gold), #FFF5A0, var(--gold));
+  background: linear-gradient(135deg, #B88A00, var(--gold), #FFF5A0, var(--gold));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  margin-bottom: 0.25rem;
-  opacity: 0;
-  animation: none;
-}
-.closing-years.in {
-  animation: up 1s ease both;
+  margin-bottom: 0;
 }
 
-.closing-years-label {
-  font-size: clamp(0.9rem, 3vw, 1.1rem);
-  color: var(--muted);
-  letter-spacing: 0.08em;
+.closing-sub {
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.3em;
   text-transform: uppercase;
+  color: var(--muted);
   margin-bottom: 2.5rem;
 }
 
 .closing-line {
   font-family: 'Syne', sans-serif;
-  font-size: clamp(1.3rem, 4.5vw, 2rem);
+  font-size: clamp(1.25rem, 4.5vw, 1.9rem);
   font-weight: 700;
-  color: #fff;
   line-height: 1.3;
+  color: #fff;
   margin-bottom: 1.5rem;
 }
 
-.closing-line .ac { color: var(--gold); }
+.closing-line span { color: var(--gold); }
 
 .closing-body {
   font-size: 0.88rem;
-  line-height: 1.75;
+  line-height: 1.8;
   color: var(--muted);
-  max-width: 440px;
+  max-width: 420px;
   margin: 0 auto 2.5rem;
 }
 
-.closing-flag { font-size: 1.5rem; display: block; margin-bottom: 1rem; }
+.closing-flag { font-size: 2rem; display: block; margin-bottom: 2.5rem; }
 
 .closing-footer {
-  font-size: 0.6rem;
-  letter-spacing: 0.2em;
+  font-size: 0.58rem;
+  letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: #1E2830;
+  color: #162030;
 }
 
-/* ────────────────────────────────────────
-   Divider
-──────────────────────────────────────── */
-.divider {
-  max-width: 720px;
-  margin: 0 auto;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, var(--dim), transparent);
+/* ════════════════════════════════════════
+   Scroll progress dot
+════════════════════════════════════════ */
+.progress-dot {
+  position: fixed;
+  right: 1.25rem;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 50;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.progress-dot a {
+  display: block;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--dim);
+  border: 1px solid rgba(255,209,0,0.2);
+  transition: background 0.3s, transform 0.3s;
+  text-decoration: none;
+}
+
+.progress-dot a.active {
+  background: var(--gold);
+  transform: scale(1.4);
+}
+
+@media (max-width: 480px) {
+  .progress-dot { display: none; }
+  nav .nav-links { display: none; }
 }
 </style>
 </head>
@@ -601,32 +837,56 @@ section { position: relative; overflow: hidden; }
 
 <canvas id="cvs"></canvas>
 
-<!-- ══════════════════════════════════════
-     HERO
-══════════════════════════════════════ -->
+<!-- Nav -->
+<nav id="nav">
+  <span class="nav-flag">🇧🇳</span>
+  <span class="nav-title">Wawasan 2035</span>
+  <div class="nav-sep"></div>
+  <div class="nav-links">
+    <a href="#mission">Vision</a>
+    <a href="#pillars">Pillars</a>
+    <a href="#strategies">Strategy</a>
+    <a href="#sectors">Sectors</a>
+  </div>
+</nav>
+
+<!-- Side dots -->
+<nav class="progress-dot" id="sideDots">
+  <a href="#hero"       title="Hero"></a>
+  <a href="#mission"    title="Vision"></a>
+  <a href="#progress"   title="Progress"></a>
+  <a href="#timeline"   title="Timeline"></a>
+  <a href="#pillars"    title="Pillars"></a>
+  <a href="#strategies" title="Strategy"></a>
+  <a href="#numbers"    title="Numbers"></a>
+  <a href="#sectors"    title="Sectors"></a>
+  <a href="#closing"    title="Closing"></a>
+</nav>
+
+<!-- ════ HERO ════ -->
 <section id="hero">
   <div class="hero-inner">
-    <div class="hero-pre">🇧🇳 &nbsp; Negara Brunei Darussalam &nbsp; · &nbsp; National Vision</div>
+    <div class="hero-eyebrow">🇧🇳 &nbsp; Negara Brunei Darussalam &nbsp;·&nbsp; National Vision</div>
     <h1 class="hero-title">
       WAWASAN
-      <span class="w-gold">BRUNEI</span>
-      2035
+      <span class="grad">BRUNEI</span>
+      <span class="hero-year">2035</span>
     </h1>
-    <p class="hero-malay">
-      Rakyat yang Berpendidikan &nbsp;·&nbsp; Kualiti Hidup yang Tinggi &nbsp;·&nbsp; Ekonomi yang Maju dan Mampan
+    <p class="hero-sub">
+      <strong>Educated People. High Quality of Life. Dynamic Economy.</strong><br>
+      A national vision proclaimed by His Majesty Sultan Hassanal Bolkiah in 2008.<br>
+      9 years remain. The decade that decides everything.
     </p>
   </div>
   <div class="hero-scroll">
-    <div class="scroll-dot"></div>
-    <span>Scroll</span>
+    <div class="scroll-line"></div>
+    <span>Explore</span>
   </div>
 </section>
 
-<!-- ══════════════════════════════════════
-     MISSION
-══════════════════════════════════════ -->
+<!-- ════ MISSION ════ -->
 <section id="mission">
-  <div class="mission-inner">
+  <div class="wrap">
     <span class="tag reveal">The Official Vision</span>
     <p class="mission-quote reveal d1">
       "By 2035, Brunei Darussalam will be, by the grace of Allah, a nation
@@ -641,280 +901,350 @@ section { position: relative; overflow: hidden; }
   </div>
 </section>
 
-<!-- ══════════════════════════════════════
-     PROGRESS
-══════════════════════════════════════ -->
+<!-- ════ PROGRESS ════ -->
 <section id="progress">
-  <div class="progress-inner">
-    <span class="tag reveal">Where we are</span>
+  <div class="wrap">
+    <span class="tag reveal">Where we stand</span>
     <div class="reveal d1">
-      <div class="progress-label">
-        <span>Vision launched &nbsp; 2008</span>
-        <span>We are here &nbsp; 2026</span>
-        <span>Target &nbsp; 2035</span>
+      <div class="progress-head">
+        <span>Launched · 2008</span>
+        <span class="now">▶ We are here · 2026</span>
+        <span>Target · 2035</span>
       </div>
-      <div class="progress-track">
-        <div class="progress-fill" id="pfill"></div>
+      <div class="p-track">
+        <div class="p-fill" id="pfill"></div>
       </div>
-      <p class="progress-caption">
-        <strong>18 years</strong> in &nbsp;·&nbsp; <strong>9 years</strong> remaining &nbsp;·&nbsp; 67% of the journey complete
+      <p class="p-caption">
+        <strong>18 years</strong> completed &nbsp;·&nbsp; <strong>9 years</strong> remaining &nbsp;·&nbsp; 67% of the journey
       </p>
     </div>
     <div class="progress-stats reveal d2">
       <div class="pstat">
-        <span class="pstat-n">61%</span>
-        <span class="pstat-l">Non-oil exports<br>share in 2023<br><small style="color:#1E2830">(was 3% in 2017)</small></span>
+        <span class="pstat-n">18</span>
+        <span class="pstat-l">Years since<br>launch (2008)</span>
       </div>
       <div class="pstat">
-        <span class="pstat-n">56.6%</span>
-        <span class="pstat-l">Non-oil & gas<br>share of GDP<br>and growing</span>
+        <span class="pstat-n">9</span>
+        <span class="pstat-l">Years left to<br>reach 2035</span>
       </div>
       <div class="pstat">
-        <span class="pstat-n">2035</span>
-        <span class="pstat-l">Target: Top 10<br>quality of life<br>globally</span>
+        <span class="pstat-n">3</span>
+        <span class="pstat-l">Core aspirations<br>driving the vision</span>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ══════════════════════════════════════
-     THREE PILLARS
-══════════════════════════════════════ -->
+<!-- ════ TIMELINE ════ -->
+<section id="timeline">
+  <div class="wrap">
+    <span class="tag reveal">Key milestones</span>
+    <h2 class="reveal d1" style="font-family:'Syne',sans-serif;font-size:clamp(1.3rem,4vw,1.9rem);font-weight:700;margin-bottom:2.5rem;line-height:1.2;">From vision to reality.</h2>
+    <div class="tl-list reveal d2">
+
+      <div class="tl-item done">
+        <span class="tl-year">2008</span>
+        <span class="tl-title">Wawasan Brunei 2035 Proclaimed</span>
+        <p class="tl-desc">His Majesty Sultan Hassanal Bolkiah officially announces the national long-term vision, setting targets for education, quality of life, and economic diversification by 2035.</p>
+      </div>
+
+      <div class="tl-item done">
+        <span class="tl-year">2014</span>
+        <span class="tl-title">Supreme Council Established</span>
+        <p class="tl-desc">A Supreme Council for Wawasan Brunei 2035 is created by royal decree to oversee, monitor, and drive implementation across all government ministries and agencies.</p>
+      </div>
+
+      <div class="tl-item done">
+        <span class="tl-year">2016</span>
+        <span class="tl-title">Wawasan Framework & KPIs Introduced</span>
+        <p class="tl-desc">A comprehensive measurement framework with 12 National Outcomes and Key Performance Indicators is launched to hold the nation accountable to progress.</p>
+      </div>
+
+      <div class="tl-item done">
+        <span class="tl-year">2017</span>
+        <span class="tl-title">Non-Oil Exports: Just 3%</span>
+        <p class="tl-desc">A stark baseline. Oil and gas dominate the economy almost entirely — making the diversification challenge clear, and setting the starting line for what comes next.</p>
+      </div>
+
+      <div class="tl-item done">
+        <span class="tl-year">2020</span>
+        <span class="tl-title">Temburong Bridge Opens</span>
+        <p class="tl-desc">The Sultan Haji Omar Ali Saifuddien Bridge connects Brunei-Muara and Temburong for the first time by road — a landmark infrastructure project symbolising national unity and opening Temburong's eco-tourism potential.</p>
+      </div>
+
+      <div class="tl-item done">
+        <span class="tl-year">2023</span>
+        <span class="tl-title">Non-Oil Exports Reach 61%</span>
+        <p class="tl-desc">One of the fastest economic diversification records in the region. From 3% to 61% in six years. The non-oil and gas sector now accounts for 56.6% of GDP — the target of below 30% hydrocarbon dependency is in sight.</p>
+      </div>
+
+      <div class="tl-item now">
+        <span class="tl-year">2026 — Now</span>
+        <span class="tl-title">The Critical Decade Begins</span>
+        <p class="tl-desc">9 years remain. The next phase requires acceleration in education quality, digital economy growth, tourism development, and social infrastructure. This is where the vision meets delivery.</p>
+      </div>
+
+      <div class="tl-item future">
+        <span class="tl-year">2035</span>
+        <span class="tl-title">Target: A Nation Transformed</span>
+        <p class="tl-desc">Brunei Darussalam ranks among the world's top 10 nations for quality of life and GDP per capita — known globally for its educated people, sustainable economy, and preserved natural heritage.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ════ PILLARS ════ -->
 <section id="pillars">
-  <div class="section-hd">
+  <div class="wrap">
     <span class="tag reveal">Three aspirations</span>
-    <h2 class="section-title reveal d1">The pillars of Wawasan 2035.</h2>
-  </div>
-  <div class="pillar-grid">
+    <h2 class="reveal d1" style="font-family:'Syne',sans-serif;font-size:clamp(1.3rem,4vw,1.9rem);font-weight:700;margin-bottom:2rem;line-height:1.2;">The pillars of Wawasan 2035.</h2>
+    <div class="pillar-grid">
 
-    <div class="pillar p-gold reveal d1">
-      <div class="pillar-num">Aspiration 01</div>
-      <div class="pillar-icon">🎓</div>
-      <div class="pillar-malay">Rakyat yang Berpendidikan dan Berkelayakan Tinggi</div>
-      <div class="pillar-name">An Educated and Highly Skilled People</div>
-      <p class="pillar-body">
-        Brunei's people will be recognised globally for their accomplishments — measured by the highest international standards. Education that produces not just graduates, but thinkers, innovators, and leaders capable of competing and contributing at the world stage.
-      </p>
+      <div class="pillar reveal d1">
+        <div class="pillar-accent" style="background:linear-gradient(90deg,#FFD100,transparent)"></div>
+        <div class="pillar-num">Aspiration 01</div>
+        <div class="pillar-icon">🎓</div>
+        <div class="pillar-malay" style="color:#FFD100">Rakyat yang Berpendidikan dan Berkelayakan Tinggi</div>
+        <div class="pillar-name">An Educated and Highly Skilled People</div>
+        <p class="pillar-body">Brunei's people will be recognised globally for their accomplishments — measured against the highest international standards. Education that produces thinkers, innovators, and leaders capable of competing at the world stage.</p>
+        <span class="pillar-target" style="color:#FFD100;border-color:rgba(255,209,0,0.3)">🎯 World-class education outcomes by 2035</span>
+      </div>
+
+      <div class="pillar reveal d2">
+        <div class="pillar-accent" style="background:linear-gradient(90deg,#00E5FF,transparent)"></div>
+        <div class="pillar-num">Aspiration 02</div>
+        <div class="pillar-icon">🌏</div>
+        <div class="pillar-malay" style="color:#00E5FF">Kualiti Hidup yang Tinggi</div>
+        <div class="pillar-name">Quality of Life Among the World's Top 10</div>
+        <p class="pillar-body">Not just comfortable — exceptional. By 2035, Brunei aims to rank among the top 10 nations globally for quality of life, encompassing healthcare, safety, housing, environment, and the social fabric that makes a nation worth living in.</p>
+        <span class="pillar-target" style="color:#00E5FF;border-color:rgba(0,229,255,0.3)">🎯 Top 10 globally for quality of life</span>
+      </div>
+
+      <div class="pillar reveal d3">
+        <div class="pillar-accent" style="background:linear-gradient(90deg,#00FF88,transparent)"></div>
+        <div class="pillar-num">Aspiration 03</div>
+        <div class="pillar-icon">⚡</div>
+        <div class="pillar-malay" style="color:#00FF88">Ekonomi yang Maju dan Mampan</div>
+        <div class="pillar-name">A Dynamic and Sustainable Economy</div>
+        <p class="pillar-body">GDP per capita among the world's top 10 — built on diversification, not dependence. Oil revenues reinvested into a resilient, knowledge-based economy that will thrive long after the wells run dry.</p>
+        <span class="pillar-target" style="color:#00FF88;border-color:rgba(0,255,136,0.3)">🎯 Top 10 globally for GDP per capita</span>
+      </div>
+
     </div>
-
-    <div class="pillar p-cyan reveal d2">
-      <div class="pillar-num">Aspiration 02</div>
-      <div class="pillar-icon">🌏</div>
-      <div class="pillar-malay">Kualiti Hidup yang Tinggi</div>
-      <div class="pillar-name">Quality of Life Among the World's Top 10</div>
-      <p class="pillar-body">
-        Not just comfortable — exceptional. By 2035, Brunei aims to rank among the top 10 nations globally for quality of life. Healthcare, safety, housing, environment, and social cohesion all measured and improved with intention. A Brunei that the world would want to live in.
-      </p>
-    </div>
-
-    <div class="pillar p-green reveal d3">
-      <div class="pillar-num">Aspiration 03</div>
-      <div class="pillar-icon">⚡</div>
-      <div class="pillar-malay">Ekonomi yang Maju dan Mampan</div>
-      <div class="pillar-name">A Dynamic and Sustainable Economy</div>
-      <p class="pillar-body">
-        GDP per capita among the world's top 10 — built on diversification, not dependence. Oil and gas revenues reinvested into a resilient, knowledge-based economy that will thrive long after the wells run dry. Tourism, digital industries, halal, and green energy leading the way.
-      </p>
-    </div>
-
   </div>
 </section>
 
-<!-- ══════════════════════════════════════
-     8 STRATEGIES
-══════════════════════════════════════ -->
+<!-- ════ STRATEGIES ════ -->
 <section id="strategies">
-  <div class="section-hd" style="max-width:720px;margin:0 auto 2rem;">
+  <div class="wrap">
     <span class="tag reveal">How we get there</span>
-    <h2 class="section-title reveal d1">Eight national strategies.</h2>
-  </div>
-  <div class="strat-grid">
-    <div class="strat reveal d1">
-      <div class="strat-icon">📚</div>
-      <div class="strat-name">Education</div>
-      <p class="strat-desc">Prepare every Bruneian for a competitive, knowledge-based world — STEM, vocational, and beyond.</p>
-    </div>
-    <div class="strat reveal d2">
-      <div class="strat-icon">💼</div>
-      <div class="strat-name">Economy</div>
-      <p class="strat-desc">Foster investment in non-oil sectors. Grow the private economy. Reduce hydrocarbon dependency below 30% of GDP.</p>
-    </div>
-    <div class="strat reveal d3">
-      <div class="strat-icon">🛡️</div>
-      <div class="strat-name">Security</div>
-      <p class="strat-desc">Maintain sovereignty, political stability, and resilience against emerging threats — health, climate, and geopolitical.</p>
-    </div>
-    <div class="strat reveal d4">
-      <div class="strat-icon">🏛️</div>
-      <div class="strat-name">Institutional Development</div>
-      <p class="strat-desc">Build a high-performing, transparent public sector. Good governance as a competitive advantage.</p>
-    </div>
-    <div class="strat reveal d5">
-      <div class="strat-icon">🏢</div>
-      <div class="strat-name">Local Business</div>
-      <p class="strat-desc">Grow Brunei's SME ecosystem. Support entrepreneurs through DARe and reduce reliance on government employment.</p>
-    </div>
-    <div class="strat reveal d6">
-      <div class="strat-icon">🌉</div>
-      <div class="strat-name">Infrastructure</div>
-      <p class="strat-desc">World-class roads, ports, digital networks, and utilities — including the Temburong Bridge linking Brunei's divided territory.</p>
-    </div>
-    <div class="strat reveal d7">
-      <div class="strat-icon">🤝</div>
-      <div class="strat-name">Social Security</div>
-      <p class="strat-desc">Ensure every citizen benefits as the nation prospers. Housing, healthcare, and welfare that leaves no one behind.</p>
-    </div>
-    <div class="strat reveal d8">
-      <div class="strat-icon">🌿</div>
-      <div class="strat-name">Environment</div>
-      <p class="strat-desc">Conserve Brunei's extraordinary natural heritage — 72% intact rainforest — while pursuing sustainable development.</p>
+    <h2 class="reveal d1" style="font-family:'Syne',sans-serif;font-size:clamp(1.3rem,4vw,1.9rem);font-weight:700;margin-bottom:2rem;line-height:1.2;">Eight national strategies.</h2>
+    <div class="strat-grid">
+      <div class="strat reveal d1">
+        <div class="strat-icon">📚</div>
+        <div class="strat-name">Education</div>
+        <p class="strat-desc">Prepare every Bruneian for a competitive, knowledge-based world. STEM, technical, and vocational excellence measured internationally.</p>
+      </div>
+      <div class="strat reveal d2">
+        <div class="strat-icon">💼</div>
+        <div class="strat-name">Economy</div>
+        <p class="strat-desc">Diversify beyond oil. Grow the private sector. Attract investment in downstream industries and non-hydrocarbon clusters.</p>
+      </div>
+      <div class="strat reveal d3">
+        <div class="strat-icon">🛡️</div>
+        <div class="strat-name">Security</div>
+        <p class="strat-desc">Maintain sovereignty and political stability. Build resilience against emerging threats — climate, health, and geopolitical.</p>
+      </div>
+      <div class="strat reveal d4">
+        <div class="strat-icon">🏛️</div>
+        <div class="strat-name">Institutional Development</div>
+        <p class="strat-desc">High-performing, transparent governance. A public sector that moves at the speed of the economy it serves.</p>
+      </div>
+      <div class="strat reveal d5">
+        <div class="strat-icon">🏢</div>
+        <div class="strat-name">Local Business</div>
+        <p class="strat-desc">Grow Brunei's SME ecosystem through DARe and beyond. Reduce reliance on government employment. Build Bruneian entrepreneurs.</p>
+      </div>
+      <div class="strat reveal d6">
+        <div class="strat-icon">🌉</div>
+        <div class="strat-name">Infrastructure</div>
+        <p class="strat-desc">World-class roads, ports, digital networks, and energy systems — including the landmark Temburong Bridge.</p>
+      </div>
+      <div class="strat reveal d7">
+        <div class="strat-icon">🤝</div>
+        <div class="strat-name">Social Security</div>
+        <p class="strat-desc">Ensure every citizen benefits as the nation grows. Housing, healthcare, and a social safety net that leaves no one behind.</p>
+      </div>
+      <div class="strat reveal d8">
+        <div class="strat-icon">🌿</div>
+        <div class="strat-name">Environment</div>
+        <p class="strat-desc">Protect Brunei's extraordinary natural heritage — 72% intact rainforest — while building a sustainable, green economy.</p>
+      </div>
     </div>
   </div>
 </section>
 
-<!-- ══════════════════════════════════════
-     REAL NUMBERS
-══════════════════════════════════════ -->
+<!-- ════ NUMBERS ════ -->
 <section id="numbers">
-  <div class="numbers-inner">
+  <div class="wrap">
     <span class="tag reveal">Progress on the ground</span>
-    <p class="numbers-statement reveal d1">
-      Brunei is already moving.<br>
-      The numbers <span class="hi">prove it.</span>
-    </p>
+    <p class="numbers-hl reveal d1">Brunei is already moving.<br>The numbers <em>prove it.</em></p>
     <div class="num-grid reveal d2">
       <div class="num-card">
         <span class="num-val">3% → 61%</span>
-        <span class="num-label">Non-oil exports share — from 2017 to 2023. One of the fastest diversification records in the region.</span>
+        <span class="num-label">Non-oil exports share, 2017 to 2023. One of the fastest diversification records in Southeast Asia.</span>
       </div>
       <div class="num-card">
         <span class="num-val">56.6%</span>
-        <span class="num-label">GDP now coming from non-oil & gas sectors. The target of below 30% hydrocarbon dependency is within reach.</span>
+        <span class="num-label">GDP now from non-oil & gas sectors. The target of below 30% hydrocarbon dependency is within reach.</span>
       </div>
       <div class="num-card">
         <span class="num-val">72%</span>
-        <span class="num-label">Of Brunei's land area is intact tropical rainforest — one of the highest proportions on earth. A built-in advantage.</span>
+        <span class="num-label">Of Brunei's land is intact tropical rainforest — among the highest proportions on earth. A built-in asset.</span>
       </div>
       <div class="num-card">
-        <span class="num-val">#1</span>
-        <span class="num-label">Southeast Asia ranking for government subsidy per capita. Stability and welfare as a foundation for growth.</span>
+        <span class="num-val">8</span>
+        <span class="num-label">National strategies, 12 national outcome measures, and a Supreme Council all dedicated to delivery.</span>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ══════════════════════════════════════
-     SECTORS
-══════════════════════════════════════ -->
+<!-- ════ SECTORS ════ -->
 <section id="sectors">
-  <div style="max-width:720px;margin:0 auto 2rem;">
+  <div class="wrap">
     <span class="tag reveal">Economic diversification</span>
-    <h2 class="section-title reveal d1">Five priority sectors.</h2>
-  </div>
-  <div class="sector-list reveal d2">
-    <div class="sector">
-      <div class="sector-icon">⛽</div>
-      <div>
-        <div class="sector-name">Downstream Oil & Gas</div>
-        <p class="sector-desc">Move beyond extraction. Refining, petrochemicals, and LNG value-adding — capturing more economic value from existing reserves before they run out.</p>
+    <h2 class="reveal d1" style="font-family:'Syne',sans-serif;font-size:clamp(1.3rem,4vw,1.9rem);font-weight:700;margin-bottom:2rem;line-height:1.2;">Five priority sectors.</h2>
+    <div class="sector-list reveal d2">
+
+      <div class="sector" onclick="toggleSector(this)">
+        <div class="sector-left">
+          <div class="sector-icon">⛽</div>
+          <div class="sector-num">01</div>
+        </div>
+        <div class="sector-right">
+          <div class="sector-hd">
+            <div class="sector-name">Downstream Oil & Gas</div>
+            <span class="sector-chevron">▼</span>
+          </div>
+          <p class="sector-desc">Move beyond extraction into refining, petrochemicals, and LNG value-adding. Capturing significantly more economic value from existing reserves before they run dry — while building expertise that outlasts the oil itself.</p>
+        </div>
       </div>
-    </div>
-    <div class="sector">
-      <div class="sector-icon">🌾</div>
-      <div>
-        <div class="sector-name">Food & Agriculture</div>
-        <p class="sector-desc">National food security and agribusiness export. Aquaculture, halal food processing, and smart farming in Brunei's fertile interior districts.</p>
+
+      <div class="sector" onclick="toggleSector(this)">
+        <div class="sector-left">
+          <div class="sector-icon">🌾</div>
+          <div class="sector-num">02</div>
+        </div>
+        <div class="sector-right">
+          <div class="sector-hd">
+            <div class="sector-name">Food & Agriculture</div>
+            <span class="sector-chevron">▼</span>
+          </div>
+          <p class="sector-desc">National food security and agribusiness export. Aquaculture, halal food processing, and smart farming in Brunei's fertile interior. The goal: produce enough to feed the nation and export the surplus — especially to halal markets globally.</p>
+        </div>
       </div>
-    </div>
-    <div class="sector">
-      <div class="sector-icon">✈️</div>
-      <div>
-        <div class="sector-name">Tourism</div>
-        <p class="sector-desc">Eco-tourism in Temburong, cultural heritage in Kampong Ayer, MICE tourism in BSB. Positioning Brunei as Southeast Asia's most authentic, unhurried destination.</p>
+
+      <div class="sector" onclick="toggleSector(this)">
+        <div class="sector-left">
+          <div class="sector-icon">✈️</div>
+          <div class="sector-num">03</div>
+        </div>
+        <div class="sector-right">
+          <div class="sector-hd">
+            <div class="sector-name">Tourism</div>
+            <span class="sector-chevron">▼</span>
+          </div>
+          <p class="sector-desc">Eco-tourism in Temburong, cultural heritage in Kampong Ayer, MICE tourism and luxury hospitality in BSB. Brunei's pitch: Southeast Asia's most authentic, unhurried, and spiritually grounded destination. Small, exclusive, and genuinely different.</p>
+        </div>
       </div>
-    </div>
-    <div class="sector">
-      <div class="sector-icon">💻</div>
-      <div>
-        <div class="sector-name">ICT & Digital Economy</div>
-        <p class="sector-desc">Smart nation infrastructure, digital services, fintech, and data economy. Building the platform for a knowledge-based economy that exports intellectual value.</p>
+
+      <div class="sector" onclick="toggleSector(this)">
+        <div class="sector-left">
+          <div class="sector-icon">💻</div>
+          <div class="sector-num">04</div>
+        </div>
+        <div class="sector-right">
+          <div class="sector-hd">
+            <div class="sector-name">ICT & Digital Economy</div>
+            <span class="sector-chevron">▼</span>
+          </div>
+          <p class="sector-desc">Smart nation infrastructure, digital government services, fintech, and data economy. Political stability and zero income tax on foreign earnings position Brunei as an unlikely but attractive base for technology companies looking for a Southeast Asian foothold.</p>
+        </div>
       </div>
-    </div>
-    <div class="sector">
-      <div class="sector-icon">🌙</div>
-      <div>
-        <div class="sector-name">Halal Industry & Financial Services</div>
-        <p class="sector-desc">Islamic finance, halal certification, and pharmaceutical manufacturing. Brunei as a trusted global hub for the $7 trillion halal economy.</p>
+
+      <div class="sector" onclick="toggleSector(this)">
+        <div class="sector-left">
+          <div class="sector-icon">🌙</div>
+          <div class="sector-num">05</div>
+        </div>
+        <div class="sector-right">
+          <div class="sector-hd">
+            <div class="sector-name">Halal Industry & Financial Services</div>
+            <span class="sector-chevron">▼</span>
+          </div>
+          <p class="sector-desc">Islamic finance, halal certification, and pharmaceutical manufacturing. The global halal economy is valued at over $7 trillion. Brunei's credentials — Islamic governance, trusted certification, and a Muslim-majority population — make it a natural hub.</p>
+        </div>
       </div>
+
     </div>
   </div>
 </section>
 
-<!-- ══════════════════════════════════════
-     CLOSING
-══════════════════════════════════════ -->
+<!-- ════ CLOSING ════ -->
 <section id="closing">
   <div class="closing-inner">
-    <div class="closing-years reveal" id="closingYears">9</div>
-    <p class="closing-years-label reveal d1">Years remaining</p>
+    <div class="closing-n reveal">9</div>
+    <p class="closing-sub reveal d1">Years remaining</p>
     <h2 class="closing-line reveal d2">
-      This is the decade<br>
-      <span class="ac">that decides everything.</span>
+      This is the decade<br><span>that decides everything.</span>
     </h2>
     <p class="closing-body reveal d3">
-      Wawasan Brunei 2035 is not a government document. It is a national contract — between the leadership and the people, between today's decisions and tomorrow's lives. The foundation is laid. The momentum is real.
+      Wawasan Brunei 2035 is not a government document. It is a national contract — between today's decisions and tomorrow's lives. The foundation is set. The progress is real. What remains is the will to finish what was started.
     </p>
     <span class="closing-flag reveal d4">🇧🇳</span>
-    <p class="closing-footer reveal d5">Wawasan Brunei 2035 &nbsp;·&nbsp; Launched by His Majesty Sultan Hassanal Bolkiah &nbsp;·&nbsp; 2008 – 2035</p>
+    <p class="closing-footer reveal d5">
+      Wawasan Brunei 2035 &nbsp;·&nbsp; Proclaimed by His Majesty Sultan Haji Hassanal Bolkiah &nbsp;·&nbsp; 2008–2035
+    </p>
   </div>
 </section>
 
 <script>
-// ── Particles ────────────────────────────────────────────
+// ── Particles ──────────────────────────────────────────────
 const cvs = document.getElementById('cvs');
 const ctx = cvs.getContext('2d');
-let W, H, pts = [], raf;
+let W, H, pts = [];
 
-function resize() {
-  W = cvs.width  = window.innerWidth;
-  H = cvs.height = window.innerHeight;
-}
+function resize() { W = cvs.width = window.innerWidth; H = cvs.height = window.innerHeight; }
 
 function spawn() {
   pts = [];
-  const n = Math.max(30, Math.floor(W * H / 20000));
+  const n = Math.max(25, Math.floor(W * H / 22000));
   for (let i = 0; i < n; i++) pts.push({
-    x:  Math.random() * W,
-    y:  Math.random() * H,
-    vx: (Math.random() - 0.5) * 0.22,
-    vy: (Math.random() - 0.5) * 0.22,
-    r:  Math.random() * 1.3 + 0.4,
+    x: Math.random() * W, y: Math.random() * H,
+    vx: (Math.random() - 0.5) * 0.2, vy: (Math.random() - 0.5) * 0.2,
+    r: Math.random() * 1.2 + 0.3,
   });
 }
 
 function draw() {
   ctx.clearRect(0, 0, W, H);
-  const D = 110;
+  const D = 100;
   for (let i = 0; i < pts.length; i++) {
     const p = pts[i];
     p.x += p.vx; p.y += p.vy;
     if (p.x < 0 || p.x > W) p.vx *= -1;
     if (p.y < 0 || p.y > H) p.vy *= -1;
-    ctx.beginPath();
-    ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-    ctx.fillStyle = 'rgba(255,209,0,0.4)';
-    ctx.fill();
+    ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+    ctx.fillStyle = 'rgba(255,209,0,0.35)'; ctx.fill();
     for (let j = i + 1; j < pts.length; j++) {
       const q = pts[j];
-      const dx = p.x - q.x, dy = p.y - q.y;
-      const d = Math.hypot(dx, dy);
+      const d = Math.hypot(p.x - q.x, p.y - q.y);
       if (d < D) {
-        ctx.beginPath();
-        ctx.moveTo(p.x, p.y);
-        ctx.lineTo(q.x, q.y);
-        ctx.strokeStyle = `rgba(255,209,0,${0.1 * (1 - d / D)})`;
-        ctx.lineWidth = 0.5;
-        ctx.stroke();
+        ctx.beginPath(); ctx.moveTo(p.x, p.y); ctx.lineTo(q.x, q.y);
+        ctx.strokeStyle = `rgba(255,209,0,${0.08 * (1 - d / D)})`;
+        ctx.lineWidth = 0.5; ctx.stroke();
       }
     }
   }
@@ -924,35 +1254,52 @@ function draw() {
 window.addEventListener('resize', () => { resize(); spawn(); });
 resize(); spawn(); draw();
 
-// ── Scroll reveal ────────────────────────────────────────
+// ── Scroll reveal ──────────────────────────────────────────
 const io = new IntersectionObserver(entries => {
-  entries.forEach(e => {
-    if (e.isIntersecting) {
-      e.target.classList.add('in');
-      io.unobserve(e.target);
-    }
-  });
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
 }, { threshold: 0.1 });
-
 document.querySelectorAll('.reveal').forEach(el => io.observe(el));
 
-// ── Progress bar fill on scroll ──────────────────────────
+// ── Progress bar ───────────────────────────────────────────
 const pfill = document.getElementById('pfill');
-const progressSection = document.getElementById('progress');
-
 new IntersectionObserver(entries => {
-  if (entries[0].isIntersecting) {
-    setTimeout(() => pfill.style.width = '66.7%', 300);
-  }
-}, { threshold: 0.3 }).observe(progressSection);
+  if (entries[0].isIntersecting) setTimeout(() => pfill.style.width = '66.7%', 200);
+}, { threshold: 0.4 }).observe(pfill.parentElement);
 
-// ── Closing years counter ────────────────────────────────
-const cyEl = document.getElementById('closingYears');
+// ── Active nav / side dots ─────────────────────────────────
+const sections = ['hero','mission','progress','timeline','pillars','strategies','numbers','sectors','closing'];
+const dots = document.querySelectorAll('.progress-dot a');
+const navLinks = document.querySelectorAll('.nav-links a');
+
+const sectionIO = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      const id = e.target.id;
+      const idx = sections.indexOf(id);
+      dots.forEach((d, i) => d.classList.toggle('active', i === idx));
+      navLinks.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + id));
+    }
+  });
+}, { threshold: 0.4 });
+
+sections.forEach(id => {
+  const el = document.getElementById(id);
+  if (el) sectionIO.observe(el);
+});
+
+// Hide nav on hero
+const heroEl = document.getElementById('hero');
+const navEl  = document.getElementById('nav');
 new IntersectionObserver(entries => {
-  if (entries[0].isIntersecting) {
-    cyEl.classList.add('in');
-  }
-}, { threshold: 0.5 }).observe(cyEl);
+  navEl.classList.toggle('hidden', entries[0].isIntersecting);
+}, { threshold: 0.5 }).observe(heroEl);
+
+// ── Expandable sectors ─────────────────────────────────────
+function toggleSector(el) {
+  const isOpen = el.classList.contains('open');
+  document.querySelectorAll('.sector.open').forEach(s => s.classList.remove('open'));
+  if (!isOpen) el.classList.add('open');
+}
 </script>
 </body>
 </html>
