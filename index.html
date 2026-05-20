@@ -827,9 +827,51 @@ section { position: relative; overflow: hidden; }
   transform: scale(1.4);
 }
 
-@media (max-width: 480px) {
+@media (max-width: 640px) {
+  /* Decorative chrome */
   .progress-dot { display: none; }
   nav .nav-links { display: none; }
+
+  /* Hero */
+  #hero { padding: 3.5rem 1.25rem 4rem; }
+  .hero-sub { font-size: clamp(0.88rem, 3.5vw, 1rem); }
+  .hero-scroll span { font-size: 0.65rem; }
+
+  /* Section padding */
+  #mission, #pillars, #strategies, #numbers, #sectors, #timeline { padding: 4.5rem 0; }
+  #progress { padding: 4rem 0; }
+
+  /* Small text floors */
+  .tag { font-size: 0.65rem; }
+  .progress-head { font-size: 0.68rem; flex-wrap: wrap; gap: 0.25rem; }
+  .pstat-l { font-size: 0.65rem; }
+
+  /* Progress stats: 3-col → 1-col */
+  .progress-stats { grid-template-columns: 1fr; }
+  .pstat { padding: 1rem; }
+
+  /* Strategies: 2-col → 1-col */
+  .strat-grid { grid-template-columns: 1fr; }
+
+  /* Numbers: 2-col → 1-col */
+  .num-grid { grid-template-columns: 1fr; }
+  .num-card { padding: 1.25rem 1.1rem; }
+
+  /* Timeline */
+  .tl-list { padding-left: 1.6rem; }
+  .tl-item::before { left: -1.44rem; }
+  .tl-item.now::before { left: -1.6rem; }
+  .tl-desc { max-width: 100%; }
+
+  /* Sectors */
+  .sector { padding: 1.1rem 1.1rem; }
+  .sector-chevron { font-size: 0.9rem; }
+  .sector-num { font-size: 0.6rem; }
+
+  /* Closing */
+  #closing { padding: 5rem 0 4rem; }
+  .closing-sub { font-size: 0.68rem; }
+  .closing-footer { font-size: 0.65rem; }
 }
 </style>
 </head>
