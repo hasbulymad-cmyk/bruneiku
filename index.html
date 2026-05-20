@@ -3,433 +3,510 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<title>Bruneiku — Haiku from the Heart of Borneo</title>
+<title>What Type of Bruneian Are You?</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
   :root {
-    --gold: #C9A84C;
-    --gold-light: #F2D878;
-    --gold-dim: #6E5A22;
-    --bg: #070707;
-    --card-bg: rgba(14, 11, 6, 0.97);
-    --text: #F0EAD6;
-    --text-dim: #6A6050;
+    --y: #FFD100;
+    --bg: #0C0C0C;
+    --card: #141414;
+    --border: #242424;
+    --white: #F0F0F0;
+    --dim: #555;
+    --selected-bg: rgba(255,209,0,0.12);
+    --selected-border: #FFD100;
   }
 
-  html, body { height: 100%; overflow-x: hidden; }
+  html, body {
+    height: 100%;
+    background: var(--bg);
+    color: var(--white);
+    font-family: 'Space Grotesk', sans-serif;
+    overflow-x: hidden;
+  }
 
   body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: 'Inter', sans-serif;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
     min-height: 100dvh;
-    padding: 2.5rem 1.5rem;
-    position: relative;
+    padding: 2rem 1.25rem 3rem;
   }
 
-  canvas#stars {
+  /* ── Progress bar ── */
+  .progress-bar {
     position: fixed;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 0;
-    pointer-events: none;
+    top: 0; left: 0;
+    height: 3px;
+    background: var(--y);
+    transition: width 0.4s cubic-bezier(.4,0,.2,1);
+    z-index: 99;
   }
 
-  /* Subtle radial glow */
-  body::before {
-    content: '';
-    position: fixed;
-    inset: 0;
-    background: radial-gradient(ellipse 70% 50% at 50% 50%, rgba(201,168,76,0.055) 0%, transparent 70%);
-    z-index: 0;
-    pointer-events: none;
-  }
-
-  .container {
-    position: relative;
-    z-index: 1;
+  /* ── Screens ── */
+  .screen {
     width: 100%;
-    max-width: 400px;
-    display: flex;
+    max-width: 420px;
+    display: none;
     flex-direction: column;
-    align-items: center;
-    gap: 1.25rem;
+    gap: 1.5rem;
   }
+  .screen.active { display: flex; }
 
-  /* ── Header ── */
-  .header { text-align: center; margin-bottom: 0.25rem; }
-
-  .logo {
-    font-family: 'Inter', sans-serif;
-    font-weight: 600;
-    font-size: 0.68rem;
-    letter-spacing: 0.45em;
-    color: var(--gold);
-    text-transform: uppercase;
-    margin-bottom: 0.35rem;
-  }
-
-  .tagline {
-    font-size: 0.62rem;
-    letter-spacing: 0.18em;
-    color: var(--text-dim);
-    text-transform: uppercase;
-  }
-
-  /* ── Card ── */
-  .card {
-    width: 100%;
-    background: var(--card-bg);
-    border: 1px solid rgba(201,168,76,0.18);
-    border-radius: 18px;
-    padding: 2.25rem 2rem 2rem;
-    position: relative;
-    overflow: hidden;
-    box-shadow:
-      0 0 0 1px rgba(201,168,76,0.06),
-      0 25px 70px rgba(0,0,0,0.85),
-      inset 0 1px 0 rgba(201,168,76,0.12);
-    transition: border-color 0.4s ease;
-  }
-
-  .card:hover {
-    border-color: rgba(201,168,76,0.32);
-  }
-
-  /* Gold shimmer top line */
-  .card::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 8%; right: 8%;
-    height: 1px;
-    background: linear-gradient(90deg, transparent, var(--gold), transparent);
-    opacity: 0.5;
-  }
-
-  /* Corner accent */
-  .card::after {
-    content: '✦';
-    position: absolute;
-    top: 1rem; right: 1.25rem;
-    color: var(--gold);
-    opacity: 0.25;
-    font-size: 0.65rem;
-  }
-
-  .category-badge {
-    display: inline-block;
-    font-size: 0.55rem;
-    letter-spacing: 0.22em;
-    text-transform: uppercase;
-    color: var(--gold);
-    border: 1px solid rgba(201,168,76,0.28);
-    border-radius: 20px;
-    padding: 0.22rem 0.8rem;
-    margin-bottom: 1.6rem;
-    font-weight: 500;
-    transition: opacity 0.3s ease;
-  }
-
-  .haiku-container {
-    min-height: 6.5rem;
-    display: flex;
-    flex-direction: column;
-    gap: 0.15rem;
-    margin-bottom: 1.75rem;
-  }
-
-  .haiku-line {
-    font-family: 'Playfair Display', serif;
-    font-style: italic;
-    font-size: clamp(1.3rem, 5vw, 1.6rem);
-    line-height: 1.5;
-    color: var(--text);
-    opacity: 0;
-    transform: translateY(10px);
-    transition: opacity 0.55s ease, transform 0.55s ease;
-  }
-
-  .haiku-line.l2 {
-    padding-left: 1.25rem;
-    color: rgba(240,234,214,0.8);
-  }
-
-  .haiku-line.visible {
-    opacity: 1;
-    transform: translateY(0);
-  }
-
-  .syllables {
-    font-size: 0.58rem;
-    letter-spacing: 0.35em;
-    color: var(--text-dim);
+  /* ── Intro screen ── */
+  .intro-flag {
+    font-size: 3.5rem;
     text-align: center;
-    opacity: 0;
-    transition: opacity 0.6s ease;
-    font-weight: 300;
+    margin-bottom: 0.25rem;
+    animation: bounce 1.5s ease infinite;
+  }
+  @keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50%       { transform: translateY(-8px); }
   }
 
-  .syllables.visible { opacity: 1; }
+  .intro-title {
+    font-size: clamp(1.6rem, 7vw, 2rem);
+    font-weight: 700;
+    text-align: center;
+    line-height: 1.2;
+    color: var(--white);
+  }
 
-  /* ── Buttons ── */
-  .btn-generate {
-    width: 100%;
-    background: linear-gradient(110deg, #B8912E 0%, #F2D878 45%, #C9A84C 100%);
-    background-size: 200% 100%;
-    background-position: 0% 0%;
-    border: none;
-    border-radius: 12px;
-    padding: 0.95rem 2rem;
-    font-family: 'Inter', sans-serif;
-    font-size: 0.72rem;
+  .intro-title span {
+    color: var(--y);
+    display: block;
+  }
+
+  .intro-sub {
+    font-size: 0.85rem;
+    color: var(--dim);
+    text-align: center;
+    line-height: 1.6;
+  }
+
+  /* ── Quiz screen ── */
+  .q-number {
+    font-size: 0.65rem;
     font-weight: 600;
     letter-spacing: 0.2em;
     text-transform: uppercase;
-    color: #0A0700;
+    color: var(--y);
+  }
+
+  .q-text {
+    font-size: clamp(1.15rem, 5vw, 1.4rem);
+    font-weight: 700;
+    line-height: 1.35;
+    color: var(--white);
+  }
+
+  .answers {
+    display: flex;
+    flex-direction: column;
+    gap: 0.65rem;
+  }
+
+  .answer-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.9rem;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 0.9rem 1rem;
     cursor: pointer;
-    transition: background-position 0.5s ease, transform 0.2s ease, box-shadow 0.3s ease;
-    position: relative;
-    overflow: hidden;
+    text-align: left;
+    transition: border-color 0.15s, background 0.15s, transform 0.1s;
+    width: 100%;
+    color: var(--white);
+    font-family: 'Space Grotesk', sans-serif;
   }
 
-  .btn-generate:hover {
-    background-position: 100% 0%;
-    transform: translateY(-2px);
-    box-shadow: 0 10px 35px rgba(201,168,76,0.38);
+  .answer-btn:active { transform: scale(0.98); }
+
+  .answer-btn.selected {
+    background: var(--selected-bg);
+    border-color: var(--selected-border);
   }
 
-  .btn-generate:active { transform: translateY(0); }
-
-  .btn-generate .spark {
-    display: inline-block;
-    margin-right: 0.45rem;
-    transition: transform 0.4s ease;
+  .answer-label {
+    flex-shrink: 0;
+    width: 1.6rem;
+    height: 1.6rem;
+    border-radius: 50%;
+    background: var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.65rem;
+    font-weight: 700;
+    color: var(--dim);
+    transition: background 0.15s, color 0.15s;
   }
-  .btn-generate:hover .spark { transform: rotate(20deg) scale(1.25); }
+
+  .answer-btn.selected .answer-label {
+    background: var(--y);
+    color: #000;
+  }
+
+  .answer-text {
+    font-size: 0.88rem;
+    line-height: 1.4;
+    font-weight: 500;
+  }
+
+  /* ── Result screen ── */
+  .result-emoji {
+    font-size: 4rem;
+    text-align: center;
+    animation: pop 0.4s cubic-bezier(.175,.885,.32,1.275) both;
+  }
+
+  @keyframes pop {
+    from { transform: scale(0.5); opacity: 0; }
+    to   { transform: scale(1);   opacity: 1; }
+  }
+
+  .result-label {
+    font-size: 0.65rem;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--y);
+    text-align: center;
+  }
+
+  .result-name {
+    font-size: clamp(1.5rem, 7vw, 2rem);
+    font-weight: 700;
+    text-align: center;
+    line-height: 1.2;
+    color: var(--white);
+  }
+
+  .result-desc {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 1.1rem 1.25rem;
+    font-size: 0.88rem;
+    line-height: 1.65;
+    color: #CCCCCC;
+  }
+
+  .result-accuracy {
+    font-size: 0.72rem;
+    color: var(--dim);
+    text-align: center;
+  }
+
+  /* ── Buttons ── */
+  .btn-primary {
+    width: 100%;
+    background: var(--y);
+    color: #000;
+    border: none;
+    border-radius: 12px;
+    padding: 1rem;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.88rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    cursor: pointer;
+    transition: transform 0.15s, opacity 0.15s;
+  }
+
+  .btn-primary:hover  { opacity: 0.9; }
+  .btn-primary:active { transform: scale(0.98); }
+  .btn-primary:disabled { opacity: 0.35; cursor: not-allowed; transform: none; }
+
+  .btn-secondary {
+    width: 100%;
+    background: transparent;
+    color: var(--dim);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 0.85rem;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.82rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: border-color 0.2s, color 0.2s;
+  }
+
+  .btn-secondary:hover { border-color: var(--dim); color: var(--white); }
 
   .btn-copy {
     width: 100%;
     background: transparent;
-    border: 1px solid rgba(201,168,76,0.25);
+    color: var(--y);
+    border: 1px solid rgba(255,209,0,0.3);
     border-radius: 12px;
-    padding: 0.8rem 2rem;
-    font-family: 'Inter', sans-serif;
-    font-size: 0.68rem;
-    font-weight: 500;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    color: var(--gold);
+    padding: 0.9rem;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.82rem;
+    font-weight: 600;
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: background 0.2s, border-color 0.2s;
   }
 
-  .btn-copy:hover {
-    background: rgba(201,168,76,0.07);
-    border-color: rgba(201,168,76,0.45);
+  .btn-copy:hover { background: rgba(255,209,0,0.07); border-color: rgba(255,209,0,0.6); }
+  .btn-copy.done  { color: #88FF88; border-color: rgba(136,255,136,0.4); }
+
+  /* ── Screen slide transition ── */
+  @keyframes slideIn {
+    from { opacity: 0; transform: translateX(20px); }
+    to   { opacity: 1; transform: translateX(0); }
   }
 
-  .btn-copy.copied {
-    border-color: rgba(201,168,76,0.55);
-    color: var(--gold-light);
-  }
+  .screen.active { animation: slideIn 0.3s ease both; }
 
   /* ── Footer ── */
   .footer {
-    font-size: 0.58rem;
-    letter-spacing: 0.18em;
-    color: var(--text-dim);
+    font-size: 0.6rem;
+    letter-spacing: 0.12em;
+    color: #333;
     text-transform: uppercase;
     text-align: center;
-    opacity: 0.45;
-    margin-top: 0.25rem;
+    margin-top: 0.5rem;
   }
-
-  /* ── Pulse on generate ── */
-  @keyframes cardPulse {
-    0%   { box-shadow: 0 0 0 1px rgba(201,168,76,0.06), 0 25px 70px rgba(0,0,0,0.85), inset 0 1px 0 rgba(201,168,76,0.12); }
-    50%  { box-shadow: 0 0 0 1px rgba(201,168,76,0.22), 0 25px 70px rgba(0,0,0,0.85), 0 0 40px rgba(201,168,76,0.1), inset 0 1px 0 rgba(201,168,76,0.2); }
-    100% { box-shadow: 0 0 0 1px rgba(201,168,76,0.06), 0 25px 70px rgba(0,0,0,0.85), inset 0 1px 0 rgba(201,168,76,0.12); }
-  }
-
-  .card.pulse { animation: cardPulse 0.8s ease; }
 </style>
 </head>
 <body>
 
-<canvas id="stars"></canvas>
+<div class="progress-bar" id="progressBar" style="width:0%"></div>
 
-<div class="container">
-  <div class="header">
-    <div class="logo">✦ &nbsp; Bruneiku &nbsp; ✦</div>
-    <div class="tagline">Haiku from the Heart of Borneo</div>
-  </div>
+<!-- ── Intro ── -->
+<div class="screen active" id="screenIntro">
+  <div class="intro-flag">🇧🇳</div>
+  <div class="intro-title">What type of<span>Bruneian are you?</span></div>
+  <div class="intro-sub">4 questions. brutally accurate. shareable result.<br>trust the process.</div>
+  <button class="btn-primary" onclick="startQuiz()">Find Out →</button>
+</div>
 
-  <div class="card" id="card">
-    <div class="category-badge" id="category">Nature</div>
-    <div class="haiku-container">
-      <div class="haiku-line l1" id="line1"></div>
-      <div class="haiku-line l2" id="line2"></div>
-      <div class="haiku-line l1" id="line3"></div>
-    </div>
-    <div class="syllables" id="syllables">5 &nbsp;·&nbsp; 7 &nbsp;·&nbsp; 5</div>
-  </div>
+<!-- ── Quiz ── -->
+<div class="screen" id="screenQuiz">
+  <div class="q-number" id="qNumber">Question 1 of 4</div>
+  <div class="q-text" id="qText"></div>
+  <div class="answers" id="answersContainer"></div>
+  <button class="btn-primary" id="btnNext" disabled onclick="nextQuestion()">Next →</button>
+</div>
 
-  <button class="btn-generate" id="btnGenerate">
-    <span class="spark">✦</span>Generate
-  </button>
-
-  <button class="btn-copy" id="btnCopy">Copy for Threads</button>
-
-  <div class="footer">Made in Brunei 🇧🇳 &nbsp;·&nbsp; bruneiku</div>
+<!-- ── Result ── -->
+<div class="screen" id="screenResult">
+  <div class="result-emoji" id="resultEmoji"></div>
+  <div class="result-label">You are...</div>
+  <div class="result-name" id="resultName"></div>
+  <div class="result-desc" id="resultDesc"></div>
+  <div class="result-accuracy" id="resultAccuracy"></div>
+  <button class="btn-copy" id="btnCopy" onclick="copyResult()">Copy Result for Threads</button>
+  <button class="btn-secondary" onclick="restart()">Retake Quiz</button>
+  <div class="footer">🇧🇳 bruneiku · share with your friends</div>
 </div>
 
 <script>
-// ── Starfield ──────────────────────────────────────────────────────────────
-const canvas = document.getElementById('stars');
-const ctx = canvas.getContext('2d');
-let stars = [], W, H, frame = 0;
-
-function resize() {
-  W = canvas.width = window.innerWidth;
-  H = canvas.height = window.innerHeight;
-}
-
-function initStars() {
-  stars = [];
-  for (let i = 0; i < 110; i++) {
-    stars.push({
-      x: Math.random() * W,
-      y: Math.random() * H,
-      r: Math.random() * 1.1 + 0.15,
-      base: Math.random() * 0.5 + 0.08,
-      speed: Math.random() * 0.4 + 0.05,
-      phase: Math.random() * Math.PI * 2,
-    });
+const questions = [
+  {
+    text: "it's saturday night. where are you?",
+    answers: [
+      { label: 'A', text: 'tapau nasi katok, home by 9pm 🍚', scores: [3,0,0,0,2,0,0,0] },
+      { label: 'B', text: 'gadong / times square until they kick us out', scores: [0,0,0,0,0,2,1,0] },
+      { label: 'C', text: 'same place i am every weekend... empire somehow 🏨', scores: [0,0,0,0,0,0,0,4] },
+      { label: 'D', text: 'babe i\'m already at the airport lah', scores: [0,0,4,0,0,0,0,0] },
+    ]
+  },
+  {
+    text: "pick your brunei villain origin story",
+    answers: [
+      { label: 'A', text: 'stuck at jalan tutong roundabout. again. 🚗', scores: [0,4,0,0,0,0,0,0] },
+      { label: 'B', text: 'shopee package held at customs for 3 weeks', scores: [0,0,0,4,0,0,0,0] },
+      { label: 'C', text: 'went outside. immediately regretted it. too hot. 🥵', scores: [0,0,0,0,4,0,0,0] },
+      { label: 'D', text: '"brunei is so boring" — some tourist who spent 2 hours here', scores: [0,0,0,0,0,0,4,0] },
+    ]
+  },
+  {
+    text: "honest review of living in brunei?",
+    answers: [
+      { label: 'A', text: '"boring but it\'s home 🥲 i would die without nasi katok"', scores: [2,0,0,0,1,0,1,0] },
+      { label: 'B', text: '"actually underrated lowkey. people don\'t get it"', scores: [0,1,0,0,0,0,3,0] },
+      { label: 'C', text: '"i love it but i need to leave every 3 months or i go insane"', scores: [0,0,3,0,0,1,0,0] },
+      { label: 'D', text: '"jangan tanya 😶"', scores: [0,1,0,2,0,2,0,0] },
+    ]
+  },
+  {
+    text: "your most practiced skill in brunei?",
+    answers: [
+      { label: 'A', text: 'knowing which economy rice stall is open past midnight', scores: [1,0,0,0,0,3,0,0] },
+      { label: 'B', text: 'tracking a shopee package across 4 countries in real time', scores: [0,0,0,3,0,0,0,0] },
+      { label: 'C', text: 'planning the fastest route to avoid every single roundabout', scores: [0,3,0,0,0,0,1,0] },
+      { label: 'D', text: 'identifying which mall has the best AC before entering', scores: [0,0,0,0,3,0,0,0] },
+    ]
   }
-}
-
-function animateStars() {
-  ctx.clearRect(0, 0, W, H);
-  frame++;
-  for (const s of stars) {
-    const a = s.base + Math.sin(frame * s.speed * 0.03 + s.phase) * 0.15;
-    ctx.beginPath();
-    ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
-    ctx.fillStyle = `rgba(201,168,76,${a})`;
-    ctx.fill();
-  }
-  requestAnimationFrame(animateStars);
-}
-
-window.addEventListener('resize', () => { resize(); initStars(); });
-resize(); initStars(); animateStars();
-
-// ── Haiku data ─────────────────────────────────────────────────────────────
-const poems = [
-  { cat: 'Nature',       lines: ['Jungle mist lifts slow', 'fireflies dance in Temburong', 'dusk paints the sky gold'] },
-  { cat: 'Architecture', lines: ['Golden dome shines bright', "Omar Ali's reflection", 'peace lives here always'] },
-  { cat: 'Water Village',lines: ['Water village wakes', 'children run on wooden planks', 'the tide comes back home'] },
-  { cat: 'Food',         lines: ['Nasi katok calls', 'twenty cents, the nation eats', 'this is happiness'] },
-  { cat: 'Spiritual',    lines: ['Azan fills the air', 'Brunei stills on Friday noon', 'faith guides every step'] },
-  { cat: 'Nature',       lines: ['Rain drums on tin roofs', 'the river swells, rushes on', 'we wait, drink our tea'] },
-  { cat: 'Landmarks',    lines: ['Oil wells burn all night', "Seria's eternal flame", 'small nation, deep soul'] },
-  { cat: 'Wildlife',     lines: ['Hornbill calls at dawn', 'above Ulu Temburong', 'the jungle breathes on'] },
-  { cat: 'Night Life',   lines: ['Gadong glows at dusk', 'rojak, satay, laughing crowds', 'Brunei after dark'] },
-  { cat: 'Water Village',lines: ['Stilts above the tide', 'mangroves guard the silent shore', 'roots run deep as time'] },
-  { cat: 'Pride',        lines: ['Gold and black, our pride', "the Sultan's flag never fades", 'this land holds its breath'] },
-  { cat: 'Wildlife',     lines: ['Proboscis nose droops', "by the Brunei River's bank", 'strange beauty, all ours'] },
-  { cat: 'Nature',       lines: ['Green hills touch the sky', 'Temburong stays evergreen', "God's gift, this small isle"] },
-  { cat: 'Food',         lines: ['Ambuyat stretches', 'shared at the bamboo table', 'family holds on'] },
-  { cat: 'Spiritual',    lines: ['Friday silence falls', 'the city holds its own breath', 'then the azan calls'] },
-  { cat: 'Water Village',lines: ['Morning light on planks', 'the fisherman rows through mist', 'Brunei never rushed'] },
-  { cat: 'Food',         lines: ['Katok steam rises', 'midnight hunger, open stall', 'we eat, we belong'] },
-  { cat: 'Everyday Life',lines: ['Air con on full blast', 'we call this jacket weather', 'Brunei people know'] },
-  { cat: 'Architecture', lines: ['Blue dome, painted gold', "Jame'Asr at golden hour", 'the call finds us all'] },
-  { cat: 'Nature',       lines: ['Grey clouds roll in fast', 'Brunei rain — sudden and warm', 'umbrellas bloom red'] },
-  { cat: 'Identity',     lines: ['Many tongues, one voice', 'beneath the Bornean sky', 'Brunei remembers'] },
-  { cat: 'Spiritual',    lines: ['Moon rises early', 'the bazaar wakes up hungry', 'we break fast as one'] },
-  { cat: 'Pride',        lines: ['Yellow flags line streets', 'drumbeats fill the stadium', 'forty years of peace'] },
-  { cat: 'Landmarks',    lines: ['Black lake, sacred ground', 'Tasek Merimbun at rest', 'old souls live in roots'] },
-  { cat: 'Water Village',lines: ['Fireflies light the dark', 'water village glows at dusk', 'the river is home'] },
-  { cat: 'Nature',       lines: ['Brunei dawn, cool grey', "the muezzin's voice lifts the mist", 'new day, same blessing'] },
-  { cat: 'Pride',        lines: ['This is where we stand', 'small on the map, wide in heart', 'Brunei, always mine'] },
-  { cat: 'Everyday Life',lines: ['Three roundabouts passed', 'still cannot find where to park', 'Brunei life, aiya'] },
-  { cat: 'Nature',       lines: ['Humid air, thick heat', 'Shahbandar runners press on', 'the hill does not care'] },
-  { cat: 'Landmarks',    lines: ['Bandar at sunset', 'the sky turns amber and red', 'the sea takes it all'] },
 ];
 
-let current = -1;
+const results = [
+  {
+    emoji: '🍚',
+    name: 'The Nasi Katok Loyalist',
+    desc: 'you are the backbone of the brunei economy. you have eaten nasi katok at 3AM more times than you\'ve slept before midnight. b$1 for a full meal? you believe in this. you will defend the humble katok against any food snob and honestly? you will WIN.',
+    accuracy: '100% scientifically accurate. no notes.',
+  },
+  {
+    emoji: '🚗',
+    name: 'The Roundabout Philosopher',
+    desc: 'you have spent so much time stuck at jalan tutong that you have achieved inner peace. you arrive everywhere exactly 20 minutes late and sincerely blame it on a roundabout that has existed since before you were born. this is not a personality flaw. this is a lifestyle.',
+    accuracy: '97.3% accurate. the remaining 2.7% is still in traffic.',
+  },
+  {
+    emoji: '✈️',
+    name: 'The KL Countdown',
+    desc: 'you are physically present in brunei but spiritually somewhere over the south china sea. your life only truly begins when airasia drops a promo. you\'ve already mentally packed for a trip that isn\'t booked yet. brunei is your charging port. kl is your actual battery.',
+    accuracy: '99% accurate. you\'re reading this from mitsui outlet park aren\'t you.',
+  },
+  {
+    emoji: '🛒',
+    name: 'The Shopee/Temu Philosopher',
+    desc: 'you have 47 items sitting in your cart right now. you know the exact shipping time from guangzhou to brunei muara. customs is your villain origin story — you think about it at night. but free shipping with no minimum? you feel joy. pure, unfiltered joy.',
+    accuracy: '98% accurate. your package just cleared customs btw.',
+  },
+  {
+    emoji: '❄️',
+    name: 'The AC Purist',
+    desc: 'you have engineered your entire existence around staying in air-conditioned spaces. step outside? for what. the sun hits and you\'re already heading back. brunei\'s 32°c weather is not weather, it is a personal attack. you are not thriving. you are surviving in controlled climate.',
+    accuracy: '100% accurate. please drink water.',
+  },
+  {
+    emoji: '🌙',
+    name: 'The Midnight Katok Sage',
+    desc: 'you are fully nocturnal. your social life does not begin before 10PM. you know which economy rice stall is still open at 2AM and this is your most valuable life skill. brunei by day? unfamiliar territory. brunei at night? that is YOUR brunei.',
+    accuracy: '96% accurate. you opened this at 1AM didn\'t you.',
+  },
+  {
+    emoji: '🗣️',
+    name: 'The Brunei Defender',
+    desc: 'someone says "brunei is boring" and you take it PERSONALLY. you have a memorised list of underrated spots, hidden gems, and reasons brunei is actually lowkey amazing — and you will share all of them, unsolicited. brunei does not need a PR team. it has you.',
+    accuracy: '99% accurate. you\'ve already started typing a response to this.',
+  },
+  {
+    emoji: '🏨',
+    name: 'The Empire Mysterious',
+    desc: 'no one knows how you afford this lifestyle and frankly you\'re not explaining. you are somehow at empire hotel every other weekend — the brunch, the pool, the gala dinner. you exist on a different plane of brunei experience. you are our most glamorous unsolved mystery.',
+    accuracy: '95% accurate. see you at the sunday buffet.',
+  },
+];
 
-function next() {
-  let idx;
-  do { idx = Math.floor(Math.random() * poems.length); } while (idx === current);
-  current = idx;
-  return poems[idx];
+let currentQ = 0;
+let answers = [];
+let scores = [0,0,0,0,0,0,0,0];
+let selectedIndex = -1;
+
+function setProgress(pct) {
+  document.getElementById('progressBar').style.width = pct + '%';
 }
 
-const el = {
-  card:     document.getElementById('card'),
-  cat:      document.getElementById('category'),
-  l1:       document.getElementById('line1'),
-  l2:       document.getElementById('line2'),
-  l3:       document.getElementById('line3'),
-  syl:      document.getElementById('syllables'),
-  generate: document.getElementById('btnGenerate'),
-  copy:     document.getElementById('btnCopy'),
-};
+function show(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
 
-function reveal(poem, animate) {
-  el.cat.textContent = poem.cat;
+function startQuiz() {
+  currentQ = 0;
+  scores = [0,0,0,0,0,0,0,0];
+  answers = [];
+  setProgress(5);
+  show('screenQuiz');
+  renderQuestion();
+}
 
-  if (!animate) {
-    el.l1.textContent = poem.lines[0];
-    el.l2.textContent = poem.lines[1];
-    el.l3.textContent = poem.lines[2];
-    [el.l1, el.l2, el.l3, el.syl].forEach(e => e.classList.add('visible'));
-    return;
+function renderQuestion() {
+  const q = questions[currentQ];
+  document.getElementById('qNumber').textContent = `Question ${currentQ + 1} of ${questions.length}`;
+  document.getElementById('qText').textContent = q.text;
+  selectedIndex = -1;
+  document.getElementById('btnNext').disabled = true;
+
+  const container = document.getElementById('answersContainer');
+  container.innerHTML = '';
+
+  q.answers.forEach((a, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'answer-btn';
+    btn.innerHTML = `<div class="answer-label">${a.label}</div><div class="answer-text">${a.text}</div>`;
+    btn.onclick = () => selectAnswer(i);
+    container.appendChild(btn);
+  });
+}
+
+function selectAnswer(i) {
+  selectedIndex = i;
+  document.querySelectorAll('.answer-btn').forEach((b, idx) => {
+    b.classList.toggle('selected', idx === i);
+  });
+  document.getElementById('btnNext').disabled = false;
+  document.getElementById('btnNext').textContent = currentQ === questions.length - 1 ? 'See My Result →' : 'Next →';
+}
+
+function nextQuestion() {
+  if (selectedIndex === -1) return;
+
+  const q = questions[currentQ];
+  const s = q.answers[selectedIndex].scores;
+  s.forEach((v, i) => scores[i] += v);
+
+  currentQ++;
+  const pct = Math.round((currentQ / questions.length) * 100);
+  setProgress(pct);
+
+  if (currentQ >= questions.length) {
+    showResult();
+  } else {
+    renderQuestion();
   }
-
-  [el.l1, el.l2, el.l3, el.syl].forEach(e => e.classList.remove('visible'));
-  el.l1.textContent = el.l2.textContent = el.l3.textContent = '';
-
-  el.card.classList.remove('pulse');
-  void el.card.offsetWidth; // reflow to re-trigger animation
-  el.card.classList.add('pulse');
-
-  setTimeout(() => { el.l1.textContent = poem.lines[0]; el.l1.classList.add('visible'); }, 80);
-  setTimeout(() => { el.l2.textContent = poem.lines[1]; el.l2.classList.add('visible'); }, 310);
-  setTimeout(() => { el.l3.textContent = poem.lines[2]; el.l3.classList.add('visible'); }, 540);
-  setTimeout(() => { el.syl.classList.add('visible'); }, 820);
 }
 
-// Init
-reveal(poems[current = Math.floor(Math.random() * poems.length)], false);
+function showResult() {
+  let best = 0;
+  let bestIdx = 0;
+  // tiebreak: pick a random one among tied top scores for variety
+  const max = Math.max(...scores);
+  const ties = scores.reduce((acc, v, i) => v === max ? [...acc, i] : acc, []);
+  bestIdx = ties[Math.floor(Math.random() * ties.length)];
 
-el.generate.addEventListener('click', () => {
-  reveal(next(), true);
-  el.copy.textContent = 'Copy for Threads';
-  el.copy.classList.remove('copied');
-});
+  const r = results[bestIdx];
+  document.getElementById('resultEmoji').textContent = r.emoji;
+  document.getElementById('resultName').textContent = r.name;
+  document.getElementById('resultDesc').textContent = r.desc;
+  document.getElementById('resultAccuracy').textContent = r.accuracy;
 
-el.copy.addEventListener('click', () => {
-  const p = poems[current];
-  const text = `${p.lines[0]}\n${p.lines[1]}\n${p.lines[2]}\n\n🇧🇳 #Brunei #Bruneiku #BorneoPoetry`;
+  const copyBtn = document.getElementById('btnCopy');
+  copyBtn.textContent = 'Copy Result for Threads';
+  copyBtn.classList.remove('done');
+
+  setProgress(100);
+  show('screenResult');
+
+  // store for copy
+  window._currentResult = r;
+  window._currentResultIdx = bestIdx;
+}
+
+function copyResult() {
+  const r = window._currentResult;
+  const text = `i took the "what type of bruneian are you?" quiz and got...\n\n${r.emoji} ${r.name}\n\n"${r.desc.slice(0, 120)}..."\n\n${r.accuracy}\n\n🇧🇳 #Brunei #BruneiNetizen`;
 
   const done = () => {
-    el.copy.textContent = 'Copied! Paste on Threads 🇧🇳';
-    el.copy.classList.add('copied');
+    const btn = document.getElementById('btnCopy');
+    btn.textContent = 'Copied! Paste on Threads 🇧🇳';
+    btn.classList.add('done');
     setTimeout(() => {
-      el.copy.textContent = 'Copy for Threads';
-      el.copy.classList.remove('copied');
+      btn.textContent = 'Copy Result for Threads';
+      btn.classList.remove('done');
     }, 3000);
   };
 
@@ -438,18 +515,22 @@ el.copy.addEventListener('click', () => {
   } else {
     fallback(text, done);
   }
-});
+}
 
 function fallback(text, cb) {
   const t = document.createElement('textarea');
   t.value = text;
-  t.style.position = 'fixed';
-  t.style.opacity = '0';
+  t.style.cssText = 'position:fixed;opacity:0;top:0;left:0';
   document.body.appendChild(t);
   t.select();
   document.execCommand('copy');
   document.body.removeChild(t);
   cb();
+}
+
+function restart() {
+  setProgress(0);
+  show('screenIntro');
 }
 </script>
 </body>
