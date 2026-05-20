@@ -34,7 +34,6 @@ body {
   overflow-x: hidden;
 }
 
-/* ── Nav ── */
 nav {
   position: fixed;
   top: 1rem;
@@ -81,7 +80,6 @@ nav.hidden { opacity: 0; pointer-events: none; }
 .nav-links a:hover,
 .nav-links a.active { color: var(--white); background: rgba(255,255,255,0.07); }
 
-/* ── Canvas ── */
 #cvs {
   position: fixed;
   inset: 0;
@@ -89,7 +87,6 @@ nav.hidden { opacity: 0; pointer-events: none; }
   pointer-events: none;
 }
 
-/* ── Reveal ── */
 .reveal {
   opacity: 0;
   transform: translateY(30px);
@@ -105,7 +102,6 @@ nav.hidden { opacity: 0; pointer-events: none; }
 .d7 { transition-delay: 0.82s; }
 .d8 { transition-delay: 0.94s; }
 
-/* ── Shared ── */
 section { position: relative; overflow: hidden; }
 
 .wrap {
@@ -124,14 +120,6 @@ section { position: relative; overflow: hidden; }
   margin-bottom: 1rem;
 }
 
-.divider {
-  height: 1px;
-  background: linear-gradient(90deg, transparent, var(--dim), transparent);
-}
-
-/* ════════════════════════════════════════
-   HERO
-════════════════════════════════════════ */
 #hero {
   min-height: 100dvh;
   display: flex;
@@ -240,9 +228,6 @@ section { position: relative; overflow: hidden; }
   50%       { opacity: 1;   transform: scaleY(1.1); }
 }
 
-/* ════════════════════════════════════════
-   MISSION
-════════════════════════════════════════ */
 #mission {
   padding: 8rem 0;
   background: linear-gradient(180deg, var(--bg) 0%, #060D1A 100%);
@@ -276,9 +261,6 @@ section { position: relative; overflow: hidden; }
   color: var(--muted);
 }
 
-/* ════════════════════════════════════════
-   PROGRESS
-════════════════════════════════════════ */
 #progress {
   padding: 6rem 0;
   background: #060D1A;
@@ -363,9 +345,6 @@ section { position: relative; overflow: hidden; }
   line-height: 1.5;
 }
 
-/* ════════════════════════════════════════
-   TIMELINE
-════════════════════════════════════════ */
 #timeline {
   padding: 7rem 0;
   background: linear-gradient(180deg, #060D1A 0%, #050A14 100%);
@@ -407,7 +386,6 @@ section { position: relative; overflow: hidden; }
   border-radius: 50%;
   background: var(--dim);
   border: 1px solid rgba(255,209,0,0.3);
-  transition: background 0.3s;
 }
 
 .tl-item.done::before {
@@ -459,19 +437,9 @@ section { position: relative; overflow: hidden; }
   max-width: 520px;
 }
 
-/* ════════════════════════════════════════
-   THREE PILLARS
-════════════════════════════════════════ */
-#pillars {
-  padding: 7rem 0;
-  background: #050A14;
-}
+#pillars { padding: 7rem 0; background: #050A14; }
 
-.pillar-grid {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
+.pillar-grid { display: flex; flex-direction: column; gap: 1rem; }
 
 .pillar {
   background: var(--card);
@@ -488,11 +456,7 @@ section { position: relative; overflow: hidden; }
   border-color: rgba(255,255,255,0.13);
 }
 
-.pillar-accent {
-  position: absolute;
-  top: 0; left: 0; right: 0;
-  height: 2px;
-}
+.pillar-accent { position: absolute; top: 0; left: 0; right: 0; height: 2px; }
 
 .pillar-num {
   font-size: 0.55rem;
@@ -522,11 +486,7 @@ section { position: relative; overflow: hidden; }
   margin-bottom: 0.75rem;
 }
 
-.pillar-body {
-  font-size: 0.85rem;
-  line-height: 1.75;
-  color: var(--muted);
-}
+.pillar-body { font-size: 0.85rem; line-height: 1.75; color: var(--muted); }
 
 .pillar-target {
   display: inline-flex;
@@ -542,9 +502,6 @@ section { position: relative; overflow: hidden; }
   border: 1px solid;
 }
 
-/* ════════════════════════════════════════
-   8 STRATEGIES
-════════════════════════════════════════ */
 #strategies {
   padding: 7rem 0;
   background: linear-gradient(180deg, #050A14 0%, #040810 100%);
@@ -580,19 +537,9 @@ section { position: relative; overflow: hidden; }
   line-height: 1.2;
 }
 
-.strat-desc {
-  font-size: 0.73rem;
-  line-height: 1.6;
-  color: var(--muted);
-}
+.strat-desc { font-size: 0.73rem; line-height: 1.6; color: var(--muted); }
 
-/* ════════════════════════════════════════
-   NUMBERS
-════════════════════════════════════════ */
-#numbers {
-  padding: 7rem 0;
-  background: #040810;
-}
+#numbers { padding: 7rem 0; background: #040810; }
 
 .numbers-hl {
   font-family: 'Syne', sans-serif;
@@ -614,10 +561,7 @@ section { position: relative; overflow: hidden; }
   overflow: hidden;
 }
 
-.num-card {
-  background: #060E1A;
-  padding: 1.5rem 1.25rem;
-}
+.num-card { background: #060E1A; padding: 1.5rem 1.25rem; }
 
 .num-val {
   font-family: 'Syne', sans-serif;
@@ -629,15 +573,8 @@ section { position: relative; overflow: hidden; }
   margin-bottom: 0.4rem;
 }
 
-.num-label {
-  font-size: 0.72rem;
-  color: var(--muted);
-  line-height: 1.55;
-}
+.num-label { font-size: 0.72rem; color: var(--muted); line-height: 1.55; }
 
-/* ════════════════════════════════════════
-   SECTORS
-════════════════════════════════════════ */
 #sectors {
   padding: 7rem 0;
   background: linear-gradient(180deg, #040810 0%, #060D1A 100%);
@@ -673,14 +610,7 @@ section { position: relative; overflow: hidden; }
 }
 
 .sector-icon { font-size: 1.4rem; line-height: 1; }
-
-.sector-num {
-  font-size: 0.5rem;
-  font-weight: 700;
-  letter-spacing: 0.1em;
-  color: var(--dim);
-}
-
+.sector-num { font-size: 0.5rem; font-weight: 700; letter-spacing: 0.1em; color: var(--dim); }
 .sector-right { flex: 1; min-width: 0; }
 
 .sector-hd {
@@ -716,15 +646,8 @@ section { position: relative; overflow: hidden; }
   opacity: 0;
   margin-top: 0;
 }
-.sector.open .sector-desc {
-  max-height: 200px;
-  opacity: 1;
-  margin-top: 0.5rem;
-}
+.sector.open .sector-desc { max-height: 200px; opacity: 1; margin-top: 0.5rem; }
 
-/* ════════════════════════════════════════
-   CLOSING
-════════════════════════════════════════ */
 #closing {
   padding: 9rem 0 7rem;
   text-align: center;
@@ -797,9 +720,6 @@ section { position: relative; overflow: hidden; }
   color: #162030;
 }
 
-/* ════════════════════════════════════════
-   Scroll progress dot
-════════════════════════════════════════ */
 .progress-dot {
   position: fixed;
   right: 1.25rem;
@@ -837,7 +757,6 @@ section { position: relative; overflow: hidden; }
 
 <canvas id="cvs"></canvas>
 
-<!-- Nav -->
 <nav id="nav">
   <span class="nav-flag">🇧🇳</span>
   <span class="nav-title">Wawasan 2035</span>
@@ -850,20 +769,18 @@ section { position: relative; overflow: hidden; }
   </div>
 </nav>
 
-<!-- Side dots -->
 <nav class="progress-dot" id="sideDots">
-  <a href="#hero"       title="Hero"></a>
-  <a href="#mission"    title="Vision"></a>
-  <a href="#progress"   title="Progress"></a>
-  <a href="#timeline"   title="Timeline"></a>
-  <a href="#pillars"    title="Pillars"></a>
+  <a href="#hero" title="Hero"></a>
+  <a href="#mission" title="Vision"></a>
+  <a href="#progress" title="Progress"></a>
+  <a href="#timeline" title="Timeline"></a>
+  <a href="#pillars" title="Pillars"></a>
   <a href="#strategies" title="Strategy"></a>
-  <a href="#numbers"    title="Numbers"></a>
-  <a href="#sectors"    title="Sectors"></a>
-  <a href="#closing"    title="Closing"></a>
+  <a href="#numbers" title="Numbers"></a>
+  <a href="#sectors" title="Sectors"></a>
+  <a href="#closing" title="Closing"></a>
 </nav>
 
-<!-- ════ HERO ════ -->
 <section id="hero">
   <div class="hero-inner">
     <div class="hero-eyebrow">🇧🇳 &nbsp; Negara Brunei Darussalam &nbsp;·&nbsp; National Vision</div>
@@ -884,38 +801,36 @@ section { position: relative; overflow: hidden; }
   </div>
 </section>
 
-<!-- ════ MISSION ════ -->
 <section id="mission">
   <div class="wrap">
     <span class="tag reveal">The Official Vision</span>
     <p class="mission-quote reveal d1">
-      "By 2035, Brunei Darussalam will be, by the grace of Allah, a nation
+      &ldquo;By 2035, Brunei Darussalam will be, by the grace of Allah, a nation
       that is widely recognised for the accomplishments of its
       <em>well-educated and highly-skilled people</em>,
       as reflected in their <em>quality of life</em>
-      and a <em>dynamic and sustainable economy</em>."
+      and a <em>dynamic and sustainable economy</em>.&rdquo;
     </p>
     <p class="mission-source reveal d2">
-      — His Majesty Sultan Haji Hassanal Bolkiah Mu'izzaddin Waddaulah &nbsp;·&nbsp; Proclaimed 2008
+      &mdash; His Majesty Sultan Haji Hassanal Bolkiah Mu&rsquo;izzaddin Waddaulah &nbsp;&middot;&nbsp; Proclaimed 2008
     </p>
   </div>
 </section>
 
-<!-- ════ PROGRESS ════ -->
 <section id="progress">
   <div class="wrap">
     <span class="tag reveal">Where we stand</span>
     <div class="reveal d1">
       <div class="progress-head">
-        <span>Launched · 2008</span>
-        <span class="now">▶ We are here · 2026</span>
-        <span>Target · 2035</span>
+        <span>Launched &middot; 2008</span>
+        <span class="now">&#9658; We are here &middot; 2026</span>
+        <span>Target &middot; 2035</span>
       </div>
       <div class="p-track">
         <div class="p-fill" id="pfill"></div>
       </div>
       <p class="p-caption">
-        <strong>18 years</strong> completed &nbsp;·&nbsp; <strong>9 years</strong> remaining &nbsp;·&nbsp; 67% of the journey
+        <strong>18 years</strong> completed &nbsp;&middot;&nbsp; <strong>9 years</strong> remaining &nbsp;&middot;&nbsp; 67% of the journey
       </p>
     </div>
     <div class="progress-stats reveal d2">
@@ -935,283 +850,162 @@ section { position: relative; overflow: hidden; }
   </div>
 </section>
 
-<!-- ════ TIMELINE ════ -->
 <section id="timeline">
   <div class="wrap">
     <span class="tag reveal">Key milestones</span>
     <h2 class="reveal d1" style="font-family:'Syne',sans-serif;font-size:clamp(1.3rem,4vw,1.9rem);font-weight:700;margin-bottom:2.5rem;line-height:1.2;">From vision to reality.</h2>
     <div class="tl-list reveal d2">
-
       <div class="tl-item done">
         <span class="tl-year">2008</span>
         <span class="tl-title">Wawasan Brunei 2035 Proclaimed</span>
         <p class="tl-desc">His Majesty Sultan Hassanal Bolkiah officially announces the national long-term vision, setting targets for education, quality of life, and economic diversification by 2035.</p>
       </div>
-
       <div class="tl-item done">
         <span class="tl-year">2014</span>
         <span class="tl-title">Supreme Council Established</span>
         <p class="tl-desc">A Supreme Council for Wawasan Brunei 2035 is created by royal decree to oversee, monitor, and drive implementation across all government ministries and agencies.</p>
       </div>
-
       <div class="tl-item done">
         <span class="tl-year">2016</span>
-        <span class="tl-title">Wawasan Framework & KPIs Introduced</span>
+        <span class="tl-title">Wawasan Framework &amp; KPIs Introduced</span>
         <p class="tl-desc">A comprehensive measurement framework with 12 National Outcomes and Key Performance Indicators is launched to hold the nation accountable to progress.</p>
       </div>
-
       <div class="tl-item done">
         <span class="tl-year">2017</span>
         <span class="tl-title">Non-Oil Exports: Just 3%</span>
-        <p class="tl-desc">A stark baseline. Oil and gas dominate the economy almost entirely — making the diversification challenge clear, and setting the starting line for what comes next.</p>
+        <p class="tl-desc">A stark baseline. Oil and gas dominate the economy almost entirely &mdash; making the diversification challenge clear, and setting the starting line for what comes next.</p>
       </div>
-
       <div class="tl-item done">
         <span class="tl-year">2020</span>
         <span class="tl-title">Temburong Bridge Opens</span>
-        <p class="tl-desc">The Sultan Haji Omar Ali Saifuddien Bridge connects Brunei-Muara and Temburong for the first time by road — a landmark infrastructure project symbolising national unity and opening Temburong's eco-tourism potential.</p>
+        <p class="tl-desc">The Sultan Haji Omar Ali Saifuddien Bridge connects Brunei-Muara and Temburong for the first time by road &mdash; a landmark infrastructure project symbolising national unity and opening Temburong&rsquo;s eco-tourism potential.</p>
       </div>
-
       <div class="tl-item done">
         <span class="tl-year">2023</span>
         <span class="tl-title">Non-Oil Exports Reach 61%</span>
-        <p class="tl-desc">One of the fastest economic diversification records in the region. From 3% to 61% in six years. The non-oil and gas sector now accounts for 56.6% of GDP — the target of below 30% hydrocarbon dependency is in sight.</p>
+        <p class="tl-desc">One of the fastest economic diversification records in the region. From 3% to 61% in six years. The non-oil and gas sector now accounts for 56.6% of GDP.</p>
       </div>
-
       <div class="tl-item now">
-        <span class="tl-year">2026 — Now</span>
+        <span class="tl-year">2026 &mdash; Now</span>
         <span class="tl-title">The Critical Decade Begins</span>
         <p class="tl-desc">9 years remain. The next phase requires acceleration in education quality, digital economy growth, tourism development, and social infrastructure. This is where the vision meets delivery.</p>
       </div>
-
       <div class="tl-item future">
         <span class="tl-year">2035</span>
         <span class="tl-title">Target: A Nation Transformed</span>
-        <p class="tl-desc">Brunei Darussalam ranks among the world's top 10 nations for quality of life and GDP per capita — known globally for its educated people, sustainable economy, and preserved natural heritage.</p>
+        <p class="tl-desc">Brunei Darussalam ranks among the world&rsquo;s top 10 nations for quality of life and GDP per capita &mdash; known globally for its educated people, sustainable economy, and preserved natural heritage.</p>
       </div>
-
     </div>
   </div>
 </section>
 
-<!-- ════ PILLARS ════ -->
 <section id="pillars">
   <div class="wrap">
     <span class="tag reveal">Three aspirations</span>
     <h2 class="reveal d1" style="font-family:'Syne',sans-serif;font-size:clamp(1.3rem,4vw,1.9rem);font-weight:700;margin-bottom:2rem;line-height:1.2;">The pillars of Wawasan 2035.</h2>
     <div class="pillar-grid">
-
       <div class="pillar reveal d1">
         <div class="pillar-accent" style="background:linear-gradient(90deg,#FFD100,transparent)"></div>
         <div class="pillar-num">Aspiration 01</div>
         <div class="pillar-icon">🎓</div>
         <div class="pillar-malay" style="color:#FFD100">Rakyat yang Berpendidikan dan Berkelayakan Tinggi</div>
         <div class="pillar-name">An Educated and Highly Skilled People</div>
-        <p class="pillar-body">Brunei's people will be recognised globally for their accomplishments — measured against the highest international standards. Education that produces thinkers, innovators, and leaders capable of competing at the world stage.</p>
+        <p class="pillar-body">Brunei&rsquo;s people will be recognised globally for their accomplishments &mdash; measured against the highest international standards. Education that produces thinkers, innovators, and leaders capable of competing at the world stage.</p>
         <span class="pillar-target" style="color:#FFD100;border-color:rgba(255,209,0,0.3)">🎯 World-class education outcomes by 2035</span>
       </div>
-
       <div class="pillar reveal d2">
         <div class="pillar-accent" style="background:linear-gradient(90deg,#00E5FF,transparent)"></div>
         <div class="pillar-num">Aspiration 02</div>
         <div class="pillar-icon">🌏</div>
         <div class="pillar-malay" style="color:#00E5FF">Kualiti Hidup yang Tinggi</div>
-        <div class="pillar-name">Quality of Life Among the World's Top 10</div>
-        <p class="pillar-body">Not just comfortable — exceptional. By 2035, Brunei aims to rank among the top 10 nations globally for quality of life, encompassing healthcare, safety, housing, environment, and the social fabric that makes a nation worth living in.</p>
+        <div class="pillar-name">Quality of Life Among the World&rsquo;s Top 10</div>
+        <p class="pillar-body">Not just comfortable &mdash; exceptional. By 2035, Brunei aims to rank among the top 10 nations globally for quality of life, encompassing healthcare, safety, housing, environment, and the social fabric that makes a nation worth living in.</p>
         <span class="pillar-target" style="color:#00E5FF;border-color:rgba(0,229,255,0.3)">🎯 Top 10 globally for quality of life</span>
       </div>
-
       <div class="pillar reveal d3">
         <div class="pillar-accent" style="background:linear-gradient(90deg,#00FF88,transparent)"></div>
         <div class="pillar-num">Aspiration 03</div>
         <div class="pillar-icon">⚡</div>
         <div class="pillar-malay" style="color:#00FF88">Ekonomi yang Maju dan Mampan</div>
         <div class="pillar-name">A Dynamic and Sustainable Economy</div>
-        <p class="pillar-body">GDP per capita among the world's top 10 — built on diversification, not dependence. Oil revenues reinvested into a resilient, knowledge-based economy that will thrive long after the wells run dry.</p>
+        <p class="pillar-body">GDP per capita among the world&rsquo;s top 10 &mdash; built on diversification, not dependence. Oil revenues reinvested into a resilient, knowledge-based economy that will thrive long after the wells run dry.</p>
         <span class="pillar-target" style="color:#00FF88;border-color:rgba(0,255,136,0.3)">🎯 Top 10 globally for GDP per capita</span>
       </div>
-
     </div>
   </div>
 </section>
 
-<!-- ════ STRATEGIES ════ -->
 <section id="strategies">
   <div class="wrap">
     <span class="tag reveal">How we get there</span>
     <h2 class="reveal d1" style="font-family:'Syne',sans-serif;font-size:clamp(1.3rem,4vw,1.9rem);font-weight:700;margin-bottom:2rem;line-height:1.2;">Eight national strategies.</h2>
     <div class="strat-grid">
-      <div class="strat reveal d1">
-        <div class="strat-icon">📚</div>
-        <div class="strat-name">Education</div>
-        <p class="strat-desc">Prepare every Bruneian for a competitive, knowledge-based world. STEM, technical, and vocational excellence measured internationally.</p>
-      </div>
-      <div class="strat reveal d2">
-        <div class="strat-icon">💼</div>
-        <div class="strat-name">Economy</div>
-        <p class="strat-desc">Diversify beyond oil. Grow the private sector. Attract investment in downstream industries and non-hydrocarbon clusters.</p>
-      </div>
-      <div class="strat reveal d3">
-        <div class="strat-icon">🛡️</div>
-        <div class="strat-name">Security</div>
-        <p class="strat-desc">Maintain sovereignty and political stability. Build resilience against emerging threats — climate, health, and geopolitical.</p>
-      </div>
-      <div class="strat reveal d4">
-        <div class="strat-icon">🏛️</div>
-        <div class="strat-name">Institutional Development</div>
-        <p class="strat-desc">High-performing, transparent governance. A public sector that moves at the speed of the economy it serves.</p>
-      </div>
-      <div class="strat reveal d5">
-        <div class="strat-icon">🏢</div>
-        <div class="strat-name">Local Business</div>
-        <p class="strat-desc">Grow Brunei's SME ecosystem through DARe and beyond. Reduce reliance on government employment. Build Bruneian entrepreneurs.</p>
-      </div>
-      <div class="strat reveal d6">
-        <div class="strat-icon">🌉</div>
-        <div class="strat-name">Infrastructure</div>
-        <p class="strat-desc">World-class roads, ports, digital networks, and energy systems — including the landmark Temburong Bridge.</p>
-      </div>
-      <div class="strat reveal d7">
-        <div class="strat-icon">🤝</div>
-        <div class="strat-name">Social Security</div>
-        <p class="strat-desc">Ensure every citizen benefits as the nation grows. Housing, healthcare, and a social safety net that leaves no one behind.</p>
-      </div>
-      <div class="strat reveal d8">
-        <div class="strat-icon">🌿</div>
-        <div class="strat-name">Environment</div>
-        <p class="strat-desc">Protect Brunei's extraordinary natural heritage — 72% intact rainforest — while building a sustainable, green economy.</p>
-      </div>
+      <div class="strat reveal d1"><div class="strat-icon">📚</div><div class="strat-name">Education</div><p class="strat-desc">Prepare every Bruneian for a competitive, knowledge-based world. STEM, technical, and vocational excellence measured internationally.</p></div>
+      <div class="strat reveal d2"><div class="strat-icon">💼</div><div class="strat-name">Economy</div><p class="strat-desc">Diversify beyond oil. Grow the private sector. Attract investment in downstream industries and non-hydrocarbon clusters.</p></div>
+      <div class="strat reveal d3"><div class="strat-icon">🛡️</div><div class="strat-name">Security</div><p class="strat-desc">Maintain sovereignty and political stability. Build resilience against emerging threats &mdash; climate, health, and geopolitical.</p></div>
+      <div class="strat reveal d4"><div class="strat-icon">🏛️</div><div class="strat-name">Institutional Development</div><p class="strat-desc">High-performing, transparent governance. A public sector that moves at the speed of the economy it serves.</p></div>
+      <div class="strat reveal d5"><div class="strat-icon">🏢</div><div class="strat-name">Local Business</div><p class="strat-desc">Grow Brunei&rsquo;s SME ecosystem through DARe and beyond. Reduce reliance on government employment. Build Bruneian entrepreneurs.</p></div>
+      <div class="strat reveal d6"><div class="strat-icon">🌉</div><div class="strat-name">Infrastructure</div><p class="strat-desc">World-class roads, ports, digital networks, and energy systems &mdash; including the landmark Temburong Bridge.</p></div>
+      <div class="strat reveal d7"><div class="strat-icon">🤝</div><div class="strat-name">Social Security</div><p class="strat-desc">Ensure every citizen benefits as the nation grows. Housing, healthcare, and a social safety net that leaves no one behind.</p></div>
+      <div class="strat reveal d8"><div class="strat-icon">🌿</div><div class="strat-name">Environment</div><p class="strat-desc">Protect Brunei&rsquo;s extraordinary natural heritage &mdash; 72% intact rainforest &mdash; while building a sustainable, green economy.</p></div>
     </div>
   </div>
 </section>
 
-<!-- ════ NUMBERS ════ -->
 <section id="numbers">
   <div class="wrap">
     <span class="tag reveal">Progress on the ground</span>
     <p class="numbers-hl reveal d1">Brunei is already moving.<br>The numbers <em>prove it.</em></p>
     <div class="num-grid reveal d2">
-      <div class="num-card">
-        <span class="num-val">3% → 61%</span>
-        <span class="num-label">Non-oil exports share, 2017 to 2023. One of the fastest diversification records in Southeast Asia.</span>
-      </div>
-      <div class="num-card">
-        <span class="num-val">56.6%</span>
-        <span class="num-label">GDP now from non-oil & gas sectors. The target of below 30% hydrocarbon dependency is within reach.</span>
-      </div>
-      <div class="num-card">
-        <span class="num-val">72%</span>
-        <span class="num-label">Of Brunei's land is intact tropical rainforest — among the highest proportions on earth. A built-in asset.</span>
-      </div>
-      <div class="num-card">
-        <span class="num-val">8</span>
-        <span class="num-label">National strategies, 12 national outcome measures, and a Supreme Council all dedicated to delivery.</span>
-      </div>
+      <div class="num-card"><span class="num-val">3% &rarr; 61%</span><span class="num-label">Non-oil exports share, 2017 to 2023. One of the fastest diversification records in Southeast Asia.</span></div>
+      <div class="num-card"><span class="num-val">56.6%</span><span class="num-label">GDP now from non-oil &amp; gas sectors. The target of below 30% hydrocarbon dependency is within reach.</span></div>
+      <div class="num-card"><span class="num-val">72%</span><span class="num-label">Of Brunei&rsquo;s land is intact tropical rainforest &mdash; among the highest proportions on earth. A built-in asset.</span></div>
+      <div class="num-card"><span class="num-val">8</span><span class="num-label">National strategies, 12 national outcome measures, and a Supreme Council all dedicated to delivery.</span></div>
     </div>
   </div>
 </section>
 
-<!-- ════ SECTORS ════ -->
 <section id="sectors">
   <div class="wrap">
     <span class="tag reveal">Economic diversification</span>
     <h2 class="reveal d1" style="font-family:'Syne',sans-serif;font-size:clamp(1.3rem,4vw,1.9rem);font-weight:700;margin-bottom:2rem;line-height:1.2;">Five priority sectors.</h2>
     <div class="sector-list reveal d2">
-
       <div class="sector" onclick="toggleSector(this)">
-        <div class="sector-left">
-          <div class="sector-icon">⛽</div>
-          <div class="sector-num">01</div>
-        </div>
-        <div class="sector-right">
-          <div class="sector-hd">
-            <div class="sector-name">Downstream Oil & Gas</div>
-            <span class="sector-chevron">▼</span>
-          </div>
-          <p class="sector-desc">Move beyond extraction into refining, petrochemicals, and LNG value-adding. Capturing significantly more economic value from existing reserves before they run dry — while building expertise that outlasts the oil itself.</p>
-        </div>
+        <div class="sector-left"><div class="sector-icon">⛽</div><div class="sector-num">01</div></div>
+        <div class="sector-right"><div class="sector-hd"><div class="sector-name">Downstream Oil &amp; Gas</div><span class="sector-chevron">&#9660;</span></div><p class="sector-desc">Move beyond extraction into refining, petrochemicals, and LNG value-adding. Capturing significantly more economic value from existing reserves before they run dry &mdash; while building expertise that outlasts the oil itself.</p></div>
       </div>
-
       <div class="sector" onclick="toggleSector(this)">
-        <div class="sector-left">
-          <div class="sector-icon">🌾</div>
-          <div class="sector-num">02</div>
-        </div>
-        <div class="sector-right">
-          <div class="sector-hd">
-            <div class="sector-name">Food & Agriculture</div>
-            <span class="sector-chevron">▼</span>
-          </div>
-          <p class="sector-desc">National food security and agribusiness export. Aquaculture, halal food processing, and smart farming in Brunei's fertile interior. The goal: produce enough to feed the nation and export the surplus — especially to halal markets globally.</p>
-        </div>
+        <div class="sector-left"><div class="sector-icon">🌾</div><div class="sector-num">02</div></div>
+        <div class="sector-right"><div class="sector-hd"><div class="sector-name">Food &amp; Agriculture</div><span class="sector-chevron">&#9660;</span></div><p class="sector-desc">National food security and agribusiness export. Aquaculture, halal food processing, and smart farming in Brunei&rsquo;s fertile interior. The goal: produce enough to feed the nation and export the surplus &mdash; especially to halal markets globally.</p></div>
       </div>
-
       <div class="sector" onclick="toggleSector(this)">
-        <div class="sector-left">
-          <div class="sector-icon">✈️</div>
-          <div class="sector-num">03</div>
-        </div>
-        <div class="sector-right">
-          <div class="sector-hd">
-            <div class="sector-name">Tourism</div>
-            <span class="sector-chevron">▼</span>
-          </div>
-          <p class="sector-desc">Eco-tourism in Temburong, cultural heritage in Kampong Ayer, MICE tourism and luxury hospitality in BSB. Brunei's pitch: Southeast Asia's most authentic, unhurried, and spiritually grounded destination. Small, exclusive, and genuinely different.</p>
-        </div>
+        <div class="sector-left"><div class="sector-icon">✈️</div><div class="sector-num">03</div></div>
+        <div class="sector-right"><div class="sector-hd"><div class="sector-name">Tourism</div><span class="sector-chevron">&#9660;</span></div><p class="sector-desc">Eco-tourism in Temburong, cultural heritage in Kampong Ayer, MICE tourism and luxury hospitality in BSB. Brunei&rsquo;s pitch: Southeast Asia&rsquo;s most authentic, unhurried, and spiritually grounded destination.</p></div>
       </div>
-
       <div class="sector" onclick="toggleSector(this)">
-        <div class="sector-left">
-          <div class="sector-icon">💻</div>
-          <div class="sector-num">04</div>
-        </div>
-        <div class="sector-right">
-          <div class="sector-hd">
-            <div class="sector-name">ICT & Digital Economy</div>
-            <span class="sector-chevron">▼</span>
-          </div>
-          <p class="sector-desc">Smart nation infrastructure, digital government services, fintech, and data economy. Political stability and zero income tax on foreign earnings position Brunei as an unlikely but attractive base for technology companies looking for a Southeast Asian foothold.</p>
-        </div>
+        <div class="sector-left"><div class="sector-icon">💻</div><div class="sector-num">04</div></div>
+        <div class="sector-right"><div class="sector-hd"><div class="sector-name">ICT &amp; Digital Economy</div><span class="sector-chevron">&#9660;</span></div><p class="sector-desc">Smart nation infrastructure, digital government services, fintech, and data economy. Political stability and zero income tax on foreign earnings position Brunei as an unlikely but attractive base for technology companies.</p></div>
       </div>
-
       <div class="sector" onclick="toggleSector(this)">
-        <div class="sector-left">
-          <div class="sector-icon">🌙</div>
-          <div class="sector-num">05</div>
-        </div>
-        <div class="sector-right">
-          <div class="sector-hd">
-            <div class="sector-name">Halal Industry & Financial Services</div>
-            <span class="sector-chevron">▼</span>
-          </div>
-          <p class="sector-desc">Islamic finance, halal certification, and pharmaceutical manufacturing. The global halal economy is valued at over $7 trillion. Brunei's credentials — Islamic governance, trusted certification, and a Muslim-majority population — make it a natural hub.</p>
-        </div>
+        <div class="sector-left"><div class="sector-icon">🌙</div><div class="sector-num">05</div></div>
+        <div class="sector-right"><div class="sector-hd"><div class="sector-name">Halal Industry &amp; Financial Services</div><span class="sector-chevron">&#9660;</span></div><p class="sector-desc">Islamic finance, halal certification, and pharmaceutical manufacturing. The global halal economy is valued at over $7 trillion. Brunei&rsquo;s credentials make it a natural hub for this fast-growing market.</p></div>
       </div>
-
     </div>
   </div>
 </section>
 
-<!-- ════ CLOSING ════ -->
 <section id="closing">
   <div class="closing-inner">
     <div class="closing-n reveal">9</div>
     <p class="closing-sub reveal d1">Years remaining</p>
-    <h2 class="closing-line reveal d2">
-      This is the decade<br><span>that decides everything.</span>
-    </h2>
-    <p class="closing-body reveal d3">
-      Wawasan Brunei 2035 is not a government document. It is a national contract — between today's decisions and tomorrow's lives. The foundation is set. The progress is real. What remains is the will to finish what was started.
-    </p>
+    <h2 class="closing-line reveal d2">This is the decade<br><span>that decides everything.</span></h2>
+    <p class="closing-body reveal d3">Wawasan Brunei 2035 is not a government document. It is a national contract &mdash; between today&rsquo;s decisions and tomorrow&rsquo;s lives. The foundation is set. The progress is real. What remains is the will to finish what was started.</p>
     <span class="closing-flag reveal d4">🇧🇳</span>
-    <p class="closing-footer reveal d5">
-      Wawasan Brunei 2035 &nbsp;·&nbsp; Proclaimed by His Majesty Sultan Haji Hassanal Bolkiah &nbsp;·&nbsp; 2008–2035
-    </p>
+    <p class="closing-footer reveal d5">Wawasan Brunei 2035 &nbsp;&middot;&nbsp; Proclaimed by His Majesty Sultan Haji Hassanal Bolkiah &nbsp;&middot;&nbsp; 2008&ndash;2035</p>
   </div>
 </section>
 
 <script>
-// ── Particles ──────────────────────────────────────────────
 const cvs = document.getElementById('cvs');
 const ctx = cvs.getContext('2d');
 let W, H, pts = [];
@@ -1243,7 +1037,7 @@ function draw() {
       const d = Math.hypot(p.x - q.x, p.y - q.y);
       if (d < D) {
         ctx.beginPath(); ctx.moveTo(p.x, p.y); ctx.lineTo(q.x, q.y);
-        ctx.strokeStyle = `rgba(255,209,0,${0.08 * (1 - d / D)})`;
+        ctx.strokeStyle = 'rgba(255,209,0,' + (0.08 * (1 - d / D)) + ')';
         ctx.lineWidth = 0.5; ctx.stroke();
       }
     }
@@ -1254,19 +1048,16 @@ function draw() {
 window.addEventListener('resize', () => { resize(); spawn(); });
 resize(); spawn(); draw();
 
-// ── Scroll reveal ──────────────────────────────────────────
 const io = new IntersectionObserver(entries => {
   entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
 }, { threshold: 0.1 });
 document.querySelectorAll('.reveal').forEach(el => io.observe(el));
 
-// ── Progress bar ───────────────────────────────────────────
 const pfill = document.getElementById('pfill');
 new IntersectionObserver(entries => {
   if (entries[0].isIntersecting) setTimeout(() => pfill.style.width = '66.7%', 200);
 }, { threshold: 0.4 }).observe(pfill.parentElement);
 
-// ── Active nav / side dots ─────────────────────────────────
 const sections = ['hero','mission','progress','timeline','pillars','strategies','numbers','sectors','closing'];
 const dots = document.querySelectorAll('.progress-dot a');
 const navLinks = document.querySelectorAll('.nav-links a');
@@ -1282,19 +1073,14 @@ const sectionIO = new IntersectionObserver(entries => {
   });
 }, { threshold: 0.4 });
 
-sections.forEach(id => {
-  const el = document.getElementById(id);
-  if (el) sectionIO.observe(el);
-});
+sections.forEach(id => { const el = document.getElementById(id); if (el) sectionIO.observe(el); });
 
-// Hide nav on hero
 const heroEl = document.getElementById('hero');
 const navEl  = document.getElementById('nav');
 new IntersectionObserver(entries => {
   navEl.classList.toggle('hidden', entries[0].isIntersecting);
 }, { threshold: 0.5 }).observe(heroEl);
 
-// ── Expandable sectors ─────────────────────────────────────
 function toggleSector(el) {
   const isOpen = el.classList.contains('open');
   document.querySelectorAll('.sector.open').forEach(s => s.classList.remove('open'));
