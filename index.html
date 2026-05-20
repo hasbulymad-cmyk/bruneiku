@@ -2,536 +2,648 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<title>What Type of Bruneian Are You?</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Brunei 2050 — A Vision for the Nation</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-  :root {
-    --y: #FFD100;
-    --bg: #0C0C0C;
-    --card: #141414;
-    --border: #242424;
-    --white: #F0F0F0;
-    --dim: #555;
-    --selected-bg: rgba(255,209,0,0.12);
-    --selected-border: #FFD100;
-  }
+:root {
+  --bg:    #04080F;
+  --cyan:  #00E5FF;
+  --gold:  #FFD100;
+  --green: #00FF88;
+  --text:  #DCE8F0;
+  --dim:   #3A4A55;
+}
 
-  html, body {
-    height: 100%;
-    background: var(--bg);
-    color: var(--white);
-    font-family: 'Space Grotesk', sans-serif;
-    overflow-x: hidden;
-  }
+html { scroll-behavior: smooth; }
 
-  body {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;
-    min-height: 100dvh;
-    padding: 2rem 1.25rem 3rem;
-  }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Inter', sans-serif;
+  overflow-x: hidden;
+}
 
-  /* ── Progress bar ── */
-  .progress-bar {
-    position: fixed;
-    top: 0; left: 0;
-    height: 3px;
-    background: var(--y);
-    transition: width 0.4s cubic-bezier(.4,0,.2,1);
-    z-index: 99;
-  }
+/* ── Shared ── */
+section { position: relative; overflow: hidden; }
 
-  /* ── Screens ── */
-  .screen {
-    width: 100%;
-    max-width: 420px;
-    display: none;
-    flex-direction: column;
-    gap: 1.5rem;
-  }
-  .screen.active { display: flex; }
+.reveal {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.85s ease, transform 0.85s ease;
+}
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+.reveal.delay-1 { transition-delay: 0.15s; }
+.reveal.delay-2 { transition-delay: 0.3s;  }
+.reveal.delay-3 { transition-delay: 0.45s; }
+.reveal.delay-4 { transition-delay: 0.6s;  }
+.reveal.delay-5 { transition-delay: 0.75s; }
 
-  /* ── Intro screen ── */
-  .intro-flag {
-    font-size: 3.5rem;
-    text-align: center;
-    margin-bottom: 0.25rem;
-    animation: bounce 1.5s ease infinite;
-  }
-  @keyframes bounce {
-    0%, 100% { transform: translateY(0); }
-    50%       { transform: translateY(-8px); }
-  }
+/* ────────────────────────────────────────────────────────
+   HERO
+──────────────────────────────────────────────────────── */
+#hero {
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 2rem 1.5rem 6rem;
+}
 
-  .intro-title {
-    font-size: clamp(1.6rem, 7vw, 2rem);
-    font-weight: 700;
-    text-align: center;
-    line-height: 1.2;
-    color: var(--white);
-  }
+canvas#particles {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
 
-  .intro-title span {
-    color: var(--y);
-    display: block;
-  }
+.hero-inner { position: relative; z-index: 1; max-width: 700px; }
 
-  .intro-sub {
-    font-size: 0.85rem;
-    color: var(--dim);
-    text-align: center;
-    line-height: 1.6;
-  }
+.hero-flag {
+  font-size: 1.1rem;
+  letter-spacing: 0.3em;
+  color: var(--gold);
+  text-transform: uppercase;
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+  margin-bottom: 1.5rem;
+  opacity: 0;
+  animation: fadeUp 1s 0.3s ease both;
+}
 
-  /* ── Quiz screen ── */
-  .q-number {
-    font-size: 0.65rem;
-    font-weight: 600;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--y);
-  }
+.hero-title {
+  font-family: 'Syne', sans-serif;
+  font-weight: 800;
+  font-size: clamp(4rem, 18vw, 9rem);
+  line-height: 0.95;
+  letter-spacing: -0.03em;
+  color: #fff;
+  opacity: 0;
+  animation: fadeUp 1s 0.6s ease both;
+}
 
-  .q-text {
-    font-size: clamp(1.15rem, 5vw, 1.4rem);
-    font-weight: 700;
-    line-height: 1.35;
-    color: var(--white);
-  }
+.hero-title .year {
+  display: block;
+  background: linear-gradient(135deg, var(--cyan), var(--gold));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
 
-  .answers {
-    display: flex;
-    flex-direction: column;
-    gap: 0.65rem;
-  }
+.hero-sub {
+  margin-top: 1.75rem;
+  font-size: clamp(0.95rem, 3vw, 1.15rem);
+  font-weight: 300;
+  color: rgba(220,232,240,0.6);
+  line-height: 1.7;
+  max-width: 480px;
+  margin-left: auto;
+  margin-right: auto;
+  opacity: 0;
+  animation: fadeUp 1s 0.9s ease both;
+}
 
-  .answer-btn {
-    display: flex;
-    align-items: center;
-    gap: 0.9rem;
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 0.9rem 1rem;
-    cursor: pointer;
-    text-align: left;
-    transition: border-color 0.15s, background 0.15s, transform 0.1s;
-    width: 100%;
-    color: var(--white);
-    font-family: 'Space Grotesk', sans-serif;
-  }
+.hero-scroll {
+  position: absolute;
+  bottom: 2.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.4rem;
+  opacity: 0;
+  animation: fadeUp 1s 1.4s ease both;
+}
+.hero-scroll span {
+  font-size: 0.58rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--dim);
+}
+.scroll-line {
+  width: 1px;
+  height: 40px;
+  background: linear-gradient(to bottom, var(--cyan), transparent);
+  animation: scrollPulse 1.8s ease infinite;
+}
+@keyframes scrollPulse {
+  0%, 100% { opacity: 0.3; transform: scaleY(1); }
+  50%       { opacity: 1;   transform: scaleY(1.15); }
+}
 
-  .answer-btn:active { transform: scale(0.98); }
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
 
-  .answer-btn.selected {
-    background: var(--selected-bg);
-    border-color: var(--selected-border);
-  }
+/* ────────────────────────────────────────────────────────
+   REALITY CHECK
+──────────────────────────────────────────────────────── */
+#reality {
+  padding: 7rem 1.5rem;
+  background: linear-gradient(180deg, var(--bg) 0%, #060D18 100%);
+}
 
-  .answer-label {
-    flex-shrink: 0;
-    width: 1.6rem;
-    height: 1.6rem;
-    border-radius: 50%;
-    background: var(--border);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 0.65rem;
-    font-weight: 700;
-    color: var(--dim);
-    transition: background 0.15s, color 0.15s;
-  }
+.reality-inner {
+  max-width: 720px;
+  margin: 0 auto;
+}
 
-  .answer-btn.selected .answer-label {
-    background: var(--y);
-    color: #000;
-  }
+.section-tag {
+  font-size: 0.62rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--cyan);
+  font-weight: 600;
+  margin-bottom: 1.25rem;
+  display: block;
+}
 
-  .answer-text {
-    font-size: 0.88rem;
-    line-height: 1.4;
-    font-weight: 500;
-  }
+.reality-statement {
+  font-family: 'Syne', sans-serif;
+  font-size: clamp(1.6rem, 5vw, 2.4rem);
+  font-weight: 700;
+  line-height: 1.25;
+  color: #fff;
+  margin-bottom: 2.5rem;
+}
 
-  /* ── Result screen ── */
-  .result-emoji {
-    font-size: 4rem;
-    text-align: center;
-    animation: pop 0.4s cubic-bezier(.175,.885,.32,1.275) both;
-  }
+.reality-statement em {
+  font-style: normal;
+  color: var(--gold);
+}
 
-  @keyframes pop {
-    from { transform: scale(0.5); opacity: 0; }
-    to   { transform: scale(1);   opacity: 1; }
-  }
+.stats-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: var(--dim);
+  border-radius: 16px;
+  overflow: hidden;
+  margin-top: 2rem;
+}
 
-  .result-label {
-    font-size: 0.65rem;
-    font-weight: 600;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--y);
-    text-align: center;
-  }
+.stat {
+  background: #080E18;
+  padding: 1.5rem 1rem;
+  text-align: center;
+}
 
-  .result-name {
-    font-size: clamp(1.5rem, 7vw, 2rem);
-    font-weight: 700;
-    text-align: center;
-    line-height: 1.2;
-    color: var(--white);
-  }
+.stat-number {
+  font-family: 'Syne', sans-serif;
+  font-size: clamp(1.5rem, 5vw, 2.2rem);
+  font-weight: 800;
+  color: var(--cyan);
+  line-height: 1;
+  margin-bottom: 0.4rem;
+  display: block;
+}
 
-  .result-desc {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 14px;
-    padding: 1.1rem 1.25rem;
-    font-size: 0.88rem;
-    line-height: 1.65;
-    color: #CCCCCC;
-  }
+.stat-label {
+  font-size: 0.68rem;
+  color: rgba(220,232,240,0.45);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  line-height: 1.4;
+}
 
-  .result-accuracy {
-    font-size: 0.72rem;
-    color: var(--dim);
-    text-align: center;
-  }
+/* ────────────────────────────────────────────────────────
+   BIG STATEMENT
+──────────────────────────────────────────────────────── */
+#statement {
+  padding: 7rem 1.5rem;
+  background: #060D18;
+  text-align: center;
+}
 
-  /* ── Buttons ── */
-  .btn-primary {
-    width: 100%;
-    background: var(--y);
-    color: #000;
-    border: none;
-    border-radius: 12px;
-    padding: 1rem;
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: 0.88rem;
-    font-weight: 700;
-    letter-spacing: 0.05em;
-    cursor: pointer;
-    transition: transform 0.15s, opacity 0.15s;
-  }
+.big-statement {
+  font-family: 'Syne', sans-serif;
+  font-size: clamp(1.5rem, 5.5vw, 3rem);
+  font-weight: 700;
+  line-height: 1.3;
+  max-width: 800px;
+  margin: 0 auto;
+  color: #fff;
+}
 
-  .btn-primary:hover  { opacity: 0.9; }
-  .btn-primary:active { transform: scale(0.98); }
-  .btn-primary:disabled { opacity: 0.35; cursor: not-allowed; transform: none; }
+.big-statement .hi { color: var(--cyan); }
+.big-statement .hg { color: var(--gold); }
+.big-statement .hv { color: var(--green); }
 
-  .btn-secondary {
-    width: 100%;
-    background: transparent;
-    color: var(--dim);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 0.85rem;
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: 0.82rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: border-color 0.2s, color 0.2s;
-  }
+/* ────────────────────────────────────────────────────────
+   PILLARS
+──────────────────────────────────────────────────────── */
+#pillars {
+  padding: 5rem 1.25rem 7rem;
+  background: linear-gradient(180deg, #060D18 0%, #04080F 100%);
+}
 
-  .btn-secondary:hover { border-color: var(--dim); color: var(--white); }
+.pillars-header {
+  max-width: 720px;
+  margin: 0 auto 3.5rem;
+}
 
-  .btn-copy {
-    width: 100%;
-    background: transparent;
-    color: var(--y);
-    border: 1px solid rgba(255,209,0,0.3);
-    border-radius: 12px;
-    padding: 0.9rem;
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: 0.82rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: background 0.2s, border-color 0.2s;
-  }
+.pillars-title {
+  font-family: 'Syne', sans-serif;
+  font-size: clamp(1.6rem, 5vw, 2.2rem);
+  font-weight: 700;
+  color: #fff;
+  line-height: 1.2;
+}
 
-  .btn-copy:hover { background: rgba(255,209,0,0.07); border-color: rgba(255,209,0,0.6); }
-  .btn-copy.done  { color: #88FF88; border-color: rgba(136,255,136,0.4); }
+.pillar-grid {
+  max-width: 720px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+}
 
-  /* ── Screen slide transition ── */
-  @keyframes slideIn {
-    from { opacity: 0; transform: translateX(20px); }
-    to   { opacity: 1; transform: translateX(0); }
-  }
+.pillar {
+  background: rgba(255,255,255,0.025);
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 18px;
+  padding: 1.75rem 1.5rem;
+  transition: border-color 0.3s, background 0.3s;
+  cursor: default;
+  position: relative;
+  overflow: hidden;
+}
 
-  .screen.active { animation: slideIn 0.3s ease both; }
+.pillar::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
 
-  /* ── Footer ── */
-  .footer {
-    font-size: 0.6rem;
-    letter-spacing: 0.12em;
-    color: #333;
-    text-transform: uppercase;
-    text-align: center;
-    margin-top: 0.5rem;
-  }
+.pillar:hover::before { opacity: 1; }
+.pillar:hover {
+  background: rgba(255,255,255,0.04);
+  border-color: rgba(255,255,255,0.14);
+}
+
+.pillar.c1::before { background: linear-gradient(90deg, var(--green), transparent); }
+.pillar.c2::before { background: linear-gradient(90deg, var(--gold), transparent); }
+.pillar.c3::before { background: linear-gradient(90deg, var(--cyan), transparent); }
+.pillar.c4::before { background: linear-gradient(90deg, #FF6B9D, transparent); }
+.pillar.c5::before { background: linear-gradient(90deg, #FF9F43, transparent); }
+.pillar.c6::before { background: linear-gradient(90deg, #A29BFE, transparent); }
+
+.pillar-top {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  margin-bottom: 0.9rem;
+}
+
+.pillar-icon {
+  font-size: 1.6rem;
+  flex-shrink: 0;
+  line-height: 1;
+}
+
+.pillar-title {
+  font-family: 'Syne', sans-serif;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #fff;
+  line-height: 1.2;
+  padding-top: 0.2rem;
+}
+
+.pillar-sub {
+  font-size: 0.62rem;
+  font-weight: 500;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  margin-bottom: 0.3rem;
+}
+
+.c1 .pillar-sub { color: var(--green); }
+.c2 .pillar-sub { color: var(--gold); }
+.c3 .pillar-sub { color: var(--cyan); }
+.c4 .pillar-sub { color: #FF6B9D; }
+.c5 .pillar-sub { color: #FF9F43; }
+.c6 .pillar-sub { color: #A29BFE; }
+
+.pillar-text {
+  font-size: 0.88rem;
+  line-height: 1.7;
+  color: rgba(220,232,240,0.55);
+}
+
+/* ────────────────────────────────────────────────────────
+   CLOSING
+──────────────────────────────────────────────────────── */
+#closing {
+  padding: 8rem 1.5rem;
+  text-align: center;
+  background: var(--bg);
+  position: relative;
+}
+
+#closing::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 60% 50% at 50% 50%, rgba(0,229,255,0.06) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.closing-inner {
+  position: relative;
+  z-index: 1;
+  max-width: 620px;
+  margin: 0 auto;
+}
+
+.closing-question {
+  font-family: 'Syne', sans-serif;
+  font-size: clamp(1.6rem, 6vw, 2.8rem);
+  font-weight: 800;
+  color: #fff;
+  line-height: 1.2;
+  margin-bottom: 1.5rem;
+}
+
+.closing-question .accent { color: var(--cyan); }
+
+.closing-sub {
+  font-size: 0.95rem;
+  color: rgba(220,232,240,0.5);
+  line-height: 1.7;
+  max-width: 480px;
+  margin: 0 auto 2.5rem;
+}
+
+.closing-flag {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+  display: block;
+}
+
+.closing-made {
+  font-size: 0.62rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--dim);
+}
+
+/* ────────────────────────────────────────────────────────
+   DIVIDER
+──────────────────────────────────────────────────────── */
+.divider {
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--dim), transparent);
+  opacity: 0.4;
+  max-width: 720px;
+  margin: 0 auto;
+}
 </style>
 </head>
 <body>
 
-<div class="progress-bar" id="progressBar" style="width:0%"></div>
+<canvas id="particles"></canvas>
 
-<!-- ── Intro ── -->
-<div class="screen active" id="screenIntro">
-  <div class="intro-flag">🇧🇳</div>
-  <div class="intro-title">What type of<span>Bruneian are you?</span></div>
-  <div class="intro-sub">4 questions. brutally accurate. shareable result.<br>trust the process.</div>
-  <button class="btn-primary" onclick="startQuiz()">Find Out →</button>
-</div>
+<!-- ── HERO ── -->
+<section id="hero">
+  <div class="hero-inner">
+    <div class="hero-flag">🇧🇳 &nbsp; Negara Brunei Darussalam</div>
+    <h1 class="hero-title">
+      BRUNEI
+      <span class="year">2050</span>
+    </h1>
+    <p class="hero-sub">
+      A vision for a small nation with an outsized future.<br>
+      We have everything we need. We just haven't started yet.
+    </p>
+  </div>
+  <div class="hero-scroll">
+    <div class="scroll-line"></div>
+    <span>Scroll</span>
+  </div>
+</section>
 
-<!-- ── Quiz ── -->
-<div class="screen" id="screenQuiz">
-  <div class="q-number" id="qNumber">Question 1 of 4</div>
-  <div class="q-text" id="qText"></div>
-  <div class="answers" id="answersContainer"></div>
-  <button class="btn-primary" id="btnNext" disabled onclick="nextQuestion()">Next →</button>
-</div>
+<!-- ── REALITY ── -->
+<section id="reality">
+  <div class="reality-inner">
+    <span class="section-tag reveal">Where we are now</span>
+    <p class="reality-statement reveal delay-1">
+      One of the <em>highest GDPs per capita</em> in Southeast Asia.<br>
+      One of the <em>least known nations</em> on earth.<br>
+      That is not a coincidence. That is an <em>opportunity.</em>
+    </p>
+    <div class="divider reveal delay-2"></div>
+    <div class="stats-row reveal delay-3">
+      <div class="stat">
+        <span class="stat-number" data-target="470000" data-suffix="">470K</span>
+        <span class="stat-label">People.<br>One of the smallest<br>nations on earth.</span>
+      </div>
+      <div class="stat">
+        <span class="stat-number">72%</span>
+        <span class="stat-label">Of land is<br>intact rainforest.<br>Extraordinary.</span>
+      </div>
+      <div class="stat">
+        <span class="stat-number">#1</span>
+        <span class="stat-label">In Southeast Asia<br>for human development<br>per capita potential.</span>
+      </div>
+    </div>
+  </div>
+</section>
 
-<!-- ── Result ── -->
-<div class="screen" id="screenResult">
-  <div class="result-emoji" id="resultEmoji"></div>
-  <div class="result-label">You are...</div>
-  <div class="result-name" id="resultName"></div>
-  <div class="result-desc" id="resultDesc"></div>
-  <div class="result-accuracy" id="resultAccuracy"></div>
-  <button class="btn-copy" id="btnCopy" onclick="copyResult()">Copy Result for Threads</button>
-  <button class="btn-secondary" onclick="restart()">Retake Quiz</button>
-  <div class="footer">🇧🇳 bruneiku · share with your friends</div>
-</div>
+<!-- ── BIG STATEMENT ── -->
+<section id="statement">
+  <p class="big-statement reveal">
+    The oil will not last forever.<br>
+    The <span class="hv">rainforest</span> will.<br>
+    The <span class="hi">people</span> will.<br>
+    The <span class="hg">story</span> hasn't been told yet.
+  </p>
+</section>
+
+<!-- ── PILLARS ── -->
+<section id="pillars">
+  <div class="pillars-header">
+    <span class="section-tag reveal">The six pillars</span>
+    <h2 class="pillars-title reveal delay-1">This is what Brunei 2050 looks like.</h2>
+  </div>
+
+  <div class="pillar-grid">
+
+    <div class="pillar c1 reveal">
+      <div class="pillar-sub">Pillar 01</div>
+      <div class="pillar-top">
+        <div class="pillar-icon">🌿</div>
+        <div class="pillar-title">The Last Great Rainforest</div>
+      </div>
+      <p class="pillar-text">
+        Brunei has one of the highest proportions of intact rainforest on earth. As the world scrambles to plant trees, we already have them. Temburong becomes a global model — a carbon-credit powerhouse, a biodiversity reserve, and an ecotourism destination that the world pays to protect.
+      </p>
+    </div>
+
+    <div class="pillar c2 reveal delay-1">
+      <div class="pillar-sub">Pillar 02</div>
+      <div class="pillar-top">
+        <div class="pillar-icon">⚡</div>
+        <div class="pillar-title">Own the Energy Transition</div>
+      </div>
+      <p class="pillar-text">
+        Oil made Brunei rich. Green energy will keep us rich. Brunei receives 2,600+ hours of sunlight per year. Solar, hydrogen, and clean energy exports to Singapore and beyond. The nations that transition first will own the next century. We can be one of them.
+      </p>
+    </div>
+
+    <div class="pillar c3 reveal delay-2">
+      <div class="pillar-sub">Pillar 03</div>
+      <div class="pillar-top">
+        <div class="pillar-icon">💻</div>
+        <div class="pillar-title">Southeast Asia's Quiet Powerhouse</div>
+      </div>
+      <p class="pillar-text">
+        Political stability. Zero tax on foreign income. Strategic location between Singapore and Sabah. Fast internet. Brunei has every ingredient to become a digital nomad capital, fintech hub, and data centre destination. We just haven't told anyone yet.
+      </p>
+    </div>
+
+    <div class="pillar c4 reveal delay-3">
+      <div class="pillar-sub">Pillar 04</div>
+      <div class="pillar-top">
+        <div class="pillar-icon">🎓</div>
+        <div class="pillar-title">The Generation That Builds It</div>
+      </div>
+      <p class="pillar-text">
+        Half of Brunei's population is under 30. That is not a demographic footnote — that is the country's greatest asset. Fund makers, coders, artists, and entrepreneurs. Build accelerators, not just universities. The next wave of Brunei is already here.
+      </p>
+    </div>
+
+    <div class="pillar c5 reveal delay-4">
+      <div class="pillar-sub">Pillar 05</div>
+      <div class="pillar-top">
+        <div class="pillar-icon">🌍</div>
+        <div class="pillar-title">Export the Culture</div>
+      </div>
+      <p class="pillar-text">
+        Ambuyat. Kampong Ayer. The world's oldest living rainforest. A monarchy that works. Brunei has stories the world has never heard. Fund filmmakers, chefs, writers, designers. Let Brunei be a cultural export — not just an oil export.
+      </p>
+    </div>
+
+    <div class="pillar c6 reveal delay-5">
+      <div class="pillar-sub">Pillar 06</div>
+      <div class="pillar-top">
+        <div class="pillar-icon">🤝</div>
+        <div class="pillar-title">Small Country, Global Soul</div>
+      </div>
+      <p class="pillar-text">
+        Brunei does not need to be loud to be influential. Strategic partnerships, a welcoming innovation zone, and a reputation built on trust and stability. The world's most underrated soft-power asset is sitting right here — waiting to be unlocked.
+      </p>
+    </div>
+
+  </div>
+</section>
+
+<!-- ── CLOSING ── -->
+<section id="closing">
+  <div class="closing-inner">
+    <span class="closing-flag reveal">🇧🇳</span>
+    <h2 class="closing-question reveal delay-1">
+      The question is not<br>
+      <span class="accent">whether Brunei can.</span>
+    </h2>
+    <p class="closing-sub reveal delay-2">
+      It's whether we start. The resources exist. The land exists. The people exist. All that's missing is the collective decision to build something extraordinary — together.
+    </p>
+    <p class="closing-made reveal delay-3">Brunei 2050 &nbsp;·&nbsp; A vision, not a limit &nbsp;·&nbsp; 🇧🇳</p>
+  </div>
+</section>
 
 <script>
-const questions = [
-  {
-    text: "it's saturday night. where are you?",
-    answers: [
-      { label: 'A', text: 'tapau nasi katok, home by 9pm 🍚', scores: [3,0,0,0,2,0,0,0] },
-      { label: 'B', text: 'gadong / times square until they kick us out', scores: [0,0,0,0,0,2,1,0] },
-      { label: 'C', text: 'same place i am every weekend... empire somehow 🏨', scores: [0,0,0,0,0,0,0,4] },
-      { label: 'D', text: 'babe i\'m already at the airport lah', scores: [0,0,4,0,0,0,0,0] },
-    ]
-  },
-  {
-    text: "pick your brunei villain origin story",
-    answers: [
-      { label: 'A', text: 'stuck at jalan tutong roundabout. again. 🚗', scores: [0,4,0,0,0,0,0,0] },
-      { label: 'B', text: 'shopee package held at customs for 3 weeks', scores: [0,0,0,4,0,0,0,0] },
-      { label: 'C', text: 'went outside. immediately regretted it. too hot. 🥵', scores: [0,0,0,0,4,0,0,0] },
-      { label: 'D', text: '"brunei is so boring" — some tourist who spent 2 hours here', scores: [0,0,0,0,0,0,4,0] },
-    ]
-  },
-  {
-    text: "honest review of living in brunei?",
-    answers: [
-      { label: 'A', text: '"boring but it\'s home 🥲 i would die without nasi katok"', scores: [2,0,0,0,1,0,1,0] },
-      { label: 'B', text: '"actually underrated lowkey. people don\'t get it"', scores: [0,1,0,0,0,0,3,0] },
-      { label: 'C', text: '"i love it but i need to leave every 3 months or i go insane"', scores: [0,0,3,0,0,1,0,0] },
-      { label: 'D', text: '"jangan tanya 😶"', scores: [0,1,0,2,0,2,0,0] },
-    ]
-  },
-  {
-    text: "your most practiced skill in brunei?",
-    answers: [
-      { label: 'A', text: 'knowing which economy rice stall is open past midnight', scores: [1,0,0,0,0,3,0,0] },
-      { label: 'B', text: 'tracking a shopee package across 4 countries in real time', scores: [0,0,0,3,0,0,0,0] },
-      { label: 'C', text: 'planning the fastest route to avoid every single roundabout', scores: [0,3,0,0,0,0,1,0] },
-      { label: 'D', text: 'identifying which mall has the best AC before entering', scores: [0,0,0,0,3,0,0,0] },
-    ]
+// ── Particle field ─────────────────────────────────────
+const canvas = document.getElementById('particles');
+const ctx = canvas.getContext('2d');
+let W, H, pts = [], frame = 0;
+const MAX_DIST = 120;
+
+function resize() {
+  W = canvas.width  = window.innerWidth;
+  H = canvas.height = window.innerHeight;
+}
+
+function initPts() {
+  pts = [];
+  const count = Math.floor((W * H) / 18000);
+  for (let i = 0; i < count; i++) {
+    pts.push({
+      x:  Math.random() * W,
+      y:  Math.random() * H,
+      vx: (Math.random() - 0.5) * 0.25,
+      vy: (Math.random() - 0.5) * 0.25,
+      r:  Math.random() * 1.5 + 0.5,
+    });
   }
-];
-
-const results = [
-  {
-    emoji: '🍚',
-    name: 'The Nasi Katok Loyalist',
-    desc: 'you are the backbone of the brunei economy. you have eaten nasi katok at 3AM more times than you\'ve slept before midnight. b$1 for a full meal? you believe in this. you will defend the humble katok against any food snob and honestly? you will WIN.',
-    accuracy: '100% scientifically accurate. no notes.',
-  },
-  {
-    emoji: '🚗',
-    name: 'The Roundabout Philosopher',
-    desc: 'you have spent so much time stuck at jalan tutong that you have achieved inner peace. you arrive everywhere exactly 20 minutes late and sincerely blame it on a roundabout that has existed since before you were born. this is not a personality flaw. this is a lifestyle.',
-    accuracy: '97.3% accurate. the remaining 2.7% is still in traffic.',
-  },
-  {
-    emoji: '✈️',
-    name: 'The KL Countdown',
-    desc: 'you are physically present in brunei but spiritually somewhere over the south china sea. your life only truly begins when airasia drops a promo. you\'ve already mentally packed for a trip that isn\'t booked yet. brunei is your charging port. kl is your actual battery.',
-    accuracy: '99% accurate. you\'re reading this from mitsui outlet park aren\'t you.',
-  },
-  {
-    emoji: '🛒',
-    name: 'The Shopee/Temu Philosopher',
-    desc: 'you have 47 items sitting in your cart right now. you know the exact shipping time from guangzhou to brunei muara. customs is your villain origin story — you think about it at night. but free shipping with no minimum? you feel joy. pure, unfiltered joy.',
-    accuracy: '98% accurate. your package just cleared customs btw.',
-  },
-  {
-    emoji: '❄️',
-    name: 'The AC Purist',
-    desc: 'you have engineered your entire existence around staying in air-conditioned spaces. step outside? for what. the sun hits and you\'re already heading back. brunei\'s 32°c weather is not weather, it is a personal attack. you are not thriving. you are surviving in controlled climate.',
-    accuracy: '100% accurate. please drink water.',
-  },
-  {
-    emoji: '🌙',
-    name: 'The Midnight Katok Sage',
-    desc: 'you are fully nocturnal. your social life does not begin before 10PM. you know which economy rice stall is still open at 2AM and this is your most valuable life skill. brunei by day? unfamiliar territory. brunei at night? that is YOUR brunei.',
-    accuracy: '96% accurate. you opened this at 1AM didn\'t you.',
-  },
-  {
-    emoji: '🗣️',
-    name: 'The Brunei Defender',
-    desc: 'someone says "brunei is boring" and you take it PERSONALLY. you have a memorised list of underrated spots, hidden gems, and reasons brunei is actually lowkey amazing — and you will share all of them, unsolicited. brunei does not need a PR team. it has you.',
-    accuracy: '99% accurate. you\'ve already started typing a response to this.',
-  },
-  {
-    emoji: '🏨',
-    name: 'The Empire Mysterious',
-    desc: 'no one knows how you afford this lifestyle and frankly you\'re not explaining. you are somehow at empire hotel every other weekend — the brunch, the pool, the gala dinner. you exist on a different plane of brunei experience. you are our most glamorous unsolved mystery.',
-    accuracy: '95% accurate. see you at the sunday buffet.',
-  },
-];
-
-let currentQ = 0;
-let answers = [];
-let scores = [0,0,0,0,0,0,0,0];
-let selectedIndex = -1;
-
-function setProgress(pct) {
-  document.getElementById('progressBar').style.width = pct + '%';
 }
 
-function show(id) {
-  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-  document.getElementById(id).classList.add('active');
+function drawPts() {
+  ctx.clearRect(0, 0, W, H);
+  frame++;
+
+  for (let i = 0; i < pts.length; i++) {
+    const p = pts[i];
+    p.x += p.vx;
+    p.y += p.vy;
+    if (p.x < 0 || p.x > W) p.vx *= -1;
+    if (p.y < 0 || p.y > H) p.vy *= -1;
+
+    // dot
+    ctx.beginPath();
+    ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+    ctx.fillStyle = 'rgba(0,229,255,0.35)';
+    ctx.fill();
+
+    // lines to neighbours
+    for (let j = i + 1; j < pts.length; j++) {
+      const q = pts[j];
+      const dx = p.x - q.x, dy = p.y - q.y;
+      const d = Math.sqrt(dx*dx + dy*dy);
+      if (d < MAX_DIST) {
+        ctx.beginPath();
+        ctx.moveTo(p.x, p.y);
+        ctx.lineTo(q.x, q.y);
+        ctx.strokeStyle = `rgba(0,229,255,${0.12 * (1 - d/MAX_DIST)})`;
+        ctx.lineWidth = 0.5;
+        ctx.stroke();
+      }
+    }
+  }
+  requestAnimationFrame(drawPts);
 }
 
-function startQuiz() {
-  currentQ = 0;
-  scores = [0,0,0,0,0,0,0,0];
-  answers = [];
-  setProgress(5);
-  show('screenQuiz');
-  renderQuestion();
-}
+window.addEventListener('resize', () => { resize(); initPts(); });
+resize(); initPts(); drawPts();
 
-function renderQuestion() {
-  const q = questions[currentQ];
-  document.getElementById('qNumber').textContent = `Question ${currentQ + 1} of ${questions.length}`;
-  document.getElementById('qText').textContent = q.text;
-  selectedIndex = -1;
-  document.getElementById('btnNext').disabled = true;
-
-  const container = document.getElementById('answersContainer');
-  container.innerHTML = '';
-
-  q.answers.forEach((a, i) => {
-    const btn = document.createElement('button');
-    btn.className = 'answer-btn';
-    btn.innerHTML = `<div class="answer-label">${a.label}</div><div class="answer-text">${a.text}</div>`;
-    btn.onclick = () => selectAnswer(i);
-    container.appendChild(btn);
+// ── Scroll reveal ──────────────────────────────────────
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('visible');
+      observer.unobserve(e.target);
+    }
   });
-}
+}, { threshold: 0.12 });
 
-function selectAnswer(i) {
-  selectedIndex = i;
-  document.querySelectorAll('.answer-btn').forEach((b, idx) => {
-    b.classList.toggle('selected', idx === i);
-  });
-  document.getElementById('btnNext').disabled = false;
-  document.getElementById('btnNext').textContent = currentQ === questions.length - 1 ? 'See My Result →' : 'Next →';
-}
-
-function nextQuestion() {
-  if (selectedIndex === -1) return;
-
-  const q = questions[currentQ];
-  const s = q.answers[selectedIndex].scores;
-  s.forEach((v, i) => scores[i] += v);
-
-  currentQ++;
-  const pct = Math.round((currentQ / questions.length) * 100);
-  setProgress(pct);
-
-  if (currentQ >= questions.length) {
-    showResult();
-  } else {
-    renderQuestion();
-  }
-}
-
-function showResult() {
-  let best = 0;
-  let bestIdx = 0;
-  // tiebreak: pick a random one among tied top scores for variety
-  const max = Math.max(...scores);
-  const ties = scores.reduce((acc, v, i) => v === max ? [...acc, i] : acc, []);
-  bestIdx = ties[Math.floor(Math.random() * ties.length)];
-
-  const r = results[bestIdx];
-  document.getElementById('resultEmoji').textContent = r.emoji;
-  document.getElementById('resultName').textContent = r.name;
-  document.getElementById('resultDesc').textContent = r.desc;
-  document.getElementById('resultAccuracy').textContent = r.accuracy;
-
-  const copyBtn = document.getElementById('btnCopy');
-  copyBtn.textContent = 'Copy Result for Threads';
-  copyBtn.classList.remove('done');
-
-  setProgress(100);
-  show('screenResult');
-
-  // store for copy
-  window._currentResult = r;
-  window._currentResultIdx = bestIdx;
-}
-
-function copyResult() {
-  const r = window._currentResult;
-  const text = `i took the "what type of bruneian are you?" quiz and got...\n\n${r.emoji} ${r.name}\n\n"${r.desc.slice(0, 120)}..."\n\n${r.accuracy}\n\n🇧🇳 #Brunei #BruneiNetizen`;
-
-  const done = () => {
-    const btn = document.getElementById('btnCopy');
-    btn.textContent = 'Copied! Paste on Threads 🇧🇳';
-    btn.classList.add('done');
-    setTimeout(() => {
-      btn.textContent = 'Copy Result for Threads';
-      btn.classList.remove('done');
-    }, 3000);
-  };
-
-  if (navigator.clipboard) {
-    navigator.clipboard.writeText(text).then(done).catch(() => fallback(text, done));
-  } else {
-    fallback(text, done);
-  }
-}
-
-function fallback(text, cb) {
-  const t = document.createElement('textarea');
-  t.value = text;
-  t.style.cssText = 'position:fixed;opacity:0;top:0;left:0';
-  document.body.appendChild(t);
-  t.select();
-  document.execCommand('copy');
-  document.body.removeChild(t);
-  cb();
-}
-
-function restart() {
-  setProgress(0);
-  show('screenIntro');
-}
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 </script>
 </body>
 </html>
