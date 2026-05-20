@@ -142,6 +142,15 @@ section { position: relative; overflow: hidden; }
   padding: 6rem 1.5rem 8rem;
 }
 
+#hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 65% 52% at 50% 48%, rgba(255,209,0,0.08) 0%, transparent 65%);
+  pointer-events: none;
+  z-index: 0;
+}
+
 .hero-inner {
   position: relative;
   z-index: 1;
@@ -468,9 +477,10 @@ section { position: relative; overflow: hidden; }
 }
 
 .pillar-grid {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
   gap: 1rem;
+  align-items: start;
 }
 
 .pillar {
@@ -480,12 +490,14 @@ section { position: relative; overflow: hidden; }
   padding: 2rem 1.5rem;
   position: relative;
   overflow: hidden;
-  transition: border-color 0.3s, background 0.3s;
+  transition: border-color 0.3s, background 0.3s, transform 0.35s, box-shadow 0.35s;
 }
 
 .pillar:hover {
-  background: rgba(255,255,255,0.05);
-  border-color: rgba(255,255,255,0.13);
+  background: rgba(255,255,255,0.055);
+  border-color: rgba(255,255,255,0.16);
+  transform: translateY(-6px);
+  box-shadow: 0 20px 48px rgba(0,0,0,0.45);
 }
 
 .pillar-accent {
@@ -554,6 +566,7 @@ section { position: relative; overflow: hidden; }
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 0.75rem;
+  counter-reset: strat;
 }
 
 .strat {
@@ -561,15 +574,33 @@ section { position: relative; overflow: hidden; }
   border: 1px solid var(--border);
   border-radius: 15px;
   padding: 1.25rem 1.1rem;
-  transition: border-color 0.25s, background 0.25s;
+  position: relative;
+  overflow: hidden;
+  counter-increment: strat;
+  transition: border-color 0.25s, background 0.25s, transform 0.25s;
+}
+
+.strat::before {
+  content: '0' counter(strat);
+  position: absolute;
+  right: 0.5rem;
+  top: -0.5rem;
+  font-family: 'Syne', sans-serif;
+  font-size: 4rem;
+  font-weight: 800;
+  color: rgba(255,255,255,0.04);
+  line-height: 1;
+  pointer-events: none;
+  user-select: none;
 }
 
 .strat:hover {
-  background: rgba(255,209,0,0.03);
-  border-color: rgba(255,209,0,0.2);
+  background: rgba(255,209,0,0.04);
+  border-color: rgba(255,209,0,0.24);
+  transform: translateY(-2px);
 }
 
-.strat-icon { font-size: 1.3rem; margin-bottom: 0.55rem; }
+.strat-icon { font-size: 1.3rem; margin-bottom: 0.55rem; position: relative; z-index: 1; }
 
 .strat-name {
   font-family: 'Syne', sans-serif;
@@ -578,12 +609,16 @@ section { position: relative; overflow: hidden; }
   color: #fff;
   margin-bottom: 0.3rem;
   line-height: 1.2;
+  position: relative;
+  z-index: 1;
 }
 
 .strat-desc {
   font-size: 0.73rem;
   line-height: 1.6;
   color: var(--muted);
+  position: relative;
+  z-index: 1;
 }
 
 /* ════════════════════════════════════════
@@ -617,6 +652,12 @@ section { position: relative; overflow: hidden; }
 .num-card {
   background: #060E1A;
   padding: 1.5rem 1.25rem;
+  transition: background 0.25s;
+  cursor: default;
+}
+
+.num-card:hover {
+  background: rgba(6,20,32,0.95);
 }
 
 .num-val {
@@ -850,6 +891,9 @@ section { position: relative; overflow: hidden; }
   .progress-stats { grid-template-columns: 1fr; }
   .pstat { padding: 1rem; }
 
+  /* Pillars: 3-col → 1-col */
+  .pillar-grid { grid-template-columns: 1fr; }
+
   /* Strategies: 2-col → 1-col */
   .strat-grid { grid-template-columns: 1fr; }
 
@@ -962,15 +1006,15 @@ section { position: relative; overflow: hidden; }
     </div>
     <div class="progress-stats reveal d2">
       <div class="pstat">
-        <span class="pstat-n">18</span>
+        <span class="pstat-n" data-to="18">18</span>
         <span class="pstat-l">Years since<br>launch (2008)</span>
       </div>
       <div class="pstat">
-        <span class="pstat-n">9</span>
+        <span class="pstat-n" data-to="9">9</span>
         <span class="pstat-l">Years left to<br>reach 2035</span>
       </div>
       <div class="pstat">
-        <span class="pstat-n">3</span>
+        <span class="pstat-n" data-to="3">3</span>
         <span class="pstat-l">Core aspirations<br>driving the vision</span>
       </div>
     </div>
@@ -1138,15 +1182,15 @@ section { position: relative; overflow: hidden; }
         <span class="num-label">Non-oil exports share, 2017 to 2023. One of the fastest diversification records in Southeast Asia.</span>
       </div>
       <div class="num-card">
-        <span class="num-val">56.6%</span>
+        <span class="num-val" data-to="56.6" data-suffix="%" data-dec="1">56.6%</span>
         <span class="num-label">GDP now from non-oil & gas sectors. The target of below 30% hydrocarbon dependency is within reach.</span>
       </div>
       <div class="num-card">
-        <span class="num-val">72%</span>
+        <span class="num-val" data-to="72" data-suffix="%">72%</span>
         <span class="num-label">Of Brunei's land is intact tropical rainforest — among the highest proportions on earth. A built-in asset.</span>
       </div>
       <div class="num-card">
-        <span class="num-val">8</span>
+        <span class="num-val" data-to="8">8</span>
         <span class="num-label">National strategies, 12 national outcome measures, and a Supreme Council all dedicated to delivery.</span>
       </div>
     </div>
@@ -1237,7 +1281,7 @@ section { position: relative; overflow: hidden; }
 <!-- ════ CLOSING ════ -->
 <section id="closing">
   <div class="closing-inner">
-    <div class="closing-n reveal">9</div>
+    <div class="closing-n reveal" data-to="9">9</div>
     <p class="closing-sub reveal d1">Years remaining</p>
     <h2 class="closing-line reveal d2">
       This is the decade<br><span>that decides everything.</span>
@@ -1342,6 +1386,30 @@ function toggleSector(el) {
   document.querySelectorAll('.sector.open').forEach(s => s.classList.remove('open'));
   if (!isOpen) el.classList.add('open');
 }
+
+// ── Count-up animation ─────────────────────────────────────
+function countUp(el, to, suffix, dec) {
+  const s = performance.now();
+  const dur = 1600;
+  function tick(now) {
+    const p = Math.min((now - s) / dur, 1);
+    const ease = 1 - Math.pow(1 - p, 3);
+    el.textContent = dec > 0 ? (ease * to).toFixed(dec) + suffix : Math.round(ease * to) + suffix;
+    if (p < 1) requestAnimationFrame(tick);
+  }
+  requestAnimationFrame(tick);
+}
+
+const countIO = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (!e.isIntersecting) return;
+    const el = e.target;
+    countUp(el, +el.dataset.to, el.dataset.suffix || '', +(el.dataset.dec || 0));
+    countIO.unobserve(el);
+  });
+}, { threshold: 0.5 });
+
+document.querySelectorAll('[data-to]').forEach(el => countIO.observe(el));
 </script>
 </body>
 </html>
