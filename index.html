@@ -9,7 +9,7 @@
 <title>Wawasan Brunei 2035</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital@1&family=Syne:wght@400;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Playfair+Display:ital@1&family=Syne:wght@400;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -28,7 +28,7 @@
 html { scroll-behavior: smooth; }
 
 body {
-  background: var(--bg);
+  background: linear-gradient(180deg, #03060C 0%, #050A15 50%, #04070D 100%);
   color: var(--white);
   font-family: 'Inter', sans-serif;
   overflow-x: hidden;
@@ -48,7 +48,7 @@ nav {
   border: 1px solid rgba(255,209,0,0.15);
   border-radius: 99px;
   padding: 0.45rem 0.75rem;
-  backdrop-filter: blur(20px);
+  backdrop-filter: blur(24px);
   transition: opacity 0.4s;
 }
 nav.hidden { opacity: 0; pointer-events: none; }
@@ -356,9 +356,9 @@ section { position: relative; overflow: hidden; }
 }
 
 .pstat-n {
-  font-family: 'Syne', sans-serif;
+  font-family: 'JetBrains Mono', 'Syne', monospace;
   font-size: clamp(1.3rem, 4.5vw, 1.9rem);
-  font-weight: 800;
+  font-weight: 500;
   color: var(--gold);
   line-height: 1;
   display: block;
@@ -491,8 +491,9 @@ section { position: relative; overflow: hidden; }
   padding: 2rem 1.5rem;
   position: relative;
   overflow: hidden;
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
+  cursor: pointer;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
   transition: border-color 0.35s cubic-bezier(0.16,1,0.3,1), background 0.35s cubic-bezier(0.16,1,0.3,1), transform 0.35s cubic-bezier(0.16,1,0.3,1), box-shadow 0.35s cubic-bezier(0.16,1,0.3,1);
 }
 
@@ -500,8 +501,10 @@ section { position: relative; overflow: hidden; }
   background: rgba(255,255,255,0.055);
   border-color: rgba(255,255,255,0.16);
   transform: translateY(-6px);
-  box-shadow: 0 20px 48px rgba(0,0,0,0.45);
+  box-shadow: 0 20px 48px rgba(0,0,0,0.45), 0 0 0 1px rgba(255,209,0,0.1), inset 0 1px 0 rgba(255,209,0,0.07);
 }
+
+.pillar:active { transform: translateY(-2px); }
 
 .pillar-accent {
   position: absolute;
@@ -579,8 +582,9 @@ section { position: relative; overflow: hidden; }
   padding: 1.25rem 1.1rem;
   position: relative;
   overflow: hidden;
+  cursor: pointer;
   counter-increment: strat;
-  transition: border-color 0.25s, background 0.25s, transform 0.25s;
+  transition: border-color 0.25s, background 0.25s, transform 0.25s, box-shadow 0.25s;
 }
 
 .strat::before {
@@ -601,6 +605,13 @@ section { position: relative; overflow: hidden; }
   background: rgba(255,209,0,0.04);
   border-color: rgba(255,209,0,0.24);
   transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.3), 0 0 0 1px rgba(255,209,0,0.12);
+}
+
+.strat:active {
+  background: rgba(255,209,0,0.06);
+  border-color: rgba(255,209,0,0.3);
+  transform: translateY(0);
 }
 
 .strat-icon { font-size: 1.3rem; margin-bottom: 0.55rem; position: relative; z-index: 1; }
@@ -664,9 +675,9 @@ section { position: relative; overflow: hidden; }
 }
 
 .num-val {
-  font-family: 'Syne', sans-serif;
+  font-family: 'JetBrains Mono', 'Syne', monospace;
   font-size: clamp(1.5rem, 5.5vw, 2.2rem);
-  font-weight: 800;
+  font-weight: 500;
   color: var(--gold);
   line-height: 1;
   display: block;
@@ -706,6 +717,7 @@ section { position: relative; overflow: hidden; }
 }
 .sector:last-child { border-bottom: none; }
 .sector:hover, .sector.open { background: rgba(255,255,255,0.04); }
+.sector:active { background: rgba(255,255,255,0.06); }
 
 .sector-left {
   flex-shrink: 0;
