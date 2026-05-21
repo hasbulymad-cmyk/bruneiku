@@ -31,7 +31,8 @@ body {
   background: linear-gradient(180deg, #03060C 0%, #050A15 50%, #04070D 100%);
   color: var(--white);
   font-family: 'Inter', sans-serif;
-  overflow-x: hidden;
+  overflow: hidden;
+  height: 100dvh;
 }
 
 /* ── Nav ── */
@@ -58,12 +59,13 @@ nav.hidden { opacity: 0; pointer-events: none; }
 .nav-flag { display: flex; align-items: center; font-size: 1rem; color: var(--gold); }
 .nav-title {
   font-family: 'Syne', sans-serif;
-  font-size: 0.68rem;
+  font-size: clamp(0.52rem, 1.8vw, 0.68rem);
   font-weight: 700;
-  letter-spacing: 0.08em;
+  letter-spacing: clamp(0.03em, 0.3vw, 0.08em);
   color: var(--gold);
   white-space: nowrap;
   flex-shrink: 0;
+  min-width: 0;
 }
 .nav-sep {
   width: 1px;
@@ -86,6 +88,12 @@ nav.hidden { opacity: 0; pointer-events: none; }
 .nav-links a.active { color: var(--white); background: rgba(255,255,255,0.07); }
 @media (max-width: 560px) {
   .nav-links, .nav-sep { display: none; }
+}
+@media (max-width: 400px) {
+  .nav-title { font-size: 0.55rem; letter-spacing: 0.03em; }
+}
+@media (max-width: 320px) {
+  .nav-title { display: none; }
 }
 
 /* ── Canvas ── */
@@ -113,7 +121,22 @@ nav.hidden { opacity: 0; pointer-events: none; }
 .d8 { transition-delay: 0.94s; }
 
 /* ── Shared ── */
-section { position: relative; overflow: hidden; }
+section {
+  position: fixed;
+  inset: 0;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.5s ease;
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+  z-index: 2;
+}
+.active-section {
+  opacity: 1;
+  pointer-events: auto;
+  z-index: 3;
+}
 
 .wrap {
   max-width: var(--max);
@@ -234,6 +257,7 @@ section { position: relative; overflow: hidden; }
   gap: 0.5rem;
   opacity: 0;
   animation: fadeUp 1s 1.5s ease both;
+  cursor: pointer;
 }
 .hero-scroll span {
   font-size: 0.52rem;
@@ -919,7 +943,7 @@ section { position: relative; overflow: hidden; }
   width: 0%;
   background: linear-gradient(90deg, #B88A00, #FFD100, #FFF5A0);
   z-index: 200;
-  transition: width 0.08s linear;
+  transition: width 0.4s ease;
   pointer-events: none;
 }
 
@@ -928,6 +952,7 @@ section { position: relative; overflow: hidden; }
   .reveal { transition: none !important; opacity: 1 !important; transform: none !important; }
   .blob, .scroll-line, .tl-item.now::before, .p-fill { animation: none !important; }
   .p-fill { transition: none !important; }
+  section { transition: none !important; }
 }
 
 @media (max-width: 640px) {
@@ -1040,11 +1065,11 @@ section { position: relative; overflow: hidden; }
   <div class="wrap">
     <span class="tag reveal">The Official Vision</span>
     <p class="mission-quote reveal d1">
-      "By 2035, Brunei Darussalam will be, by the grace of Allah, a nation
+      “By 2035, Brunei Darussalam will be, by the grace of Allah, a nation
       that is widely recognised for the accomplishments of its
       <em>well-educated and highly-skilled people</em>,
       as reflected in their <em>quality of life</em>
-      and a <em>dynamic and sustainable economy</em>."
+      and a <em>dynamic and sustainable economy</em>.”
     </p>
     <p class="mission-source reveal d2">
       — His Majesty Sultan Haji Hassanal Bolkiah Mu'izzaddin Waddaulah &nbsp;·&nbsp; Proclaimed 2008
@@ -1107,7 +1132,7 @@ section { position: relative; overflow: hidden; }
 
       <div class="tl-item done">
         <span class="tl-year">2016</span>
-        <span class="tl-title">Wawasan Framework & KPIs Introduced</span>
+        <span class="tl-title">Wawasan Framework &amp; KPIs Introduced</span>
         <p class="tl-desc">A comprehensive measurement framework with 12 National Outcomes and Key Performance Indicators is launched to hold the nation accountable to progress.</p>
       </div>
 
@@ -1248,7 +1273,7 @@ section { position: relative; overflow: hidden; }
       </div>
       <div class="num-card">
         <span class="num-val" data-to="56.6" data-suffix="%" data-dec="1">56.6%</span>
-        <span class="num-label">GDP now from non-oil & gas sectors. The target of below 30% hydrocarbon dependency is within reach.</span>
+        <span class="num-label">GDP now from non-oil &amp; gas sectors. The target of below 30% hydrocarbon dependency is within reach.</span>
       </div>
       <div class="num-card">
         <span class="num-val" data-to="72" data-suffix="%">72%</span>
@@ -1276,7 +1301,7 @@ section { position: relative; overflow: hidden; }
         </div>
         <div class="sector-right">
           <div class="sector-hd">
-            <div class="sector-name">Downstream Oil & Gas</div>
+            <div class="sector-name">Downstream Oil &amp; Gas</div>
             <span class="sector-chevron">▼</span>
           </div>
           <p class="sector-desc">Move beyond extraction into refining, petrochemicals, and LNG value-adding. Capturing significantly more economic value from existing reserves before they run dry — while building expertise that outlasts the oil itself.</p>
@@ -1290,7 +1315,7 @@ section { position: relative; overflow: hidden; }
         </div>
         <div class="sector-right">
           <div class="sector-hd">
-            <div class="sector-name">Food & Agriculture</div>
+            <div class="sector-name">Food &amp; Agriculture</div>
             <span class="sector-chevron">▼</span>
           </div>
           <p class="sector-desc">National food security and agribusiness export. Aquaculture, halal food processing, and smart farming in Brunei's fertile interior. The goal: produce enough to feed the nation and export the surplus — especially to halal markets globally.</p>
@@ -1318,7 +1343,7 @@ section { position: relative; overflow: hidden; }
         </div>
         <div class="sector-right">
           <div class="sector-hd">
-            <div class="sector-name">ICT & Digital Economy</div>
+            <div class="sector-name">ICT &amp; Digital Economy</div>
             <span class="sector-chevron">▼</span>
           </div>
           <p class="sector-desc">Smart nation infrastructure, digital government services, fintech, and data economy. Political stability and zero income tax on foreign earnings position Brunei as an unlikely but attractive base for technology companies looking for a Southeast Asian foothold.</p>
@@ -1332,7 +1357,7 @@ section { position: relative; overflow: hidden; }
         </div>
         <div class="sector-right">
           <div class="sector-hd">
-            <div class="sector-name">Halal Industry & Financial Services</div>
+            <div class="sector-name">Halal Industry &amp; Financial Services</div>
             <span class="sector-chevron">▼</span>
           </div>
           <p class="sector-desc">Islamic finance, halal certification, and pharmaceutical manufacturing. The global halal economy is valued at over $7 trillion. Brunei's credentials — Islamic governance, trusted certification, and a Muslim-majority population — make it a natural hub.</p>
@@ -1405,84 +1430,109 @@ function draw() {
 window.addEventListener('resize', () => { resize(); spawn(); });
 resize(); spawn(); draw();
 
-// ── Scroll reveal ──────────────────────────────────────────
-const io = new IntersectionObserver(entries => {
-  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
-}, { threshold: 0.1 });
-document.querySelectorAll('.reveal').forEach(el => io.observe(el));
-
-// ── Progress bar ───────────────────────────────────────────
-const pfill = document.getElementById('pfill');
-new IntersectionObserver(entries => {
-  if (entries[0].isIntersecting) setTimeout(() => pfill.style.width = '66.7%', 200);
-}, { threshold: 0.4 }).observe(pfill.parentElement);
-
-// ── Active nav / side dots ─────────────────────────────────
-const sections = ['hero','mission','progress','timeline','pillars','strategies','numbers','sectors','closing'];
-const dots = document.querySelectorAll('.progress-dot a');
+// ── Section navigation ─────────────────────────────────────
+const SECTIONS = ['hero','mission','progress','timeline','pillars','strategies','numbers','sectors','closing'];
+const dots     = document.querySelectorAll('.progress-dot a');
 const navLinks = document.querySelectorAll('.nav-links a');
+const navEl    = document.getElementById('nav');
+const scrollProg = document.getElementById('scroll-progress');
 
-const sectionIO = new IntersectionObserver(entries => {
-  entries.forEach(e => {
-    if (e.isIntersecting) {
-      const id = e.target.id;
-      const idx = sections.indexOf(id);
-      dots.forEach((d, i) => d.classList.toggle('active', i === idx));
-      navLinks.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + id));
-    }
+let currentIdx = 0;
+let navigating = false;
+
+function countUp(el, to, suffix, dec) {
+  const s = performance.now(), dur = 1600;
+  (function tick(now) {
+    const p = Math.min((now - s) / dur, 1);
+    const ease = 1 - Math.pow(1 - p, 3);
+    el.textContent = dec > 0 ? (ease * to).toFixed(dec) + suffix : Math.round(ease * to) + suffix;
+    if (p < 1) requestAnimationFrame(tick);
+  })(performance.now());
+}
+
+function goToSection(idx) {
+  if (navigating || idx < 0 || idx >= SECTIONS.length) return;
+  navigating = true;
+
+  const oldEl = document.getElementById(SECTIONS[currentIdx]);
+  const newEl = document.getElementById(SECTIONS[idx]);
+
+  if (oldEl) oldEl.classList.remove('active-section');
+  if (newEl) {
+    newEl.classList.add('active-section');
+    newEl.scrollTop = 0;
+    setTimeout(() => {
+      newEl.querySelectorAll('.reveal:not(.in)').forEach(el => el.classList.add('in'));
+      newEl.querySelectorAll('[data-to]:not(.counted)').forEach(el => {
+        el.classList.add('counted');
+        countUp(el, +el.dataset.to, el.dataset.suffix || '', +(el.dataset.dec || 0));
+      });
+      const pfill = newEl.querySelector('#pfill');
+      if (pfill) { pfill.style.width = '0%'; setTimeout(() => pfill.style.width = '66.7%', 50); }
+    }, 300);
+  }
+
+  currentIdx = idx;
+  navEl.classList.toggle('hidden', idx === 0);
+  dots.forEach((d, i) => d.classList.toggle('active', i === idx));
+  navLinks.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + SECTIONS[idx]));
+  scrollProg.style.width = (idx / (SECTIONS.length - 1) * 100) + '%';
+
+  setTimeout(() => { navigating = false; }, 600);
+}
+
+// Nav & dot clicks
+document.querySelectorAll('.nav-links a, .progress-dot a').forEach(a => {
+  a.addEventListener('click', e => {
+    e.preventDefault();
+    const i = SECTIONS.indexOf(a.getAttribute('href').replace('#', ''));
+    if (i >= 0) goToSection(i);
   });
-}, { threshold: 0.4 });
-
-sections.forEach(id => {
-  const el = document.getElementById(id);
-  if (el) sectionIO.observe(el);
 });
 
-// Hide nav on hero
-const heroEl = document.getElementById('hero');
-const navEl  = document.getElementById('nav');
-new IntersectionObserver(entries => {
-  navEl.classList.toggle('hidden', entries[0].isIntersecting);
-}, { threshold: 0.5 }).observe(heroEl);
+// Hero scroll-hint click → next section
+document.querySelector('.hero-scroll')?.addEventListener('click', () => goToSection(1));
 
-// ── Expandable sectors ─────────────────────────────────────
+// Keyboard
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowDown' || e.key === 'ArrowRight') goToSection(currentIdx + 1);
+  if (e.key === 'ArrowUp'   || e.key === 'ArrowLeft')  goToSection(currentIdx - 1);
+});
+
+// Wheel — navigate at section boundaries
+SECTIONS.forEach(id => {
+  const el = document.getElementById(id);
+  if (!el) return;
+  el.addEventListener('wheel', e => {
+    const atBottom = el.scrollTop >= el.scrollHeight - el.clientHeight - 5;
+    const atTop    = el.scrollTop <= 5;
+    if (e.deltaY > 0 && atBottom) { e.preventDefault(); goToSection(currentIdx + 1); }
+    else if (e.deltaY < 0 && atTop) { e.preventDefault(); goToSection(currentIdx - 1); }
+  }, { passive: false });
+});
+
+// Touch swipe
+let touchStartY = 0;
+document.addEventListener('touchstart', e => { touchStartY = e.touches[0].clientY; }, { passive: true });
+document.addEventListener('touchend', e => {
+  const delta = touchStartY - e.changedTouches[0].clientY;
+  if (Math.abs(delta) < 55) return;
+  const el = document.getElementById(SECTIONS[currentIdx]);
+  const atBottom = !el || el.scrollTop >= el.scrollHeight - el.clientHeight - 10;
+  const atTop    = !el || el.scrollTop <= 10;
+  if (delta > 0 && atBottom) goToSection(currentIdx + 1);
+  if (delta < 0 && atTop)    goToSection(currentIdx - 1);
+}, { passive: true });
+
+// Expandable sectors
 function toggleSector(el) {
   const isOpen = el.classList.contains('open');
   document.querySelectorAll('.sector.open').forEach(s => s.classList.remove('open'));
   if (!isOpen) el.classList.add('open');
 }
 
-// ── Count-up animation ─────────────────────────────────────
-function countUp(el, to, suffix, dec) {
-  const s = performance.now();
-  const dur = 1600;
-  function tick(now) {
-    const p = Math.min((now - s) / dur, 1);
-    const ease = 1 - Math.pow(1 - p, 3);
-    el.textContent = dec > 0 ? (ease * to).toFixed(dec) + suffix : Math.round(ease * to) + suffix;
-    if (p < 1) requestAnimationFrame(tick);
-  }
-  requestAnimationFrame(tick);
-}
-
-const countIO = new IntersectionObserver(entries => {
-  entries.forEach(e => {
-    if (!e.isIntersecting) return;
-    const el = e.target;
-    countUp(el, +el.dataset.to, el.dataset.suffix || '', +(el.dataset.dec || 0));
-    countIO.unobserve(el);
-  });
-}, { threshold: 0.5 });
-
-document.querySelectorAll('[data-to]').forEach(el => countIO.observe(el));
-
-// ── Scroll progress bar ─────────────────────────────────────
-const scrollProg = document.getElementById('scroll-progress');
-window.addEventListener('scroll', () => {
-  const s = document.documentElement.scrollTop;
-  const h = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-  scrollProg.style.width = (s / h * 100) + '%';
-}, { passive: true });
+// Init — show hero
+goToSection(0);
 </script>
 </body>
 </html>
