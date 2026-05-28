@@ -26,13 +26,7 @@
       "bundler": "metro"
     },
     "plugins": [
-      "expo-router",
-      [
-        "@react-native-async-storage/async-storage",
-        {
-          "exclude": []
-        }
-      ]
+      "expo-router"
     ],
     "experiments": {
       "typedRoutes": true
