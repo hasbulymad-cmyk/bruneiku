@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#1B3A6B">
+<meta name="description" content="Warung BN — Discover local Brunei businesses. Shop local, support Bruneian SMEs.">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Warung BN">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>Warung BN — Brunei Local Business Directory</title>
+<link rel="manifest" href="manifest.json">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --navy:#1B3A6B;--navy2:#2D5FA8;--gold:#F5A623;--gold-bg:#FDF3E0;
+  --wa:#25D366;--wa-dark:#128C7E;
+  --white:#fff;--bg:#F0F3F8;--text:#1A1E2E;--text2:#4A5568;--muted:#94A3B8;
+  --border:#E2E8F0;--card:#fff;
+  --si:env(safe-area-inset-top);--sb:env(safe-area-inset-bottom);
+}
+html,body{height:100%;overflow:hidden}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--bg);color:var(--text);-webkit-font-smoothing:antialiased}
+#app{position:relative;width:100%;max-width:430px;height:100%;margin:0 auto;overflow:hidden;box-shadow:0 0 40px rgba(0,0,0,.12)}
+
+/* Views */
+.view{position:absolute;inset:0;background:var(--bg);display:flex;flex-direction:column;transform:translateX(100%);transition:transform .32s cubic-bezier(.4,0,.2,1);will-change:transform}
+.view.active{transform:translateX(0)}
+.view.behind{transform:translateX(-25%)}
+
+/* Header */
+.hdr{background:var(--navy);padding:calc(var(--si) + 12px) 16px 14px;flex-shrink:0}
+.hdr-home{background:linear-gradient(135deg,var(--navy) 0%,var(--navy2) 100%);padding:calc(var(--si) + 16px) 16px 18px}
+.hdr-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.logo-wrap{display:flex;align-items:center;gap:10px}
+.logo-mark{width:40px;height:40px;border-radius:10px;background:var(--gold);display:flex;align-items:center;justify-content:center;font-size:20px}
+.logo-text{}
+.logo-title{font-size:22px;font-weight:800;color:var(--white);letter-spacing:-.5px;line-height:1}
+.logo-sub{font-size:11px;color:rgba(255,255,255,.6);margin-top:1px}
+.hdr-actions{display:flex;gap:8px}
+.icon-btn{background:rgba(255,255,255,.15);border:none;border-radius:10px;width:36px;height:36px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:17px;flex-shrink:0}
+.back-btn{display:flex;align-items:center;gap:4px;background:none;border:none;color:var(--white);font-size:17px;font-weight:500;cursor:pointer;padding:4px 0;flex-shrink:0}
+.back-btn svg{width:20px;height:20px}
+.hdr-name{font-size:17px;font-weight:700;color:var(--white);flex:1;text-align:center;margin:0 8px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+
+/* Search */
+.search{display:flex;align-items:center;background:var(--white);border-radius:12px;padding:0 12px;height:44px;gap:8px}
+.search input{flex:1;border:none;outline:none;font-size:15px;color:var(--text);background:none}
+.search input::placeholder{color:var(--muted)}
+.clr-btn{background:none;border:none;color:var(--muted);font-size:14px;cursor:pointer;padding:4px}
+
+/* Body */
+.vbody{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain}
+.vinner{padding:14px 14px calc(var(--sb) + 24px)}
+
+/* Hero banner */
+.hero-banner{background:linear-gradient(135deg,var(--gold) 0%,#F97316 100%);border-radius:16px;padding:16px;display:flex;align-items:center;gap:12px;margin-bottom:18px;cursor:pointer;box-shadow:0 4px 20px rgba(245,166,35,.35)}
+.hero-banner:active{opacity:.92}
+.hero-banner-text{flex:1}
+.hero-banner-title{font-size:15px;font-weight:700;color:var(--navy)}
+.hero-banner-sub{font-size:11px;color:rgba(27,58,107,.7);margin-top:2px;line-height:15px}
+
+/* Stats bar */
+.stats{display:flex;gap:10px;margin-bottom:18px}
+.stat{flex:1;background:var(--white);border-radius:12px;padding:10px;text-align:center;box-shadow:0 1px 4px rgba(0,0,0,.05)}
+.stat-num{font-size:20px;font-weight:800;color:var(--navy)}
+.stat-lbl{font-size:10px;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.4px}
+
+/* Section label */
+.slabel{font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.6px;margin-bottom:10px}
+
+/* Cats */
+.cats{display:flex;gap:8px;overflow-x:auto;padding-bottom:12px;scrollbar-width:none}
+.cats::-webkit-scrollbar{display:none}
+.chip{display:flex;align-items:center;gap:5px;background:var(--white);border:1.5px solid var(--border);border-radius:100px;padding:6px 12px;font-size:13px;font-weight:600;color:var(--text2);cursor:pointer;white-space:nowrap;flex-shrink:0;user-select:none;-webkit-tap-highlight-color:transparent;transition:all .15s}
+.chip.on{background:var(--navy);border-color:var(--navy);color:var(--white)}
+
+/* Business card */
+.bcard{background:var(--white);border-radius:16px;padding:16px;margin-bottom:12px;box-shadow:0 2px 10px rgba(0,0,0,.06);cursor:pointer;user-select:none;-webkit-tap-highlight-color:transparent;transition:transform .1s}
+.bcard:active{transform:scale(.99)}
+.bcard-top{display:flex;align-items:flex-start;gap:12px;margin-bottom:12px}
+.bcard-logo{width:54px;height:54px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:26px;flex-shrink:0}
+.bcard-info{flex:1;min-width:0}
+.bcard-name{font-size:16px;font-weight:700;color:var(--text);margin-bottom:2px}
+.bcard-tagline{font-size:12px;color:var(--text2);line-height:17px;margin-bottom:6px}
+.bcard-badges{display:flex;gap:5px;flex-wrap:wrap}
+.badge{font-size:10px;font-weight:600;border-radius:6px;padding:2px 8px}
+.badge-cat{background:var(--gold-bg);color:var(--gold)}
+.badge-dist{background:#EFF6FF;color:var(--navy2)}
+.badge-verified{background:#DCFCE7;color:#16A34A}
+.bcard-products{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;margin-bottom:12px}
+.bcard-products::-webkit-scrollbar{display:none}
+.prod-chip{background:var(--bg);border-radius:8px;padding:6px 10px;font-size:11px;color:var(--text2);white-space:nowrap;flex-shrink:0}
+.prod-chip-price{font-weight:700;color:var(--navy);margin-top:1px}
+.bcard-actions{display:flex;gap:8px}
+.btn-wa{flex:1;background:var(--wa);color:var(--white);border:none;border-radius:10px;padding:10px;font-size:14px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;font-family:inherit;-webkit-tap-highlight-color:transparent}
+.btn-wa:active{background:var(--wa-dark)}
+.btn-view{background:var(--bg);color:var(--navy);border:none;border-radius:10px;padding:10px 14px;font-size:14px;font-weight:600;cursor:pointer;font-family:inherit;-webkit-tap-highlight-color:transparent;white-space:nowrap}
+.btn-view:active{background:var(--border)}
+
+/* Empty */
+.empty{text-align:center;padding:40px 20px}
+.empty-emoji{font-size:48px;margin-bottom:12px}
+.empty-title{font-size:18px;font-weight:700;margin-bottom:6px}
+.empty-sub{font-size:14px;color:var(--text2);line-height:20px;margin-bottom:16px}
+.empty-btn{background:var(--navy);color:var(--white);border:none;border-radius:10px;padding:10px 20px;font-size:14px;font-weight:600;cursor:pointer;font-family:inherit}
+
+/* Business detail */
+.biz-hero{position:relative;background:linear-gradient(135deg,var(--navy) 0%,var(--navy2) 100%);padding:24px 20px 80px;text-align:center}
+.biz-logo{width:80px;height:80px;border-radius:20px;display:flex;align-items:center;justify-content:center;font-size:38px;margin:0 auto 12px;box-shadow:0 8px 24px rgba(0,0,0,.2)}
+.biz-name{font-size:22px;font-weight:800;color:var(--white);margin-bottom:4px}
+.biz-tagline{font-size:14px;color:rgba(255,255,255,.75);line-height:20px;margin-bottom:10px}
+.biz-badges{display:flex;justify-content:center;gap:6px;flex-wrap:wrap}
+.biz-card{background:var(--white);border-radius:20px;margin:-44px 16px 0;padding:20px;box-shadow:0 4px 20px rgba(0,0,0,.1);position:relative;z-index:1;margin-bottom:16px}
+.btn-wa-lg{width:100%;background:var(--wa);color:var(--white);border:none;border-radius:12px;padding:14px;font-size:16px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;font-family:inherit;margin-bottom:10px;-webkit-tap-highlight-color:transparent}
+.btn-wa-lg:active{background:var(--wa-dark)}
+.btn-ig{width:100%;background:linear-gradient(135deg,#833AB4,#FD1D1D,#FCAF45);color:var(--white);border:none;border-radius:12px;padding:12px;font-size:14px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;font-family:inherit;-webkit-tap-highlight-color:transparent}
+.biz-section{background:var(--white);border-radius:16px;padding:16px;margin:0 16px 12px;box-shadow:0 2px 8px rgba(0,0,0,.05)}
+.biz-section-title{font-size:15px;font-weight:700;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.biz-desc{font-size:14px;color:var(--text2);line-height:22px}
+.prod-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.prod-card{background:var(--bg);border-radius:12px;padding:12px}
+.prod-emoji{font-size:24px;margin-bottom:6px}
+.prod-name{font-size:13px;font-weight:600;color:var(--text);margin-bottom:2px}
+.prod-desc{font-size:11px;color:var(--muted);line-height:15px;margin-bottom:6px}
+.prod-price{font-size:14px;font-weight:700;color:var(--navy)}
+.info-row{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--border)}
+.info-row:last-child{border-bottom:none}
+.info-icon{font-size:16px;width:24px;text-align:center;flex-shrink:0}
+.info-val{font-size:13px;color:var(--text2)}
+.info-val strong{color:var(--text)}
+
+/* List CTA */
+.list-cta{background:linear-gradient(135deg,var(--navy) 0%,var(--navy2) 100%);border-radius:16px;padding:20px;margin:0 16px 24px;text-align:center;cursor:pointer}
+.list-cta-title{font-size:17px;font-weight:700;color:var(--white);margin-bottom:4px}
+.list-cta-sub{font-size:13px;color:rgba(255,255,255,.7);margin-bottom:14px;line-height:18px}
+.list-cta-btn{background:var(--gold);color:var(--navy);border:none;border-radius:10px;padding:10px 24px;font-size:14px;font-weight:700;cursor:pointer;font-family:inherit}
+
+/* Footer */
+.footer{text-align:center;padding:8px 20px 4px;font-size:11px;color:var(--muted);line-height:16px}
+</style>
+</head>
+<body>
+<div id="app">
+
+<!-- HOME -->
+<div id="view-home" class="view active">
+  <div class="hdr hdr-home">
+    <div class="hdr-row">
+      <div class="logo-wrap">
+        <div class="logo-mark">🛍️</div>
+        <div class="logo-text">
+          <div class="logo-title">Warung BN</div>
+          <div class="logo-sub">Brunei Local Business Directory</div>
+        </div>
+      </div>
+    </div>
+    <div class="search">
+      <span style="font-size:16px">🔍</span>
+      <input id="sinp" type="search" placeholder="Search businesses..." oninput="onSearch(this.value)" autocomplete="off" autocorrect="off" spellcheck="false">
+      <button class="clr-btn" id="clr" onclick="clearSearch()" style="display:none">✕</button>
+    </div>
+  </div>
+  <div class="vbody">
+    <div class="vinner">
+
+      <!-- Stats -->
+      <div class="stats" id="stats-bar"></div>
+
+      <!-- List your business CTA -->
+      <div class="hero-banner" onclick="go('list')">
+        <span style="font-size:32px">🏪</span>
+        <div class="hero-banner-text">
+          <div class="hero-banner-title">List your business — it's free</div>
+          <div class="hero-banner-sub">Get off Instagram DMs. Get a proper storefront with a WhatsApp order button.</div>
+        </div>
+        <span style="font-size:20px;color:var(--navy);font-weight:700">›</span>
+      </div>
+
+      <!-- Categories -->
+      <div class="slabel" id="cat-lbl">Browse by Category</div>
+      <div class="cats" id="cats"></div>
+
+      <!-- District filter -->
+      <div class="slabel" id="dist-lbl" style="margin-top:4px">All Districts</div>
+      <div class="cats" id="dists"></div>
+
+      <!-- Business list -->
+      <div class="slabel" id="count-lbl">All Businesses</div>
+      <div id="blist"></div>
+
+      <div class="footer">Warung BN is a free directory for Brunei local businesses.<br>🇧🇳 Shop local. Support your community.</div>
+    </div>
+  </div>
+</div>
+
+<!-- BUSINESS DETAIL -->
+<div id="view-biz" class="view">
+  <div class="hdr" style="position:absolute;top:0;left:0;right:0;z-index:10;background:transparent">
+    <div style="display:flex;align-items:center;gap:8px">
+      <button class="back-btn" onclick="back()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>Back
+      </button>
+    </div>
+  </div>
+  <div class="vbody" id="biz-body">
+    <div id="biz-content"></div>
+  </div>
+</div>
+
+<!-- LIST YOUR BUSINESS -->
+<div id="view-list" class="view">
+  <div class="hdr">
+    <div style="display:flex;align-items:center;gap:8px">
+      <button class="back-btn" onclick="back()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>Back
+      </button>
+      <span class="hdr-name">List Your Business</span>
+    </div>
+  </div>
+  <div class="vbody"><div class="vinner">
+    <div style="text-align:center;padding:20px 0 24px">
+      <div style="font-size:56px;margin-bottom:12px">🏪</div>
+      <div style="font-size:22px;font-weight:800;color:var(--navy);margin-bottom:8px">Get your free storefront</div>
+      <div style="font-size:14px;color:var(--text2);line-height:21px;max-width:300px;margin:0 auto">Stop managing orders in Instagram DMs. Get a proper page with your products, prices, and a direct WhatsApp order button.</div>
+    </div>
+    <div style="background:var(--white);border-radius:16px;padding:16px;margin-bottom:14px;box-shadow:0 2px 8px rgba(0,0,0,.06)">
+      <div style="font-size:15px;font-weight:700;margin-bottom:12px">✅ What you get</div>
+      ${['Your business listed in the Warung BN directory','A shareable storefront link','Your products and prices displayed clearly','A direct WhatsApp order button','Your Instagram linked','100% free — no fees, no commission'].map(i=>`<div style="display:flex;gap:10px;margin-bottom:8px"><span style="color:var(--wa);font-weight:700">✓</span><span style="font-size:14px;color:var(--text2)">${i}</span></div>`).join('')}
+    </div>
+    <div style="background:var(--white);border-radius:16px;padding:16px;margin-bottom:14px;box-shadow:0 2px 8px rgba(0,0,0,.06)">
+      <div style="font-size:15px;font-weight:700;margin-bottom:12px">📋 What we need from you</div>
+      ${['Business name & tagline','Category & district','WhatsApp number','Product/service names & prices','Instagram handle (optional)','A short description of your business'].map(i=>`<div style="display:flex;gap:10px;margin-bottom:8px"><span style="color:var(--navy);font-weight:700">·</span><span style="font-size:14px;color:var(--text2)">${i}</span></div>`).join('')}
+    </div>
+    <button class="btn-wa-lg" style="margin:0 0 10px" onclick="submitViaWA()">
+      <span>💬</span> Submit via WhatsApp
+    </button>
+    <div style="text-align:center;font-size:12px;color:var(--muted)">We'll add your business within 24 hours</div>
+  </div></div>
+</div>
+
+</div>
+<script>
+// ── DATA ──────────────────────────────────────────────
+const CATS={
+  food:    {l:'Food & Drinks',  i:'🍜'},
+  bakery:  {l:'Cakes & Bakery', i:'🎂'},
+  fashion: {l:'Fashion',        i:'👗'},
+  beauty:  {l:'Beauty',         i:'💄'},
+  home:    {l:'Home & Living',  i:'🏠'},
+  craft:   {l:'Craft & Art',    i:'🎨'},
+  services:{l:'Services',       i:'🔧'},
+  health:  {l:'Health & Fitness',i:'💪'},
+};
+const DISTRICTS=['Brunei-Muara','Tutong','Belait','Temburong'];
+
+const BIZ=[
+  {id:'dapur-zara',name:'Dapur Zara',tagline:'Home-cooked meals delivered to your door',cat:'food',dist:'Brunei-Muara',
+   logo:'🍛',bg:'#FFF3E0',verified:true,
+   desc:'Dapur Zara serves authentic home-cooked Bruneian and Malay dishes made fresh daily. No preservatives, no shortcuts — just the kind of food your mak would cook. Delivery available across Brunei-Muara.',
+   wa:'6738111001',ig:'dapur.zara.bn',
+   products:[
+     {e:'🍛',n:'Nasi Ayam Masak Merah',d:'Fragrant rice with spiced red chicken',p:'BND $5.00'},
+     {e:'🍝',n:'Mee Goreng Spesial',d:'Stir-fried noodles with egg and prawns',p:'BND $4.50'},
+     {e:'🍚',n:'Nasi Lemak Set',d:'Coconut rice with sambal and sides',p:'BND $4.00'},
+     {e:'🥘',n:'Sup Tulang',d:'Rich bone broth soup, serves 2',p:'BND $8.00'},
+   ],
+   info:[
+     {i:'📍',v:'<strong>BSB</strong>, Brunei-Muara'},
+     {i:'🚗',v:'Delivery available · Pickup at Gadong'},
+     {i:'⏰',v:'Orders open: Mon–Sat, 9am–7pm'},
+     {i:'📦',v:'Min. order: BND $10 · 2 hour delivery'},
+   ]},
+  {id:'kek-saffron',name:'Kek Saffron',tagline:'Custom cakes & pastries for every occasion',cat:'bakery',dist:'Tutong',
+   logo:'🎂',bg:'#FFF0F6',verified:true,
+   desc:'Kek Saffron specialises in custom celebration cakes, cupcakes, and Bruneian kuih. Every cake is made to order with premium ingredients. Based in Tutong with island-wide delivery.',
+   wa:'6738111002',ig:'keksaffron',
+   products:[
+     {e:'🎂',n:'Custom Birthday Cake (6")',d:'Choose flavour, design, and message',p:'BND $45.00'},
+     {e:'🧁',n:'Cupcakes (12 pcs)',d:'Assorted flavours, custom toppers',p:'BND $25.00'},
+     {e:'🍰',n:'Cheesecake (whole)',d:'NY-style baked cheesecake',p:'BND $35.00'},
+     {e:'🍡',n:'Kuih Set (20 pcs)',d:'Assorted traditional Bruneian kuih',p:'BND $18.00'},
+   ],
+   info:[
+     {i:'📍',v:'<strong>Tutong</strong> town'},
+     {i:'🚗',v:'Delivery islandwide · BND $5–$10'},
+     {i:'⏰',v:'Min. 3 days notice for custom orders'},
+     {i:'⚠️',v:'Halal — no pork, no alcohol'},
+   ]},
+  {id:'nasihah-hijab',name:'Nasihah Hijab',tagline:'Modest fashion for the modern Bruneian woman',cat:'fashion',dist:'Brunei-Muara',
+   logo:'🧕',bg:'#F0F4FF',verified:true,
+   desc:'Nasihah Hijab curates and designs modest wear for Bruneian women — hijabs, abayas, baju kurungs, and casual modest sets. Quality fabrics, local designs. Ships nationwide.',
+   wa:'6738111003',ig:'nasihah.hijab',
+   products:[
+     {e:'🧕',n:'Premium Jersey Hijab',d:'Breathable, non-slip — 12 colours',p:'BND $15.00'},
+     {e:'👘',n:'Ready-to-Wear Abaya',d:'Flowy chiffon, S–XXL',p:'BND $55.00'},
+     {e:'👗',n:'Baju Kurung Moden',d:'Various prints, tailored fit',p:'BND $65.00'},
+     {e:'🎠',n:'Hijab Gift Set',d:'3 hijabs + pins in a box',p:'BND $40.00'},
+   ],
+   info:[
+     {i:'📍',v:'<strong>BSB</strong>, Brunei-Muara'},
+     {i:'🚚',v:'Nationwide shipping · BND $4 flat rate'},
+     {i:'⏰',v:'Orders: 7 days a week'},
+     {i:'📏',v:'Custom sizing available on request'},
+   ]},
+  {id:'skinlab-bn',name:'SkinLab BN',tagline:'Honest skincare made for tropical skin',cat:'beauty',dist:'Brunei-Muara',
+   logo:'✨',bg:'#F0FFF4',verified:false,
+   desc:'SkinLab BN formulates and curates skincare products specifically for Southeast Asian skin types and Brunei\'s humid climate. No harsh chemicals. Gentle, effective, and honestly priced.',
+   wa:'6738111004',ig:'skinlab.bn',
+   products:[
+     {e:'🧴',n:'Hydra-Boost Moisturiser',d:'Lightweight gel for humid weather',p:'BND $28.00'},
+     {e:'🌿',n:'AHA Gentle Exfoliant',d:'10% AHA for smooth, even skin',p:'BND $32.00'},
+     {e:'☀️',n:'SPF 50 Sunscreen',d:'No white cast, sweat-resistant',p:'BND $22.00'},
+     {e:'🪷',n:'Starter Kit (3 items)',d:'Cleanser + toner + moisturiser',p:'BND $55.00'},
+   ],
+   info:[
+     {i:'📍',v:'<strong>BSB</strong>, Brunei-Muara'},
+     {i:'🚚',v:'Nationwide shipping included'},
+     {i:'⚗️',v:'Dermatologist tested · No parabens'},
+     {i:'↩️',v:'7-day returns if not satisfied'},
+   ]},
+  {id:'nordic-candles',name:'Nordic Candles BN',tagline:'Handmade soy candles & home fragrance',cat:'home',dist:'Brunei-Muara',
+   logo:'🕯️',bg:'#FFFBF0',verified:false,
+   desc:'Nordic Candles BN makes handpoured soy wax candles with carefully chosen fragrance blends. Each candle is hand-labelled and packaged as a premium gift. Great for birthdays, Hari Raya, or just your own home.',
+   wa:'6738111005',ig:'nordic.candles.bn',
+   products:[
+     {e:'🕯️',n:'Signature Soy Candle (200g)',d:'Oud, vanilla, or cedarwood',p:'BND $22.00'},
+     {e:'🎁',n:'Gift Set (2 candles)',d:'Boxed with ribbon, custom note',p:'BND $40.00'},
+     {e:'🌸',n:'Reed Diffuser',d:'30-day fragrance, 6 scents',p:'BND $25.00'},
+     {e:'🕯️',n:'Mini Candle Trio',d:'3×60g, mixed scents',p:'BND $28.00'},
+   ],
+   info:[
+     {i:'📍',v:'<strong>BSB</strong>, Brunei-Muara'},
+     {i:'🚗',v:'Pickup or delivery, BSB area'},
+     {i:'🎁',v:'Custom gift wrapping available'},
+     {i:'⏰',v:'Made to order — allow 2 days'},
+   ]},
+  {id:'freshfarm-bn',name:'FreshFarm BN',tagline:'Farm-fresh organic vegetables, delivered weekly',cat:'food',dist:'Tutong',
+   logo:'🥬',bg:'#F0FFF4',verified:true,
+   desc:'FreshFarm BN grows organic vegetables in Tutong and delivers weekly boxes to households across Brunei. No pesticides, no middleman. Direct from our farm to your table.',
+   wa:'6738111006',ig:'freshfarm.bn',
+   products:[
+     {e:'🥬',n:'Weekly Veggie Box (Small)',d:'~8 seasonal varieties, serves 2',p:'BND $18.00'},
+     {e:'🥦',n:'Weekly Veggie Box (Large)',d:'~12 varieties, serves 4–5',p:'BND $30.00'},
+     {e:'🌿',n:'Fresh Herbs Pack',d:'Coriander, mint, pandan, lemongrass',p:'BND $8.00'},
+     {e:'🥚',n:'Free-Range Eggs (10pcs)',d:'Collected fresh daily',p:'BND $6.00'},
+   ],
+   info:[
+     {i:'📍',v:'Farm in <strong>Tutong</strong>'},
+     {i:'🚗',v:'Weekly delivery: Tue & Fri'},
+     {i:'📦',v:'Subscribe for 10% off'},
+     {i:'🌱',v:'Certified organic · No pesticides'},
+   ]},
+  {id:'techfix-bn',name:'TechFix BN',tagline:'Fast, honest phone & laptop repair in BSB',cat:'services',dist:'Brunei-Muara',
+   logo:'📱',bg:'#EFF6FF',verified:true,
+   desc:'TechFix BN repairs all major phone and laptop brands — cracked screens, battery replacements, water damage, charging ports, and more. Same-day service available. Honest pricing, no hidden fees.',
+   wa:'6738111007',ig:'techfix.bn',
+   products:[
+     {e:'📱',n:'iPhone Screen Replacement',d:'OEM quality glass, 30min',p:'From BND $80'},
+     {e:'🔋',n:'Battery Replacement',d:'All iPhone & Samsung models',p:'From BND $40'},
+     {e:'💻',n:'Laptop Screen Repair',d:'All brands, same-day if in stock',p:'From BND $120'},
+     {e:'💧',n:'Water Damage Treatment',d:'Cleaning + component check',p:'BND $35'},
+   ],
+   info:[
+     {i:'📍',v:'<strong>Gadong</strong>, Brunei-Muara'},
+     {i:'⏰',v:'Mon–Sat: 9am–6pm'},
+     {i:'⚡',v:'Same-day repair available'},
+     {i:'🛡️',v:'90-day warranty on all repairs'},
+   ]},
+  {id:'autowax-bn',name:'Auto Wax BN',tagline:'Premium car grooming in Seria & Kuala Belait',cat:'services',dist:'Belait',
+   logo:'🚗',bg:'#F0F4FF',verified:false,
+   desc:'Auto Wax BN offers full car grooming services in the Belait district — interior detailing, exterior polish, ceramic coating, and engine bay cleaning. Mobile service available.',
+   wa:'6738111008',ig:'autowax.bn',
+   products:[
+     {e:'✨',n:'Full Detail (Interior + Exterior)',d:'Vacuum, wipe, polish, wax',p:'BND $60'},
+     {e:'💎',n:'Ceramic Coating',d:'2-year protection, full car',p:'BND $350'},
+     {e:'🪣',n:'Basic Wash & Wax',d:'Hand wash + carnauba wax',p:'BND $25'},
+     {e:'🚐',n:'SUV/MPV Grooming',d:'Same as above for larger vehicles',p:'From BND $80'},
+   ],
+   info:[
+     {i:'📍',v:'<strong>Seria</strong> & Kuala Belait'},
+     {i:'🚗',v:'Mobile service available · BND $10'},
+     {i:'⏰',v:'Mon–Sat: 8am–5pm'},
+     {i:'📅',v:'Booking required — WhatsApp us'},
+   ]},
+  {id:'kreasi-tangan',name:'Kreasi Tangan BN',tagline:'Traditional Bruneian handicraft & handwoven art',cat:'craft',dist:'Temburong',
+   logo:'🧵',bg:'#FFF0F6',verified:true,
+   desc:'Kreasi Tangan BN preserves and promotes traditional Bruneian handicrafts — handwoven tikar, batik, beaded jewellery, and traditional Malay accessories. Every piece is handmade by local artisans in Temburong.',
+   wa:'6738111009',ig:'kreasi.tangan.bn',
+   products:[
+     {e:'🧵',n:'Handwoven Tikar',d:'Pandanus leaf mat, traditional patterns',p:'From BND $45'},
+     {e:'📿',n:'Beaded Bracelet Set',d:'Traditional motifs, 3 colours',p:'BND $18'},
+     {e:'🎍',n:'Batik Scarf',d:'Hand-stamped, natural dyes',p:'BND $35'},
+     {e:'🧵',n:'Custom Embroidery',d:'Name or motif on fabric of your choice',p:'From BND $30'},
+   ],
+   info:[
+     {i:'📍',v:'<strong>Temburong</strong>'},
+     {i:'🚗',v:'Delivery islandwide · BND $5'},
+     {i:'⏰',v:'Allow 5–7 days for custom orders'},
+     {i:'🌿',v:'All natural materials · Handmade'},
+   ]},
+  {id:'wawa-photo',name:'Wawa Photography',tagline:'Wedding, portrait & event photography in Brunei',cat:'services',dist:'Brunei-Muara',
+   logo:'📸',bg:'#1A1A2E',logoColor:'#fff',verified:true,
+   desc:'Wawa Photography captures Bruneian weddings, family portraits, graduation shoots, and corporate events. Cinematic style with a documentary approach. Packages for every budget.',
+   wa:'6738111010',ig:'wawa.photo.bn',
+   products:[
+     {e:'💍',n:'Wedding Package (Full Day)',d:'8hrs, 2 photographers, 500+ edits',p:'BND $800'},
+     {e:'👨‍👩‍👧',n:'Family Portrait Session',d:'2hrs, 60+ edited photos',p:'BND $180'},
+     {e:'🎓',n:'Graduation Shoot',d:'1hr, 40+ edited photos',p:'BND $120'},
+     {e:'🎬',n:'Event Coverage',d:'3hrs, candid + group shots',p:'BND $250'},
+   ],
+   info:[
+     {i:'📍',v:'<strong>BSB</strong> — shoots islandwide'},
+     {i:'📅',v:'Weekends book fast — reserve early'},
+     {i:'💾',v:'Delivery via online gallery in 2 weeks'},
+     {i:'🎬',v:'Videography add-on available'},
+   ]},
+  {id:'zamzam-perfume',name:'Zamzam Perfumes',tagline:'Authentic Arabic & Bruneian oud fragrances',cat:'beauty',dist:'Brunei-Muara',
+   logo:'🌹',bg:'#FFF8F0',verified:false,
+   desc:'Zamzam Perfumes imports and blends authentic Arabic attars and oud fragrances. Long-lasting, alcohol-free, and appropriate for all occasions. Bruneian favourites and exclusive blends available.',
+   wa:'6738111011',ig:'zamzam.perfumes.bn',
+   products:[
+     {e:'🌹',n:'Oud Al-Sultani (12ml)',d:'Rich oud with amber — signature scent',p:'BND $45'},
+     {e:'🌸',n:'Rose Musk Attar (6ml)',d:'Soft floral musk, alcohol-free',p:'BND $25'},
+     {e:'🎁',n:'Gift Set (3 attars)',d:'3×6ml in premium box',p:'BND $65'},
+     {e:'🕌',n:'Bukhoor Al-Arabi (50g)',d:'Home incense, traditional blend',p:'BND $20'},
+   ],
+   info:[
+     {i:'📍',v:'<strong>BSB</strong>, Brunei-Muara'},
+     {i:'🚗',v:'Delivery islandwide · BND $4'},
+     {i:'⚗️',v:'All alcohol-free · Halal certified'},
+     {i:'🎁',v:'Custom engraving on bottles available'},
+   ]},
+  {id:'abgfit-bn',name:'AbgFit BN',tagline:'Personal training & fitness coaching in BSB',cat:'health',dist:'Brunei-Muara',
+   logo:'💪',bg:'#F0FFF4',verified:false,
+   desc:'AbgFit BN offers one-on-one personal training, online coaching, and group fitness sessions. Certified trainer with 6 years experience. Specialises in weight loss, muscle building, and post-injury rehabilitation.',
+   wa:'6738111012',ig:'abgfit.bn',
+   products:[
+     {e:'💪',n:'1-on-1 PT Session (1hr)',d:'Personalised workout at your gym',p:'BND $40'},
+     {e:'📱',n:'Online Coaching (Monthly)',d:'Custom plan + check-ins + support',p:'BND $80/mo'},
+     {e:'👥',n:'Group Boot Camp (4 pax)',d:'Outdoor session, 1hr',p:'BND $20/pax'},
+     {e:'🥗',n:'Meal Plan (4 weeks)',d:'Customised to your goals',p:'BND $50'},
+   ],
+   info:[
+     {i:'📍',v:'<strong>BSB</strong> — gym or outdoor sessions'},
+     {i:'🎓',v:'NCSF Certified Personal Trainer'},
+     {i:'⏰',v:'Available 6am–8pm daily'},
+     {i:'🌐',v:'Online coaching available worldwide'},
+   ]},
+  {id:'mamas-kuih',name:"Mama's Kuih",tagline:'Traditional Bruneian kuih & sweet snacks',cat:'bakery',dist:'Belait',
+   logo:'🍡',bg:'#FFF8F0',verified:true,
+   desc:"Mama's Kuih has been making traditional Bruneian and Malay kuih for over 15 years. All recipes passed down from grandmother — kuih bahulu, kuih lapis, onde-onde, and more. Made fresh for Hari Raya, kenduri, and daily orders.",
+   wa:'6738111013',ig:'mamas.kuih.belait',
+   products:[
+     {e:'🍡',n:'Kuih Assorted Box (30pcs)',d:'Mix of 6 traditional varieties',p:'BND $15'},
+     {e:'🧇',n:'Kuih Bahulu (24pcs)',d:'Classic sponge cakes, original recipe',p:'BND $10'},
+     {e:'🌈',n:'Kuih Lapis (whole tray)',d:'9-layer steamed cake, 3 colours',p:'BND $20'},
+     {e:'🍙',n:'Onde-Onde (25pcs)',d:'Pandan glutinous balls with gula melaka',p:'BND $8'},
+   ],
+   info:[
+     {i:'📍',v:'<strong>Kuala Belait</strong>, Belait'},
+     {i:'🚗',v:'Pickup or Belait area delivery'},
+     {i:'📅',v:'Hari Raya orders: book 2 weeks early'},
+     {i:'⚠️',v:'Halal — made in dedicated kitchen'},
+   ]},
+  {id:'bungah-crafts',name:'Bungah Crafts',tagline:'Handmade floral arrangements & event decor',cat:'craft',dist:'Brunei-Muara',
+   logo:'🌸',bg:'#FFF0F6',verified:false,
+   desc:'Bungah Crafts creates handmade floral arrangements, table centrepieces, wedding hantaran, and event decor. Fresh and artificial flower options available. BSB-based with islandwide delivery for events.',
+   wa:'6738111014',ig:'bungah.crafts.bn',
+   products:[
+     {e:'💐',n:'Bouquet (12 stems)',d:'Fresh flowers, your choice of colours',p:'From BND $35'},
+     {e:'🌸',n:'Wedding Hantaran Set',d:'Custom dulang decoration, 7 pcs',p:'BND $150'},
+     {e:'🎨',n:'Event Centrepiece',d:'Table arrangement, artificial flowers',p:'BND $45/table'},
+     {e:'🌹',n:'Preserved Rose Box',d:'Long-lasting roses in luxury box',p:'BND $60'},
+   ],
+   info:[
+     {i:'📍',v:'<strong>BSB</strong>, Brunei-Muara'},
+     {i:'🚗',v:'Delivery islandwide for events'},
+     {i:'📅',v:'Weddings: book 2–4 weeks ahead'},
+     {i:'🎨',v:'Custom colours & designs available'},
+   ]},
+  {id:'batik-brunei',name:'Batik Brunei Studio',tagline:'Authentic Bruneian batik clothing & fabric',cat:'fashion',dist:'Brunei-Muara',
+   logo:'🎨',bg:'#FFF8F0',verified:true,
+   desc:'Batik Brunei Studio produces hand-stamped and hand-drawn batik fabric, shirts, baju melayu, and accessories with original Bruneian motifs. Each piece is a wearable piece of Brunei heritage.',
+   wa:'6738111015',ig:'batik.brunei.studio',
+   products:[
+     {e:'👔',n:"Baju Melayu Batik (Men's)",d:'Hand-stamped, custom fit',p:'BND $95'},
+     {e:'👗',n:"Batik Dress (Women's)",d:'Hand-drawn motif, 3 cuts',p:'BND $85'},
+     {e:'🧣',n:'Batik Scarf',d:'Lightweight, 6 original designs',p:'BND $38'},
+     {e:'🎁',n:'Batik Fabric (1m)',d:'Choose your motif and colourway',p:'BND $25/m'},
+   ],
+   info:[
+     {i:'📍',v:'<strong>BSB</strong> — studio visits by appointment'},
+     {i:'📏',v:'Custom sizing available'},
+     {i:'⏰',v:'Ready-to-wear: 3–5 days · Custom: 2 weeks'},
+     {i:'🌍',v:'International shipping available'},
+   ]},
+];
+
+// ── STATE ───────────────────────────────────────────────
+const S={view:'home',prev:'home',bizId:null,search:'',cat:null,dist:null};
+
+// ── NAV ───────────────────────────────────────────────
+function go(view,opts={}){
+  const pEl=document.getElementById('view-'+S.view);
+  if(pEl){pEl.classList.remove('active');if(view!=='home')pEl.classList.add('behind')}
+  S.prev=S.view; S.view=view;
+  if(opts.bizId!==undefined)S.bizId=opts.bizId;
+  const nEl=document.getElementById('view-'+view);
+  if(nEl){nEl.offsetHeight;nEl.classList.add('active');nEl.classList.remove('behind')}
+  draw(view);
+}
+function back(){
+  const cEl=document.getElementById('view-'+S.view);
+  const pEl=document.getElementById('view-'+S.prev);
+  if(cEl){cEl.classList.remove('active');setTimeout(()=>cEl.classList.remove('behind'),350)}
+  if(pEl){pEl.classList.add('active');pEl.classList.remove('behind')}
+  S.view=S.prev; S.prev='home';
+}
+
+// ── DRAW ──────────────────────────────────────────────
+function draw(v){
+  if(v==='home')drawHome();
+  else if(v==='biz')drawBiz();
+}
+
+function drawHome(){
+  const cats=Object.keys(CATS).length;
+  document.getElementById('stats-bar').innerHTML=
+    `<div class="stat"><div class="stat-num">${BIZ.length}</div><div class="stat-lbl">Businesses</div></div>`+
+    `<div class="stat"><div class="stat-num">${BIZ.filter(b=>b.verified).length}</div><div class="stat-lbl">Verified</div></div>`+
+    `<div class="stat"><div class="stat-num">4</div><div class="stat-lbl">Districts</div></div>`;
+  const usedCats=[...new Set(BIZ.map(b=>b.cat))];
+  document.getElementById('cats').innerHTML=
+    `<button class="chip${S.cat===null?' on':''}" onclick="setCat(null)">All</button>`+
+    usedCats.map(c=>`<button class="chip${S.cat===c?' on':''}" onclick="setCat('${c}')">${CATS[c].i} ${CATS[c].l}</button>`).join('');
+  document.getElementById('dists').innerHTML=
+    `<button class="chip${S.dist===null?' on':''}" onclick="setDist(null)">All Districts</button>`+
+    DISTRICTS.map(d=>`<button class="chip${S.dist===d?' on':''}" onclick="setDist('${d}')">${d}</button>`).join('');
+  drawList();
+}
+
+function drawList(){
+  const q=S.search.toLowerCase().trim();
+  const list=BIZ.filter(b=>
+    (!q||b.name.toLowerCase().includes(q)||b.tagline.toLowerCase().includes(q)||b.cat.includes(q))&&
+    (!S.cat||b.cat===S.cat)&&
+    (!S.dist||b.dist===S.dist)
+  );
+  const lbl=document.getElementById('count-lbl');
+  lbl.textContent=q?`${list.length} result${list.length!==1?'s':''} for "${S.search}"`:
+    S.cat?`${CATS[S.cat].l} (${list.length})`:
+    S.dist?`${S.dist} (${list.length})`:`All Businesses (${list.length})`;
+  const el=document.getElementById('blist');
+  if(!list.length){
+    el.innerHTML=`<div class="empty"><div class="empty-emoji">🏪</div><div class="empty-title">No businesses found</div><div class="empty-sub">Know a Brunei business that should be here? Help us grow the directory.</div><button class="empty-btn" onclick="go('list')">List a Business</button></div>`;
+    return;
+  }
+  el.innerHTML=list.map(b=>{
+    const waMsg=encodeURIComponent(`Assalamualaikum ${b.name}! Saya jumpa bisnes anda di Warung BN. Saya berminat — boleh share maklumat lanjut?`);
+    const waLink=`https://wa.me/${b.wa}?text=${waMsg}`;
+    return`<div class="bcard">
+      <div class="bcard-top">
+        <div class="bcard-logo" style="background:${b.bg||'#F0F3F8'};color:${b.logoColor||'inherit'}">${b.logo}</div>
+        <div class="bcard-info">
+          <div class="bcard-name">${b.name}${b.verified?' <span style="font-size:12px">✅</span>':''}</div>
+          <div class="bcard-tagline">${b.tagline}</div>
+          <div class="bcard-badges">
+            <span class="badge badge-cat">${CATS[b.cat].i} ${CATS[b.cat].l}</span>
+            <span class="badge badge-dist">📍 ${b.dist}</span>
+          </div>
+        </div>
+      </div>
+      <div class="bcard-products">
+        ${b.products.slice(0,3).map(p=>`<div class="prod-chip"><div>${p.e} ${p.n}</div><div class="prod-chip-price">${p.p}</div></div>`).join('')}
+      </div>
+      <div class="bcard-actions">
+        <button class="btn-wa" onclick="event.stopPropagation();window.open('${waLink}','_blank')">💬 WhatsApp</button>
+        <button class="btn-view" onclick="go('biz',{bizId:'${b.id}'})">View →</button>
+      </div>
+    </div>`;
+  }).join('')+`
+    <div style="background:var(--navy);border-radius:14px;padding:16px;text-align:center;margin-top:8px;cursor:pointer" onclick="go('list')">
+      <div style="font-size:14px;font-weight:700;color:var(--white);margin-bottom:4px">🏪 Is your business missing?</div>
+      <div style="font-size:12px;color:rgba(255,255,255,.65)">List it for free — takes 2 minutes</div>
+    </div>`;
+}
+
+function drawBiz(){
+  const b=BIZ.find(x=>x.id===S.bizId);
+  if(!b)return;
+  const waMsg=encodeURIComponent(`Assalamualaikum ${b.name}! Saya jumpa bisnes anda di Warung BN. Saya berminat dengan produk/perkhidmatan anda. Boleh share maklumat lanjut?`);
+  const waLink=`https://wa.me/${b.wa}?text=${waMsg}`;
+  const igLink=b.ig?`https://instagram.com/${b.ig.replace('@','')}`:null;
+  document.getElementById('biz-content').innerHTML=`
+    <div class="biz-hero">
+      <div style="height:calc(var(--si) + 56px)"></div>
+      <div class="biz-logo" style="background:${b.bg||'#F0F3F8'};color:${b.logoColor||'inherit'}">${b.logo}</div>
+      <div class="biz-name">${b.name}</div>
+      <div class="biz-tagline">${b.tagline}</div>
+      <div class="biz-badges">
+        <span class="badge badge-cat" style="background:rgba(255,255,255,.2);color:#fff">${CATS[b.cat].i} ${CATS[b.cat].l}</span>
+        <span class="badge badge-dist" style="background:rgba(255,255,255,.2);color:#fff">📍 ${b.dist}</span>
+        ${b.verified?'<span class="badge" style="background:rgba(255,255,255,.2);color:#fff">✅ Verified</span>':''}
+      </div>
+    </div>
+    <div class="biz-card">
+      <button class="btn-wa-lg" onclick="window.open('${waLink}','_blank')">💬 Order via WhatsApp</button>
+      ${igLink?`<button class="btn-ig" onclick="window.open('${igLink}','_blank')">📸 Follow on Instagram · @${b.ig}</button>`:''}
+    </div>
+    <div class="biz-section">
+      <div class="biz-section-title">ℹ️ About</div>
+      <div class="biz-desc">${b.desc}</div>
+    </div>
+    <div class="biz-section">
+      <div class="biz-section-title">🛍️ Products & Services</div>
+      <div class="prod-grid">
+        ${b.products.map(p=>`<div class="prod-card"><div class="prod-emoji">${p.e}</div><div class="prod-name">${p.n}</div><div class="prod-desc">${p.d}</div><div class="prod-price">${p.p}</div></div>`).join('')}
+      </div>
+    </div>
+    <div class="biz-section">
+      <div class="biz-section-title">📌 Info</div>
+      ${b.info.map(i=>`<div class="info-row"><span class="info-icon">${i.i}</span><span class="info-val">${i.v}</span></div>`).join('')}
+    </div>
+    <div class="list-cta" onclick="go('list')">
+      <div class="list-cta-title">Own a business?</div>
+      <div class="list-cta-sub">List it on Warung BN for free and get your own storefront like this.</div>
+      <button class="list-cta-btn">List my business →</button>
+    </div>`;
+  document.getElementById('biz-body').scrollTop=0;
+}
+
+// ── HANDLERS ────────────────────────────────────────────
+function onSearch(v){S.search=v;document.getElementById('clr').style.display=v?'block':'none';if(S.view==='home')drawList()}
+function clearSearch(){S.search='';document.getElementById('sinp').value='';document.getElementById('clr').style.display='none';drawList()}
+function setCat(c){S.cat=c;drawHome()}
+function setDist(d){S.dist=d;drawHome()}
+function submitViaWA(){
+  const msg=encodeURIComponent('Assalamualaikum! Saya ingin menyenaraikan bisnes saya di Warung BN. Nama bisnes: \nKategori: \nDistrict: \nNo. WhatsApp: \nInstagram: \nProduk/Perkhidmatan:');
+  window.open(`https://wa.me/6738000000?text=${msg}`,'_blank');
+}
+
+// ── PWA ──────────────────────────────────────────────
+if('serviceWorker' in navigator)navigator.serviceWorker.register('sw.js');
+
+// ── INIT ───────────────────────────────────────────────
+drawHome();
+</script>
+</body>
+</html>
