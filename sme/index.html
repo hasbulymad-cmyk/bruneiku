@@ -3,141 +3,158 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<meta name="theme-color" content="#1B3A6B">
+<meta name="theme-color" content="#0D1F3C">
 <meta name="description" content="Warung BN — Discover local Brunei businesses. Shop local, support Bruneian SMEs.">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="Warung BN">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <title>Warung BN — Brunei Local Business Directory</title>
 <link rel="manifest" href="manifest.json">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Calistoga&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --navy:#1B3A6B;--navy2:#2D5FA8;--gold:#F5A623;--gold-bg:#FDF3E0;
+  --n0:#0D1F3C;--n1:#1B3A6B;--n2:#2D5FA8;
+  --gold:#F5A623;--gold-bg:#FDF3E0;--gold-dark:#D97706;
   --wa:#25D366;--wa-dark:#128C7E;
-  --white:#fff;--bg:#F0F3F8;--text:#1A1E2E;--text2:#4A5568;--muted:#94A3B8;
-  --border:#E2E8F0;--card:#fff;
-  --si:env(safe-area-inset-top);--sb:env(safe-area-inset-bottom);
+  --white:#fff;--bg:#EEF2F8;--text:#1A1E2E;--text2:#4A5568;--muted:#94A3B8;
+  --border:#E2E8F0;
+  --si:env(safe-area-inset-top,0px);--sb:env(safe-area-inset-bottom,0px);
+  --r:14px;--rs:10px;--rl:20px;
+  --sh1:0 1px 4px rgba(0,0,0,.06);
+  --sh2:0 4px 16px rgba(0,0,0,.10);
+  --sh3:0 8px 32px rgba(0,0,0,.15);
 }
 html,body{height:100%;overflow:hidden}
-body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--bg);color:var(--text);-webkit-font-smoothing:antialiased}
-#app{position:relative;width:100%;max-width:430px;height:100%;margin:0 auto;overflow:hidden;box-shadow:0 0 40px rgba(0,0,0,.12)}
+body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--text);-webkit-font-smoothing:antialiased;font-size:16px;line-height:1.5}
+#app{position:relative;width:100%;max-width:430px;height:100%;margin:0 auto;overflow:hidden;box-shadow:0 0 60px rgba(0,0,0,.15)}
 
-/* Views */
 .view{position:absolute;inset:0;background:var(--bg);display:flex;flex-direction:column;transform:translateX(100%);transition:transform .32s cubic-bezier(.4,0,.2,1);will-change:transform}
 .view.active{transform:translateX(0)}
 .view.behind{transform:translateX(-25%)}
 
-/* Header */
-.hdr{background:var(--navy);padding:calc(var(--si) + 12px) 16px 14px;flex-shrink:0}
-.hdr-home{background:linear-gradient(135deg,var(--navy) 0%,var(--navy2) 100%);padding:calc(var(--si) + 16px) 16px 18px}
+.hdr{background:linear-gradient(155deg,var(--n0) 0%,var(--n1) 52%,var(--n2) 100%);padding:calc(var(--si) + 12px) 16px 14px;flex-shrink:0}
+.hdr-plain{background:linear-gradient(155deg,var(--n0) 0%,var(--n1) 100%);padding:calc(var(--si) + 14px) 16px 16px;flex-shrink:0}
 .hdr-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+
 .logo-wrap{display:flex;align-items:center;gap:10px}
-.logo-mark{width:40px;height:40px;border-radius:10px;background:var(--gold);display:flex;align-items:center;justify-content:center;font-size:20px}
-.logo-text{}
-.logo-title{font-size:22px;font-weight:800;color:var(--white);letter-spacing:-.5px;line-height:1}
+.logo-mark{width:40px;height:40px;border-radius:10px;background:var(--gold);display:flex;align-items:center;justify-content:center;font-family:'Calistoga',cursive;font-size:17px;color:var(--n0);letter-spacing:-.3px;flex-shrink:0}
+.logo-title{font-family:'Calistoga',cursive;font-size:22px;color:var(--white);letter-spacing:-.3px;line-height:1.1}
 .logo-sub{font-size:11px;color:rgba(255,255,255,.6);margin-top:1px}
-.hdr-actions{display:flex;gap:8px}
-.icon-btn{background:rgba(255,255,255,.15);border:none;border-radius:10px;width:36px;height:36px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:17px;flex-shrink:0}
-.back-btn{display:flex;align-items:center;gap:4px;background:none;border:none;color:var(--white);font-size:17px;font-weight:500;cursor:pointer;padding:4px 0;flex-shrink:0}
+
+.back-btn{display:flex;align-items:center;gap:4px;background:none;border:none;color:var(--white);font-size:15px;font-weight:600;cursor:pointer;padding:4px 0;flex-shrink:0;font-family:'Inter',sans-serif;-webkit-tap-highlight-color:transparent}
 .back-btn svg{width:20px;height:20px}
-.hdr-name{font-size:17px;font-weight:700;color:var(--white);flex:1;text-align:center;margin:0 8px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.hdr-name{font-size:16px;font-weight:700;color:var(--white);flex:1;text-align:center;margin:0 8px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 
-/* Search */
-.search{display:flex;align-items:center;background:var(--white);border-radius:12px;padding:0 12px;height:44px;gap:8px}
-.search input{flex:1;border:none;outline:none;font-size:15px;color:var(--text);background:none}
-.search input::placeholder{color:var(--muted)}
-.clr-btn{background:none;border:none;color:var(--muted);font-size:14px;cursor:pointer;padding:4px}
+.search{display:flex;align-items:center;background:rgba(255,255,255,.11);border:1.5px solid rgba(255,255,255,.16);border-radius:12px;padding:0 12px;height:46px;gap:8px;backdrop-filter:blur(8px)}
+.search svg{color:rgba(255,255,255,.6);flex-shrink:0}
+.search input{flex:1;border:none;outline:none;font-size:15px;color:var(--white);background:transparent;font-family:'Inter',sans-serif}
+.search input::placeholder{color:rgba(255,255,255,.45)}
+.clr-btn{background:none;border:none;color:rgba(255,255,255,.55);cursor:pointer;padding:4px;display:flex;align-items:center;-webkit-tap-highlight-color:transparent;flex-shrink:0}
 
-/* Body */
 .vbody{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain}
-.vinner{padding:14px 14px calc(var(--sb) + 24px)}
+.vinner{padding:14px 14px calc(var(--sb) + 28px)}
 
-/* Hero banner */
-.hero-banner{background:linear-gradient(135deg,var(--gold) 0%,#F97316 100%);border-radius:16px;padding:16px;display:flex;align-items:center;gap:12px;margin-bottom:18px;cursor:pointer;box-shadow:0 4px 20px rgba(245,166,35,.35)}
-.hero-banner:active{opacity:.92}
-.hero-banner-text{flex:1}
-.hero-banner-title{font-size:15px;font-weight:700;color:var(--navy)}
-.hero-banner-sub{font-size:11px;color:rgba(27,58,107,.7);margin-top:2px;line-height:15px}
-
-/* Stats bar */
 .stats{display:flex;gap:10px;margin-bottom:18px}
-.stat{flex:1;background:var(--white);border-radius:12px;padding:10px;text-align:center;box-shadow:0 1px 4px rgba(0,0,0,.05)}
-.stat-num{font-size:20px;font-weight:800;color:var(--navy)}
-.stat-lbl{font-size:10px;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.4px}
+.stat{flex:1;background:var(--white);border-radius:12px;padding:11px 10px;text-align:center;box-shadow:var(--sh1)}
+.stat-num{font-size:22px;font-weight:800;color:var(--n1);font-family:'Calistoga',cursive;letter-spacing:-.5px}
+.stat-lbl{font-size:10px;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.5px;margin-top:1px}
 
-/* Section label */
+.hero-banner{background:linear-gradient(135deg,var(--gold) 0%,#F97316 100%);border-radius:var(--r);padding:16px;display:flex;align-items:center;gap:12px;margin-bottom:20px;cursor:pointer;box-shadow:0 4px 20px rgba(245,166,35,.4);-webkit-tap-highlight-color:transparent;transition:opacity .15s}
+.hero-banner:active{opacity:.9}
+.hero-icon-wrap{width:48px;height:48px;background:rgba(255,255,255,.25);border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.hero-icon-wrap svg{color:var(--n0)}
+.hero-banner-text{flex:1}
+.hero-banner-title{font-size:15px;font-weight:700;color:var(--n0);line-height:1.3}
+.hero-banner-sub{font-size:11px;color:rgba(13,31,60,.65);margin-top:3px;line-height:15px}
+
 .slabel{font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.6px;margin-bottom:10px}
 
-/* Cats */
-.cats{display:flex;gap:8px;overflow-x:auto;padding-bottom:12px;scrollbar-width:none}
+.cats{display:flex;gap:8px;overflow-x:auto;padding-bottom:12px;scrollbar-width:none;-ms-overflow-style:none}
 .cats::-webkit-scrollbar{display:none}
-.chip{display:flex;align-items:center;gap:5px;background:var(--white);border:1.5px solid var(--border);border-radius:100px;padding:6px 12px;font-size:13px;font-weight:600;color:var(--text2);cursor:pointer;white-space:nowrap;flex-shrink:0;user-select:none;-webkit-tap-highlight-color:transparent;transition:all .15s}
-.chip.on{background:var(--navy);border-color:var(--navy);color:var(--white)}
+.chip{display:flex;align-items:center;gap:5px;background:var(--white);border:1.5px solid var(--border);border-radius:100px;padding:7px 13px;font-size:13px;font-weight:600;color:var(--text2);cursor:pointer;white-space:nowrap;flex-shrink:0;user-select:none;-webkit-tap-highlight-color:transparent;transition:all .15s;min-height:36px;font-family:'Inter',sans-serif}
+.chip.on{background:var(--n1);border-color:var(--n1);color:var(--white)}
 
-/* Business card */
-.bcard{background:var(--white);border-radius:16px;padding:16px;margin-bottom:12px;box-shadow:0 2px 10px rgba(0,0,0,.06);cursor:pointer;user-select:none;-webkit-tap-highlight-color:transparent;transition:transform .1s}
-.bcard:active{transform:scale(.99)}
+.bcard{background:var(--white);border-radius:var(--r);padding:16px 16px 16px 20px;margin-bottom:12px;box-shadow:var(--sh2);cursor:pointer;user-select:none;-webkit-tap-highlight-color:transparent;transition:transform .1s,box-shadow .1s;position:relative;overflow:hidden}
+.bcard::before{content:'';position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--cat-c,var(--n2));border-radius:2px 0 0 2px}
+.bcard:active{transform:scale(.99);box-shadow:var(--sh1)}
 .bcard-top{display:flex;align-items:flex-start;gap:12px;margin-bottom:12px}
-.bcard-logo{width:54px;height:54px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:26px;flex-shrink:0}
+.bcard-logo{width:52px;height:52px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:26px;flex-shrink:0}
 .bcard-info{flex:1;min-width:0}
-.bcard-name{font-size:16px;font-weight:700;color:var(--text);margin-bottom:2px}
-.bcard-tagline{font-size:12px;color:var(--text2);line-height:17px;margin-bottom:6px}
+.bcard-name{font-size:15px;font-weight:700;color:var(--text);margin-bottom:2px;display:flex;align-items:center;gap:5px;line-height:1.3}
+.vbadge{display:inline-flex;align-items:center;justify-content:center;background:#DCFCE7;border-radius:50%;width:16px;height:16px;flex-shrink:0}
+.vbadge svg{width:10px;height:10px;color:#16A34A}
+.bcard-tagline{font-size:12px;color:var(--text2);line-height:17px;margin-bottom:7px}
 .bcard-badges{display:flex;gap:5px;flex-wrap:wrap}
-.badge{font-size:10px;font-weight:600;border-radius:6px;padding:2px 8px}
-.badge-cat{background:var(--gold-bg);color:var(--gold)}
-.badge-dist{background:#EFF6FF;color:var(--navy2)}
-.badge-verified{background:#DCFCE7;color:#16A34A}
-.bcard-products{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;margin-bottom:12px}
+.badge{font-size:10px;font-weight:700;border-radius:6px;padding:3px 8px;letter-spacing:.1px}
+.badge-dist{background:#EFF6FF;color:var(--n2)}
+.bcard-products{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;-ms-overflow-style:none;margin-bottom:12px}
 .bcard-products::-webkit-scrollbar{display:none}
-.prod-chip{background:var(--bg);border-radius:8px;padding:6px 10px;font-size:11px;color:var(--text2);white-space:nowrap;flex-shrink:0}
-.prod-chip-price{font-weight:700;color:var(--navy);margin-top:1px}
+.prod-chip{background:var(--bg);border-radius:var(--rs);padding:7px 10px;font-size:11px;color:var(--text2);white-space:nowrap;flex-shrink:0;line-height:1.3}
+.prod-chip-price{font-weight:700;color:var(--n1);margin-top:2px;font-size:11px}
 .bcard-actions{display:flex;gap:8px}
-.btn-wa{flex:1;background:var(--wa);color:var(--white);border:none;border-radius:10px;padding:10px;font-size:14px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;font-family:inherit;-webkit-tap-highlight-color:transparent}
+.btn-wa{flex:1;background:var(--wa);color:var(--white);border:none;border-radius:var(--rs);padding:11px;font-size:14px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;font-family:'Inter',sans-serif;-webkit-tap-highlight-color:transparent;transition:background .15s}
 .btn-wa:active{background:var(--wa-dark)}
-.btn-view{background:var(--bg);color:var(--navy);border:none;border-radius:10px;padding:10px 14px;font-size:14px;font-weight:600;cursor:pointer;font-family:inherit;-webkit-tap-highlight-color:transparent;white-space:nowrap}
+.btn-view{background:var(--bg);color:var(--n1);border:none;border-radius:var(--rs);padding:11px 14px;font-size:14px;font-weight:600;cursor:pointer;font-family:'Inter',sans-serif;-webkit-tap-highlight-color:transparent;white-space:nowrap;transition:background .15s}
 .btn-view:active{background:var(--border)}
 
-/* Empty */
-.empty{text-align:center;padding:40px 20px}
-.empty-emoji{font-size:48px;margin-bottom:12px}
-.empty-title{font-size:18px;font-weight:700;margin-bottom:6px}
-.empty-sub{font-size:14px;color:var(--text2);line-height:20px;margin-bottom:16px}
-.empty-btn{background:var(--navy);color:var(--white);border:none;border-radius:10px;padding:10px 20px;font-size:14px;font-weight:600;cursor:pointer;font-family:inherit}
+.empty{text-align:center;padding:48px 20px}
+.empty-icon{font-size:48px;margin-bottom:14px}
+.empty-title{font-size:18px;font-weight:800;margin-bottom:6px;font-family:'Calistoga',cursive}
+.empty-sub{font-size:14px;color:var(--text2);line-height:22px;margin-bottom:18px}
+.empty-btn{background:var(--n1);color:var(--white);border:none;border-radius:var(--rs);padding:12px 24px;font-size:14px;font-weight:600;cursor:pointer;font-family:'Inter',sans-serif;-webkit-tap-highlight-color:transparent}
 
-/* Business detail */
-.biz-hero{position:relative;background:linear-gradient(135deg,var(--navy) 0%,var(--navy2) 100%);padding:24px 20px 80px;text-align:center}
-.biz-logo{width:80px;height:80px;border-radius:20px;display:flex;align-items:center;justify-content:center;font-size:38px;margin:0 auto 12px;box-shadow:0 8px 24px rgba(0,0,0,.2)}
-.biz-name{font-size:22px;font-weight:800;color:var(--white);margin-bottom:4px}
-.biz-tagline{font-size:14px;color:rgba(255,255,255,.75);line-height:20px;margin-bottom:10px}
+.biz-hero{position:relative;background:linear-gradient(155deg,var(--n0) 0%,var(--n1) 52%,var(--n2) 100%);padding:24px 20px 80px;text-align:center}
+.biz-logo{width:80px;height:80px;border-radius:20px;display:flex;align-items:center;justify-content:center;font-size:38px;margin:0 auto 14px;box-shadow:0 8px 24px rgba(0,0,0,.25)}
+.biz-name{font-size:22px;font-weight:800;color:var(--white);margin-bottom:4px;font-family:'Calistoga',cursive;letter-spacing:-.3px;line-height:1.2}
+.biz-tagline{font-size:14px;color:rgba(255,255,255,.75);line-height:21px;margin-bottom:12px}
 .biz-badges{display:flex;justify-content:center;gap:6px;flex-wrap:wrap}
-.biz-card{background:var(--white);border-radius:20px;margin:-44px 16px 0;padding:20px;box-shadow:0 4px 20px rgba(0,0,0,.1);position:relative;z-index:1;margin-bottom:16px}
-.btn-wa-lg{width:100%;background:var(--wa);color:var(--white);border:none;border-radius:12px;padding:14px;font-size:16px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;font-family:inherit;margin-bottom:10px;-webkit-tap-highlight-color:transparent}
+.biz-card{background:var(--white);border-radius:var(--rl);margin:-44px 14px 0;padding:20px;box-shadow:var(--sh3);position:relative;z-index:1;margin-bottom:14px}
+.btn-wa-lg{width:100%;background:var(--wa);color:var(--white);border:none;border-radius:12px;padding:14px;font-size:15px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;font-family:'Inter',sans-serif;margin-bottom:10px;-webkit-tap-highlight-color:transparent;transition:background .15s}
 .btn-wa-lg:active{background:var(--wa-dark)}
-.btn-ig{width:100%;background:linear-gradient(135deg,#833AB4,#FD1D1D,#FCAF45);color:var(--white);border:none;border-radius:12px;padding:12px;font-size:14px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;font-family:inherit;-webkit-tap-highlight-color:transparent}
-.biz-section{background:var(--white);border-radius:16px;padding:16px;margin:0 16px 12px;box-shadow:0 2px 8px rgba(0,0,0,.05)}
-.biz-section-title{font-size:15px;font-weight:700;margin-bottom:12px;display:flex;align-items:center;gap:8px}
-.biz-desc{font-size:14px;color:var(--text2);line-height:22px}
+.btn-ig{width:100%;background:linear-gradient(135deg,#833AB4,#FD1D1D,#FCAF45);color:var(--white);border:none;border-radius:12px;padding:12px;font-size:14px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;font-family:'Inter',sans-serif;-webkit-tap-highlight-color:transparent}
+.biz-section{background:var(--white);border-radius:var(--r);padding:18px;margin:0 14px 12px;box-shadow:var(--sh1)}
+.biz-stitle{font-size:10px;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.8px;margin-bottom:12px}
+.biz-desc{font-size:14px;color:var(--text2);line-height:23px}
 .prod-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.prod-card{background:var(--bg);border-radius:12px;padding:12px}
-.prod-emoji{font-size:24px;margin-bottom:6px}
-.prod-name{font-size:13px;font-weight:600;color:var(--text);margin-bottom:2px}
-.prod-desc{font-size:11px;color:var(--muted);line-height:15px;margin-bottom:6px}
-.prod-price{font-size:14px;font-weight:700;color:var(--navy)}
-.info-row{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--border)}
+.prod-card{background:var(--bg);border-radius:12px;padding:13px}
+.prod-emoji{font-size:22px;margin-bottom:6px}
+.prod-name{font-size:13px;font-weight:600;color:var(--text);margin-bottom:2px;line-height:1.3}
+.prod-desc{font-size:11px;color:var(--muted);line-height:15px;margin-bottom:7px}
+.prod-price{font-size:14px;font-weight:700;color:var(--n1)}
+.info-row{display:flex;align-items:flex-start;gap:10px;padding:9px 0;border-bottom:1px solid var(--border)}
 .info-row:last-child{border-bottom:none}
-.info-icon{font-size:16px;width:24px;text-align:center;flex-shrink:0}
-.info-val{font-size:13px;color:var(--text2)}
+.info-icon{font-size:15px;width:22px;text-align:center;flex-shrink:0;margin-top:1px}
+.info-val{font-size:13px;color:var(--text2);line-height:19px}
 .info-val strong{color:var(--text)}
 
-/* List CTA */
-.list-cta{background:linear-gradient(135deg,var(--navy) 0%,var(--navy2) 100%);border-radius:16px;padding:20px;margin:0 16px 24px;text-align:center;cursor:pointer}
-.list-cta-title{font-size:17px;font-weight:700;color:var(--white);margin-bottom:4px}
+.list-cta{background:linear-gradient(135deg,var(--n0) 0%,var(--n2) 100%);border-radius:var(--r);padding:22px;margin:0 14px 28px;text-align:center;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.list-cta-title{font-size:18px;font-weight:800;color:var(--white);margin-bottom:4px;font-family:'Calistoga',cursive}
 .list-cta-sub{font-size:13px;color:rgba(255,255,255,.7);margin-bottom:14px;line-height:18px}
-.list-cta-btn{background:var(--gold);color:var(--navy);border:none;border-radius:10px;padding:10px 24px;font-size:14px;font-weight:700;cursor:pointer;font-family:inherit}
+.list-cta-btn{background:var(--gold);color:var(--n0);border:none;border-radius:10px;padding:11px 24px;font-size:14px;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif}
 
-/* Footer */
-.footer{text-align:center;padding:8px 20px 4px;font-size:11px;color:var(--muted);line-height:16px}
+.list-hero{text-align:center;padding:24px 0 28px}
+.list-hero-icon{width:72px;height:72px;background:var(--gold-bg);border-radius:18px;display:flex;align-items:center;justify-content:center;margin:0 auto 16px}
+.list-hero-icon svg{color:var(--gold-dark)}
+.list-hero-title{font-size:24px;font-weight:800;color:var(--n1);margin-bottom:8px;font-family:'Calistoga',cursive}
+.list-hero-sub{font-size:14px;color:var(--text2);line-height:22px;max-width:300px;margin:0 auto}
+.list-panel{background:var(--white);border-radius:var(--r);padding:18px;margin-bottom:14px;box-shadow:var(--sh1)}
+.list-panel-title{font-size:13px;font-weight:700;margin-bottom:14px;color:var(--text);display:flex;align-items:center;gap:8px}
+.list-item{display:flex;gap:10px;margin-bottom:10px;align-items:flex-start}
+.list-item:last-child{margin-bottom:0}
+.lchk{width:20px;height:20px;background:#DCFCE7;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
+.lchk svg{color:#16A34A;width:11px;height:11px}
+.ldot{width:20px;height:20px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.ldot::after{content:'';width:6px;height:6px;background:var(--n2);border-radius:50%;display:block}
+.list-item-text{font-size:14px;color:var(--text2);line-height:21px}
+
+.promo-cta{background:var(--n1);border-radius:12px;padding:16px;text-align:center;margin-top:6px;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.promo-cta-t{font-size:14px;font-weight:700;color:var(--white);margin-bottom:3px}
+.promo-cta-s{font-size:12px;color:rgba(255,255,255,.65)}
+
+.footer{text-align:center;padding:10px 20px 4px;font-size:11px;color:var(--muted);line-height:17px}
 </style>
 </head>
 <body>
@@ -145,50 +162,43 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 
 <!-- HOME -->
 <div id="view-home" class="view active">
-  <div class="hdr hdr-home">
+  <div class="hdr">
     <div class="hdr-row">
       <div class="logo-wrap">
-        <div class="logo-mark">🛍️</div>
-        <div class="logo-text">
+        <div class="logo-mark">BN</div>
+        <div>
           <div class="logo-title">Warung BN</div>
           <div class="logo-sub">Brunei Local Business Directory</div>
         </div>
       </div>
     </div>
     <div class="search">
-      <span style="font-size:16px">🔍</span>
-      <input id="sinp" type="search" placeholder="Search businesses..." oninput="onSearch(this.value)" autocomplete="off" autocorrect="off" spellcheck="false">
-      <button class="clr-btn" id="clr" onclick="clearSearch()" style="display:none">✕</button>
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+      <input id="sinp" type="search" placeholder="Search businesses…" oninput="onSearch(this.value)" autocomplete="off" autocorrect="off" spellcheck="false">
+      <button class="clr-btn" id="clr" onclick="clearSearch()" style="display:none" aria-label="Clear search">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
+      </button>
     </div>
   </div>
   <div class="vbody">
     <div class="vinner">
-
-      <!-- Stats -->
       <div class="stats" id="stats-bar"></div>
-
-      <!-- List your business CTA -->
       <div class="hero-banner" onclick="go('list')">
-        <span style="font-size:32px">🏪</span>
+        <div class="hero-icon-wrap">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        </div>
         <div class="hero-banner-text">
           <div class="hero-banner-title">List your business — it's free</div>
           <div class="hero-banner-sub">Get off Instagram DMs. Get a proper storefront with a WhatsApp order button.</div>
         </div>
-        <span style="font-size:20px;color:var(--navy);font-weight:700">›</span>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="rgba(13,31,60,.6)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
       </div>
-
-      <!-- Categories -->
       <div class="slabel" id="cat-lbl">Browse by Category</div>
       <div class="cats" id="cats"></div>
-
-      <!-- District filter -->
       <div class="slabel" id="dist-lbl" style="margin-top:4px">All Districts</div>
       <div class="cats" id="dists"></div>
-
-      <!-- Business list -->
       <div class="slabel" id="count-lbl">All Businesses</div>
       <div id="blist"></div>
-
       <div class="footer">Warung BN is a free directory for Brunei local businesses.<br>🇧🇳 Shop local. Support your community.</div>
     </div>
   </div>
@@ -196,12 +206,10 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 
 <!-- BUSINESS DETAIL -->
 <div id="view-biz" class="view">
-  <div class="hdr" style="position:absolute;top:0;left:0;right:0;z-index:10;background:transparent">
-    <div style="display:flex;align-items:center;gap:8px">
-      <button class="back-btn" onclick="back()">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>Back
-      </button>
-    </div>
+  <div style="position:absolute;top:0;left:0;right:0;z-index:10;padding:calc(env(safe-area-inset-top,0px) + 12px) 16px 0">
+    <button class="back-btn" onclick="back()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>Back
+    </button>
   </div>
   <div class="vbody" id="biz-body">
     <div id="biz-content"></div>
@@ -210,7 +218,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 
 <!-- LIST YOUR BUSINESS -->
 <div id="view-list" class="view">
-  <div class="hdr">
+  <div class="hdr-plain">
     <div style="display:flex;align-items:center;gap:8px">
       <button class="back-btn" onclick="back()">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>Back
@@ -219,40 +227,71 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
     </div>
   </div>
   <div class="vbody"><div class="vinner">
-    <div style="text-align:center;padding:20px 0 24px">
-      <div style="font-size:56px;margin-bottom:12px">🏪</div>
-      <div style="font-size:22px;font-weight:800;color:var(--navy);margin-bottom:8px">Get your free storefront</div>
-      <div style="font-size:14px;color:var(--text2);line-height:21px;max-width:300px;margin:0 auto">Stop managing orders in Instagram DMs. Get a proper page with your products, prices, and a direct WhatsApp order button.</div>
+    <div class="list-hero">
+      <div class="list-hero-icon">
+        <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      </div>
+      <div class="list-hero-title">Get your free storefront</div>
+      <div class="list-hero-sub">Stop managing orders in Instagram DMs. Get a proper page with your products, prices, and a direct WhatsApp order button.</div>
     </div>
-    <div style="background:var(--white);border-radius:16px;padding:16px;margin-bottom:14px;box-shadow:0 2px 8px rgba(0,0,0,.06)">
-      <div style="font-size:15px;font-weight:700;margin-bottom:12px">✅ What you get</div>
-      ${['Your business listed in the Warung BN directory','A shareable storefront link','Your products and prices displayed clearly','A direct WhatsApp order button','Your Instagram linked','100% free — no fees, no commission'].map(i=>`<div style="display:flex;gap:10px;margin-bottom:8px"><span style="color:var(--wa);font-weight:700">✓</span><span style="font-size:14px;color:var(--text2)">${i}</span></div>`).join('')}
+    <div class="list-panel">
+      <div class="list-panel-title">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#16A34A" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        What you get
+      </div>
+      <div class="list-item"><div class="lchk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div><div class="list-item-text">Your business listed in the Warung BN directory</div></div>
+      <div class="list-item"><div class="lchk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div><div class="list-item-text">A shareable storefront link</div></div>
+      <div class="list-item"><div class="lchk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div><div class="list-item-text">Your products and prices displayed clearly</div></div>
+      <div class="list-item"><div class="lchk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div><div class="list-item-text">A direct WhatsApp order button</div></div>
+      <div class="list-item"><div class="lchk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div><div class="list-item-text">Your Instagram linked</div></div>
+      <div class="list-item"><div class="lchk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div><div class="list-item-text">100% free — no fees, no commission</div></div>
     </div>
-    <div style="background:var(--white);border-radius:16px;padding:16px;margin-bottom:14px;box-shadow:0 2px 8px rgba(0,0,0,.06)">
-      <div style="font-size:15px;font-weight:700;margin-bottom:12px">📋 What we need from you</div>
-      ${['Business name & tagline','Category & district','WhatsApp number','Product/service names & prices','Instagram handle (optional)','A short description of your business'].map(i=>`<div style="display:flex;gap:10px;margin-bottom:8px"><span style="color:var(--navy);font-weight:700">·</span><span style="font-size:14px;color:var(--text2)">${i}</span></div>`).join('')}
+    <div class="list-panel">
+      <div class="list-panel-title">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--n2)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
+        What we need from you
+      </div>
+      <div class="list-item"><div class="ldot"></div><div class="list-item-text">Business name &amp; tagline</div></div>
+      <div class="list-item"><div class="ldot"></div><div class="list-item-text">Category &amp; district</div></div>
+      <div class="list-item"><div class="ldot"></div><div class="list-item-text">WhatsApp number</div></div>
+      <div class="list-item"><div class="ldot"></div><div class="list-item-text">Product/service names &amp; prices</div></div>
+      <div class="list-item"><div class="ldot"></div><div class="list-item-text">Instagram handle (optional)</div></div>
+      <div class="list-item"><div class="ldot"></div><div class="list-item-text">A short description of your business</div></div>
     </div>
-    <button class="btn-wa-lg" style="margin:0 0 10px" onclick="submitViaWA()">
-      <span>💬</span> Submit via WhatsApp
+    <button class="btn-wa-lg" onclick="submitViaWA()">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+      Submit via WhatsApp
     </button>
-    <div style="text-align:center;font-size:12px;color:var(--muted)">We'll add your business within 24 hours</div>
+    <div style="text-align:center;font-size:12px;color:var(--muted);margin-top:10px">We'll add your business within 24 hours</div>
   </div></div>
 </div>
 
 </div>
 <script>
-// ── DATA ────────────────────────────────────────────────
 const CATS={
-  food:    {l:'Food & Drinks',  i:'🍜'},
-  bakery:  {l:'Cakes & Bakery', i:'🎂'},
-  fashion: {l:'Fashion',        i:'👗'},
-  beauty:  {l:'Beauty',         i:'💄'},
-  home:    {l:'Home & Living',  i:'🏠'},
-  craft:   {l:'Craft & Art',    i:'🎨'},
-  services:{l:'Services',       i:'🔧'},
+  food:    {l:'Food & Drinks',   i:'🍜'},
+  bakery:  {l:'Cakes & Bakery',  i:'🎂'},
+  fashion: {l:'Fashion',         i:'👗'},
+  beauty:  {l:'Beauty',          i:'💄'},
+  home:    {l:'Home & Living',   i:'🏠'},
+  craft:   {l:'Craft & Art',     i:'🎨'},
+  services:{l:'Services',        i:'🔧'},
   health:  {l:'Health & Fitness',i:'💪'},
 };
+const CC={
+  food:    {bg:'#FFF3E0',text:'#C2410C',border:'#FED7AA'},
+  bakery:  {bg:'#FDF4FF',text:'#9333EA',border:'#E9D5FF'},
+  fashion: {bg:'#EFF6FF',text:'#1D4ED8',border:'#BFDBFE'},
+  beauty:  {bg:'#FFF1F2',text:'#BE123C',border:'#FECDD3'},
+  home:    {bg:'#FFFBEB',text:'#B45309',border:'#FDE68A'},
+  craft:   {bg:'#F0FDF4',text:'#15803D',border:'#BBF7D0'},
+  services:{bg:'#F0F9FF',text:'#0369A1',border:'#BAE6FD'},
+  health:  {bg:'#F0FDF4',text:'#166534',border:'#BBF7D0'},
+};
 const DISTRICTS=['Brunei-Muara','Tutong','Belait','Temburong'];
+
+const WASVG=`<svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>`;
+const CHKSVG=`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>`;
 
 const BIZ=[
   {id:'dapur-zara',name:'Dapur Zara',tagline:'Home-cooked meals delivered to your door',cat:'food',dist:'Brunei-Muara',
@@ -497,10 +536,8 @@ const BIZ=[
    ]},
 ];
 
-// ── STATE ───────────────────────────────────────────────
 const S={view:'home',prev:'home',bizId:null,search:'',cat:null,dist:null};
 
-// ── NAV ─────────────────────────────────────────────────
 function go(view,opts={}){
   const pEl=document.getElementById('view-'+S.view);
   if(pEl){pEl.classList.remove('active');if(view!=='home')pEl.classList.add('behind')}
@@ -518,25 +555,20 @@ function back(){
   S.view=S.prev; S.prev='home';
 }
 
-// ── DRAW ────────────────────────────────────────────────
 function draw(v){
   if(v==='home')drawHome();
   else if(v==='biz')drawBiz();
 }
 
 function drawHome(){
-  // Stats
-  const cats=Object.keys(CATS).length;
   document.getElementById('stats-bar').innerHTML=
     `<div class="stat"><div class="stat-num">${BIZ.length}</div><div class="stat-lbl">Businesses</div></div>`+
     `<div class="stat"><div class="stat-num">${BIZ.filter(b=>b.verified).length}</div><div class="stat-lbl">Verified</div></div>`+
     `<div class="stat"><div class="stat-num">4</div><div class="stat-lbl">Districts</div></div>`;
-  // Cats
   const usedCats=[...new Set(BIZ.map(b=>b.cat))];
   document.getElementById('cats').innerHTML=
     `<button class="chip${S.cat===null?' on':''}" onclick="setCat(null)">All</button>`+
     usedCats.map(c=>`<button class="chip${S.cat===c?' on':''}" onclick="setCat('${c}')">${CATS[c].i} ${CATS[c].l}</button>`).join('');
-  // Districts
   document.getElementById('dists').innerHTML=
     `<button class="chip${S.dist===null?' on':''}" onclick="setDist(null)">All Districts</button>`+
     DISTRICTS.map(d=>`<button class="chip${S.dist===d?' on':''}" onclick="setDist('${d}')">${d}</button>`).join('');
@@ -556,21 +588,22 @@ function drawList(){
     S.dist?`${S.dist} (${list.length})`:`All Businesses (${list.length})`;
   const el=document.getElementById('blist');
   if(!list.length){
-    el.innerHTML=`<div class="empty"><div class="empty-emoji">🏪</div><div class="empty-title">No businesses found</div><div class="empty-sub">Know a Brunei business that should be here? Help us grow the directory.</div><button class="empty-btn" onclick="go('list')">List a Business</button></div>`;
+    el.innerHTML=`<div class="empty"><div class="empty-icon">🏪</div><div class="empty-title">No businesses found</div><div class="empty-sub">Know a Brunei business that should be here? Help us grow the directory.</div><button class="empty-btn" onclick="go('list')">List a Business</button></div>`;
     return;
   }
   el.innerHTML=list.map(b=>{
+    const cc=CC[b.cat]||{bg:'#F8FAFC',text:'#475569',border:'#E2E8F0'};
     const waMsg=encodeURIComponent(`Assalamualaikum ${b.name}! Saya jumpa bisnes anda di Warung BN. Saya berminat — boleh share maklumat lanjut?`);
     const waLink=`https://wa.me/${b.wa}?text=${waMsg}`;
-    return`<div class="bcard">
+    return`<div class="bcard" style="--cat-c:${cc.text}" onclick="go('biz',{bizId:'${b.id}'})">
       <div class="bcard-top">
         <div class="bcard-logo" style="background:${b.bg||'#F0F3F8'};color:${b.logoColor||'inherit'}">${b.logo}</div>
         <div class="bcard-info">
-          <div class="bcard-name">${b.name}${b.verified?' <span style="font-size:12px">✅</span>':''}</div>
+          <div class="bcard-name">${b.name}${b.verified?`<span class="vbadge">${CHKSVG}</span>`:''}</div>
           <div class="bcard-tagline">${b.tagline}</div>
           <div class="bcard-badges">
-            <span class="badge badge-cat">${CATS[b.cat].i} ${CATS[b.cat].l}</span>
-            <span class="badge badge-dist">📍 ${b.dist}</span>
+            <span class="badge" style="background:${cc.bg};color:${cc.text}">${CATS[b.cat].i} ${CATS[b.cat].l}</span>
+            <span class="badge badge-dist">${b.dist}</span>
           </div>
         </div>
       </div>
@@ -578,63 +611,62 @@ function drawList(){
         ${b.products.slice(0,3).map(p=>`<div class="prod-chip"><div>${p.e} ${p.n}</div><div class="prod-chip-price">${p.p}</div></div>`).join('')}
       </div>
       <div class="bcard-actions">
-        <button class="btn-wa" onclick="event.stopPropagation();window.open('${waLink}','_blank')">💬 WhatsApp</button>
-        <button class="btn-view" onclick="go('biz',{bizId:'${b.id}'})">View →</button>
+        <button class="btn-wa" onclick="event.stopPropagation();window.open('${waLink}','_blank')">${WASVG} WhatsApp</button>
+        <button class="btn-view" onclick="event.stopPropagation();go('biz',{bizId:'${b.id}'})">View</button>
       </div>
     </div>`;
-  }).join('')+`
-    <div style="background:var(--navy);border-radius:14px;padding:16px;text-align:center;margin-top:8px;cursor:pointer" onclick="go('list')">
-      <div style="font-size:14px;font-weight:700;color:var(--white);margin-bottom:4px">🏪 Is your business missing?</div>
-      <div style="font-size:12px;color:rgba(255,255,255,.65)">List it for free — takes 2 minutes</div>
-    </div>`;
+  }).join('')+`<div class="promo-cta" onclick="go('list')"><div class="promo-cta-t">Is your business missing?</div><div class="promo-cta-s">List it for free — takes 2 minutes</div></div>`;
 }
 
 function drawBiz(){
   const b=BIZ.find(x=>x.id===S.bizId);
   if(!b)return;
+  const cc=CC[b.cat]||{bg:'#F8FAFC',text:'#475569',border:'#E2E8F0'};
   const waMsg=encodeURIComponent(`Assalamualaikum ${b.name}! Saya jumpa bisnes anda di Warung BN. Saya berminat dengan produk/perkhidmatan anda. Boleh share maklumat lanjut?`);
   const waLink=`https://wa.me/${b.wa}?text=${waMsg}`;
   const igLink=b.ig?`https://instagram.com/${b.ig.replace('@','')}`:null;
   document.getElementById('biz-content').innerHTML=`
     <div class="biz-hero">
-      <div style="height:calc(var(--si) + 56px)"></div>
+      <div style="height:calc(env(safe-area-inset-top,0px) + 56px)"></div>
       <div class="biz-logo" style="background:${b.bg||'#F0F3F8'};color:${b.logoColor||'inherit'}">${b.logo}</div>
       <div class="biz-name">${b.name}</div>
       <div class="biz-tagline">${b.tagline}</div>
       <div class="biz-badges">
-        <span class="badge badge-cat" style="background:rgba(255,255,255,.2);color:#fff">${CATS[b.cat].i} ${CATS[b.cat].l}</span>
-        <span class="badge badge-dist" style="background:rgba(255,255,255,.2);color:#fff">📍 ${b.dist}</span>
-        ${b.verified?'<span class="badge" style="background:rgba(255,255,255,.2);color:#fff">✅ Verified</span>':''}
+        <span class="badge" style="background:rgba(255,255,255,.18);color:#fff">${CATS[b.cat].i} ${CATS[b.cat].l}</span>
+        <span class="badge" style="background:rgba(255,255,255,.18);color:#fff">${b.dist}</span>
+        ${b.verified?`<span class="badge" style="background:rgba(255,255,255,.18);color:#fff">Verified</span>`:''}
       </div>
     </div>
     <div class="biz-card">
-      <button class="btn-wa-lg" onclick="window.open('${waLink}','_blank')">💬 Order via WhatsApp</button>
-      ${igLink?`<button class="btn-ig" onclick="window.open('${igLink}','_blank')">📸 Follow on Instagram · @${b.ig}</button>`:''}
+      <button class="btn-wa-lg" onclick="window.open('${waLink}','_blank')">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        Order via WhatsApp
+      </button>
+      ${igLink?`<button class="btn-ig" onclick="window.open('${igLink}','_blank')"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg> Follow on Instagram · @${b.ig}</button>`:''}
     </div>
     <div class="biz-section">
-      <div class="biz-section-title">ℹ️ About</div>
+      <div class="biz-stitle">About</div>
       <div class="biz-desc">${b.desc}</div>
     </div>
     <div class="biz-section">
-      <div class="biz-section-title">🛍️ Products & Services</div>
+      <div class="biz-stitle">Products &amp; Services</div>
       <div class="prod-grid">
         ${b.products.map(p=>`<div class="prod-card"><div class="prod-emoji">${p.e}</div><div class="prod-name">${p.n}</div><div class="prod-desc">${p.d}</div><div class="prod-price">${p.p}</div></div>`).join('')}
       </div>
     </div>
     <div class="biz-section">
-      <div class="biz-section-title">📌 Info</div>
+      <div class="biz-stitle">Info</div>
       ${b.info.map(i=>`<div class="info-row"><span class="info-icon">${i.i}</span><span class="info-val">${i.v}</span></div>`).join('')}
     </div>
     <div class="list-cta" onclick="go('list')">
       <div class="list-cta-title">Own a business?</div>
       <div class="list-cta-sub">List it on Warung BN for free and get your own storefront like this.</div>
-      <button class="list-cta-btn">List my business →</button>
+      <button class="list-cta-btn">List my business</button>
     </div>`;
   document.getElementById('biz-body').scrollTop=0;
 }
 
-// ── HANDLERS ────────────────────────────────────────────
-function onSearch(v){S.search=v;document.getElementById('clr').style.display=v?'block':'none';if(S.view==='home')drawList()}
+function onSearch(v){S.search=v;document.getElementById('clr').style.display=v?'flex':'none';if(S.view==='home')drawList()}
 function clearSearch(){S.search='';document.getElementById('sinp').value='';document.getElementById('clr').style.display='none';drawList()}
 function setCat(c){S.cat=c;drawHome()}
 function setDist(d){S.dist=d;drawHome()}
@@ -643,10 +675,7 @@ function submitViaWA(){
   window.open(`https://wa.me/6738000000?text=${msg}`,'_blank');
 }
 
-// ── PWA ────────────────────────────────────────────────
 if('serviceWorker' in navigator)navigator.serviceWorker.register('sw.js');
-
-// ── INIT ───────────────────────────────────────────────
 drawHome();
 </script>
 </body>

@@ -2,162 +2,188 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<meta name="theme-color" content="#1B3A6B">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover">
+<meta name="theme-color" content="#0D1F3C">
 <meta name="description" content="Brunei government forms guide with AI assistant in English & Malay">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="BruneiForms">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <title>BruneiForms Helper</title>
 <link rel="manifest" href="manifest.json">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --navy:#1B3A6B;--navy2:#2D5FA8;--gold:#F5A623;--gold-bg:#FDF3E0;
-  --white:#fff;--bg:#F0F3F8;--text:#1A1E2E;--text2:#4A5568;--muted:#94A3B8;
-  --border:#E2E8F0;--success:#16A34A;--error:#DC2626;--err-bg:#FEE2E2;
+  --n0:#0D1F3C;--n1:#1B3A6B;--n2:#2D5FA8;--n3:#4A80C8;
+  --blue:#2563EB;--blue-l:#EFF6FF;--blue-m:#BFDBFE;
+  --gold:#F59E0B;--gold-d:#D97706;--gold-bg:#FFFBEB;
+  --green:#10B981;--green-bg:#ECFDF5;
+  --red:#EF4444;--red-bg:#FEF2F2;
   --warn:#D97706;--warn-bg:#FEF3C7;
+  --bg:#EEF2F8;--surface:#FFFFFF;
+  --text:#0F172A;--t2:#475569;--muted:#94A3B8;
+  --border:#E2E8F0;--border2:#CBD5E1;
+  --sh0:0 1px 2px rgba(15,23,42,.06);
+  --sh1:0 2px 8px rgba(15,23,42,.07),0 1px 3px rgba(15,23,42,.05);
+  --sh2:0 6px 24px rgba(15,23,42,.09),0 2px 8px rgba(15,23,42,.06);
+  --sh3:0 12px 40px rgba(15,23,42,.12),0 4px 12px rgba(15,23,42,.07);
   --si:env(safe-area-inset-top);--sb:env(safe-area-inset-bottom);
+  --r:14px;--rs:10px;--rl:18px;
 }
 html,body{height:100%;overflow:hidden}
-body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--bg);color:var(--text);-webkit-font-smoothing:antialiased}
-#app{position:relative;width:100%;max-width:430px;height:100%;margin:0 auto;overflow:hidden;box-shadow:0 0 40px rgba(0,0,0,.15)}
+body{font-family:'Plus Jakarta Sans',-apple-system,BlinkMacSystemFont,sans-serif;background:var(--bg);color:var(--text);-webkit-font-smoothing:antialiased;font-size:15px;line-height:1.55}
+#app{position:relative;width:100%;max-width:430px;height:100%;margin:0 auto;overflow:hidden;box-shadow:var(--sh3)}
 
 /* Views */
-.view{position:absolute;inset:0;background:var(--bg);display:flex;flex-direction:column;transform:translateX(100%);transition:transform .32s cubic-bezier(.4,0,.2,1);will-change:transform}
+.view{position:absolute;inset:0;background:var(--bg);display:flex;flex-direction:column;transform:translateX(100%);transition:transform .3s cubic-bezier(.25,.46,.45,.94);will-change:transform}
 .view.active{transform:translateX(0)}
-.view.behind{transform:translateX(-25%)}
+.view.behind{transform:translateX(-28%)}
 
 /* Header */
-.hdr{background:var(--navy);padding:calc(var(--si) + 12px) 16px 14px;flex-shrink:0}
-.hdr-home{background:linear-gradient(135deg,var(--navy),var(--navy2));padding:calc(var(--si) + 16px) 16px 18px}
-.hdr-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
-.hdr-title{font-size:26px;font-weight:800;color:var(--white);letter-spacing:-.5px}
-.hdr-sub{font-size:12px;color:rgba(255,255,255,.6);margin-top:2px}
-.back-btn{display:flex;align-items:center;gap:4px;background:none;border:none;color:var(--white);font-size:17px;font-weight:500;cursor:pointer;padding:4px 0;flex-shrink:0}
-.back-btn svg{width:20px;height:20px}
-.hdr-name{font-size:17px;font-weight:700;color:var(--white);flex:1;text-align:center;margin:0 8px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.icon-btn{background:rgba(255,255,255,.15);border:none;border-radius:10px;width:36px;height:36px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:18px}
+.hdr{background:var(--n1);padding:calc(var(--si) + 12px) 16px 14px;flex-shrink:0}
+.hdr-home{background:linear-gradient(155deg,var(--n0) 0%,var(--n1) 52%,var(--n2) 100%);padding:calc(var(--si) + 20px) 16px 20px}
+.hdr-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
+.brand-name{font-size:26px;font-weight:800;color:#fff;letter-spacing:-.6px;line-height:1}
+.brand-sub{font-size:11.5px;color:rgba(255,255,255,.5);font-weight:500;margin-top:3px;letter-spacing:.1px}
+.hdr-btn{min-width:40px;min-height:40px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.14);border-radius:12px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:#fff;transition:background .15s;-webkit-tap-highlight-color:transparent;border:none;gap:6px;font-family:inherit;font-size:15px;font-weight:600;padding:0 10px}
+.hdr-btn:active{background:rgba(255,255,255,.2)}
+.hdr-btn svg{width:20px;height:20px;flex-shrink:0}
+.hdr-mid{font-size:16px;font-weight:700;color:#fff;flex:1;text-align:center;margin:0 8px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 
 /* Search */
-.search{display:flex;align-items:center;background:var(--white);border-radius:12px;padding:0 12px;height:44px;gap:8px}
-.search input{flex:1;border:none;outline:none;font-size:15px;color:var(--text);background:none}
-.search input::placeholder{color:var(--muted)}
-.clr-btn{background:none;border:none;color:var(--muted);font-size:14px;cursor:pointer;padding:4px}
+.search-bar{background:rgba(255,255,255,.11);border:1.5px solid rgba(255,255,255,.16);border-radius:13px;padding:0 14px;height:46px;display:flex;align-items:center;gap:10px}
+.search-bar input{flex:1;border:none;outline:none;font-size:15px;color:#fff;background:transparent;font-family:inherit;font-weight:500}
+.search-bar input::placeholder{color:rgba(255,255,255,.4)}
+.search-bar svg{color:rgba(255,255,255,.5);flex-shrink:0}
+.search-clr{background:rgba(255,255,255,.18);border:none;border-radius:50%;width:22px;height:22px;min-width:22px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:rgba(255,255,255,.75);-webkit-tap-highlight-color:transparent;transition:background .12s}
+.search-clr:active{background:rgba(255,255,255,.3)}
 
-/* Body scroll */
+/* Scroll body */
 .vbody{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain}
-.vinner{padding:14px 14px calc(var(--sb) + 20px)}
+.vinner{padding:16px 16px calc(var(--sb) + 28px)}
 
 /* AI CTA */
-.ai-cta{background:var(--gold);border-radius:14px;padding:14px;display:flex;align-items:center;gap:12px;margin-bottom:18px;cursor:pointer;box-shadow:0 4px 16px rgba(245,166,35,.4);user-select:none;-webkit-tap-highlight-color:transparent}
-.ai-cta:active{opacity:.9;transform:scale(.99)}
-.ai-cta-text{flex:1}
-.ai-cta-title{font-size:15px;font-weight:700;color:var(--navy)}
-.ai-cta-sub{font-size:11px;color:rgba(27,58,107,.65);margin-top:2px;line-height:15px}
+.ai-cta{background:linear-gradient(135deg,var(--gold) 0%,#FB923C 100%);border-radius:var(--r);padding:16px;display:flex;align-items:center;gap:14px;margin-bottom:22px;cursor:pointer;box-shadow:0 4px 20px rgba(245,158,11,.3);-webkit-tap-highlight-color:transparent;transition:transform .12s,box-shadow .12s}
+.ai-cta:active{transform:scale(.98);box-shadow:0 2px 8px rgba(245,158,11,.2)}
+.ai-cta-badge{width:48px;height:48px;border-radius:12px;background:rgba(255,255,255,.25);display:flex;align-items:center;justify-content:center;font-size:24px;flex-shrink:0}
+.ai-cta-body{flex:1}
+.ai-cta-title{font-size:15px;font-weight:800;color:var(--n0)}
+.ai-cta-sub{font-size:11.5px;color:rgba(13,31,60,.58);margin-top:2px;line-height:1.5}
+.ai-cta-arr{width:30px;height:30px;border-radius:50%;background:rgba(255,255,255,.28);display:flex;align-items:center;justify-content:center;color:var(--n0);flex-shrink:0}
+.ai-cta-arr svg{width:16px;height:16px}
 
-/* Sec label */
-.slabel{font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.6px;margin-bottom:10px}
+/* Section label */
+.slabel{font-size:10.5px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.8px;margin-bottom:10px}
 
-/* Cats */
-.cats{display:flex;gap:8px;overflow-x:auto;padding-bottom:12px;scrollbar-width:none;-ms-overflow-style:none}
-.cats::-webkit-scrollbar{display:none}
-.chip{display:flex;align-items:center;gap:5px;background:var(--white);border:1.5px solid var(--border);border-radius:100px;padding:6px 12px;font-size:13px;font-weight:600;color:var(--text2);cursor:pointer;white-space:nowrap;flex-shrink:0;user-select:none;-webkit-tap-highlight-color:transparent;transition:all .15s}
-.chip.on{background:var(--navy);border-color:var(--navy);color:var(--white)}
+/* Category chips */
+.chips{display:flex;gap:8px;overflow-x:auto;padding-bottom:14px;scrollbar-width:none}
+.chips::-webkit-scrollbar{display:none}
+.chip{display:flex;align-items:center;gap:5px;background:var(--surface);border:1.5px solid var(--border);border-radius:100px;padding:7px 13px;font-size:13px;font-weight:600;color:var(--t2);cursor:pointer;white-space:nowrap;flex-shrink:0;-webkit-tap-highlight-color:transparent;transition:all .15s;font-family:inherit}
+.chip.on{background:var(--n1);border-color:var(--n1);color:#fff}
+.chip:not(.on):active{background:var(--bg)}
 
 /* Form card */
-.fcard{background:var(--white);border-radius:14px;padding:14px;margin-bottom:10px;display:flex;align-items:center;gap:12px;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.06);user-select:none;-webkit-tap-highlight-color:transparent;transition:transform .1s}
-.fcard:active{transform:scale(.99)}
-.ficon{width:48px;height:48px;border-radius:12px;background:var(--bg);display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0}
-.fcontent{flex:1;min-width:0}
-.fname{font-size:15px;font-weight:600;color:var(--text);margin-bottom:1px}
-.fms{font-size:11px;color:var(--muted);margin-bottom:3px}
-.fdept{font-size:11px;color:var(--navy);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.fpills{display:flex;gap:5px;margin-top:6px}
-.pill{background:var(--bg);border-radius:100px;padding:2px 8px;font-size:10px;color:var(--text2);font-weight:500}
-.farrow{font-size:20px;color:var(--muted)}
+.fcard{background:var(--surface);border-radius:var(--r);padding:14px 14px 14px 16px;margin-bottom:10px;display:flex;align-items:center;gap:13px;cursor:pointer;box-shadow:var(--sh1);border:1px solid var(--border);-webkit-tap-highlight-color:transparent;transition:transform .12s,box-shadow .12s;position:relative;overflow:hidden}
+.fcard::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;border-radius:0 2px 2px 0}
+.fcard:active{transform:scale(.985);box-shadow:var(--sh0)}
+.fcard-ico{width:44px;height:44px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
+.fcard-body{flex:1;min-width:0}
+.fcard-name{font-size:15px;font-weight:700;color:var(--text);margin-bottom:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.fcard-ms{font-size:11px;color:var(--muted);margin-bottom:4px}
+.fcard-dept{font-size:11px;color:var(--n2);font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.fcard-pills{display:flex;gap:5px;margin-top:7px;flex-wrap:wrap}
+.pill{border-radius:100px;padding:2px 8px;font-size:10px;font-weight:600;border:1px solid transparent}
+.fcard-arr{color:var(--muted);flex-shrink:0}
+.fcard-arr svg{width:16px;height:16px}
 
 /* Empty */
-.empty{text-align:center;padding:40px 20px}
-.empty-emoji{font-size:48px;margin-bottom:12px}
-.empty-title{font-size:18px;font-weight:700;margin-bottom:6px}
-.empty-sub{font-size:14px;color:var(--text2);line-height:20px;margin-bottom:16px}
-.empty-btn{background:var(--navy);color:var(--white);border:none;border-radius:10px;padding:10px 20px;font-size:14px;font-weight:600;cursor:pointer}
+.empty{text-align:center;padding:48px 24px}
+.empty-title{font-size:18px;font-weight:700;margin-bottom:8px}
+.empty-sub{font-size:14px;color:var(--t2);line-height:1.6;margin-bottom:20px}
+.empty-btn{background:var(--n1);color:#fff;border:none;border-radius:12px;padding:11px 22px;font-size:14px;font-weight:700;cursor:pointer;font-family:inherit;-webkit-tap-highlight-color:transparent}
 
 /* Form detail */
-.fhero{background:var(--white);padding:16px;border-radius:14px;display:flex;align-items:center;gap:14px;margin-bottom:12px;box-shadow:0 2px 8px rgba(0,0,0,.05)}
-.fhero-icon{width:60px;height:60px;border-radius:14px;background:var(--bg);display:flex;align-items:center;justify-content:center;font-size:28px;flex-shrink:0}
-.fhero-name{font-size:18px;font-weight:700;margin-bottom:2px}
-.fhero-ms{font-size:12px;color:var(--muted);margin-bottom:4px}
-.fhero-dept{font-size:12px;color:var(--navy);font-weight:500}
-.fdesc{font-size:15px;line-height:22px;margin-bottom:4px}
-.fdesc-ms{font-size:13px;color:var(--muted);line-height:20px;margin-bottom:16px}
-.igrid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px}
-.icell{background:var(--white);border-radius:12px;padding:12px;box-shadow:0 1px 4px rgba(0,0,0,.04)}
-.icell-icon{font-size:18px;margin-bottom:4px}
-.icell-lbl{font-size:9px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.4px;margin-bottom:2px}
-.icell-val{font-size:12px;font-weight:600;line-height:17px}
-.shdr{display:flex;align-items:center;gap:8px;margin:20px 0 12px}
-.shdr-emoji{font-size:18px}
-.shdr-title{font-size:16px;font-weight:700}
+.fhero{background:var(--surface);border-radius:var(--r);display:flex;align-items:center;gap:16px;margin-bottom:14px;padding:16px;box-shadow:var(--sh1);border:1px solid var(--border)}
+.fhero-ico{width:62px;height:62px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:28px;flex-shrink:0}
+.fhero-name{font-size:18px;font-weight:800;color:var(--text);margin-bottom:3px;line-height:1.2}
+.fhero-ms{font-size:12px;color:var(--muted);margin-bottom:5px}
+.fhero-dept{font-size:11.5px;color:var(--n2);font-weight:600}
+.fdesc{font-size:14.5px;line-height:1.65;color:var(--text);margin-bottom:4px}
+.fdesc-ms{font-size:13px;color:var(--muted);line-height:1.6;margin-bottom:18px;font-style:italic}
+.igrid{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:22px}
+.icell{background:var(--surface);border-radius:12px;padding:13px;box-shadow:var(--sh0);border:1px solid var(--border)}
+.icell-ico{font-size:16px;margin-bottom:5px}
+.icell-lbl{font-size:9px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:3px}
+.icell-val{font-size:12px;font-weight:600;line-height:1.5;color:var(--text)}
+.shdr{display:flex;align-items:center;gap:10px;margin:22px 0 13px}
+.shdr-ico{width:32px;height:32px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
+.shdr-title{font-size:15.5px;font-weight:700;color:var(--text)}
 .shdr-sub{font-size:11px;color:var(--muted);margin-top:1px}
-.doc-item{display:flex;align-items:flex-start;gap:10px;margin-bottom:10px}
-.doc-num{width:24px;height:24px;border-radius:12px;background:var(--navy);color:var(--white);font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
-.doc-txt{font-size:14px;line-height:21px}
-.step-item{display:flex;align-items:flex-start;gap:12px;margin-bottom:16px}
-.step-num{width:28px;height:28px;border-radius:14px;background:var(--gold-bg);border:2px solid var(--gold);color:var(--gold);font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px}
-.step-txt{font-size:14px;line-height:21px;flex:1}
-.tip-item{display:flex;gap:8px;margin-bottom:8px}
-.tip-dot{color:var(--gold);font-size:16px;line-height:22px;flex-shrink:0}
-.tip-txt{font-size:14px;color:var(--text2);line-height:21px}
-.ask-btn{width:100%;background:var(--navy);color:var(--white);border:none;border-radius:14px;padding:16px;font-size:15px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;margin-top:24px;-webkit-tap-highlight-color:transparent;font-family:inherit}
-.ask-btn:active{opacity:.9}
-.disclaimer{background:var(--warn-bg);border-radius:10px;padding:12px;margin-top:16px;font-size:12px;color:var(--warn);line-height:18px}
+.doc-item{display:flex;align-items:flex-start;gap:12px;margin-bottom:12px}
+.doc-num{width:22px;height:22px;border-radius:6px;background:var(--blue-l);color:var(--blue);font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px}
+.doc-txt{font-size:14px;line-height:1.6;color:var(--t2)}
+.step-item{display:flex;align-items:flex-start;gap:14px;margin-bottom:16px}
+.step-num{width:28px;height:28px;border-radius:50%;background:var(--gold-bg);border:2px solid var(--gold);color:var(--gold-d);font-size:12px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
+.step-txt{font-size:14px;line-height:1.65;color:var(--t2);flex:1;padding-top:3px}
+.tip-item{display:flex;gap:10px;margin-bottom:8px;padding:10px 13px;background:var(--gold-bg);border-radius:10px;border:1px solid rgba(245,158,11,.18)}
+.tip-dot{color:var(--gold-d);font-size:15px;line-height:1.6;flex-shrink:0;font-weight:700}
+.tip-txt{font-size:13px;color:var(--t2);line-height:1.6}
+.ask-btn{width:100%;background:linear-gradient(135deg,var(--n1) 0%,var(--n2) 100%);color:#fff;border:none;border-radius:var(--r);padding:16px;font-size:15px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;margin-top:24px;-webkit-tap-highlight-color:transparent;font-family:inherit;box-shadow:0 4px 18px rgba(27,58,107,.28);transition:transform .12s,box-shadow .12s}
+.ask-btn:active{transform:scale(.98);box-shadow:0 2px 8px rgba(27,58,107,.18)}
+.disclaimer{background:var(--warn-bg);border-radius:10px;padding:12px 14px;margin-top:16px;font-size:12px;color:var(--warn);line-height:1.6;border:1px solid rgba(217,119,6,.15)}
 
 /* Chat */
-.ctx-banner{background:var(--gold-bg);padding:8px 16px;font-size:12px;color:var(--warn);border-bottom:1px solid var(--border);flex-shrink:0}
-.cmsg-list{flex:1;overflow-y:auto;padding:16px;-webkit-overflow-scrolling:touch}
-.crow{display:flex;margin-bottom:12px;align-items:flex-end}
+.ctx-banner{background:var(--gold-bg);padding:9px 16px;font-size:12px;color:var(--gold-d);border-bottom:1px solid rgba(245,158,11,.18);flex-shrink:0;font-weight:600}
+.cmsg-list{flex:1;overflow-y:auto;padding:16px;-webkit-overflow-scrolling:touch;display:flex;flex-direction:column;gap:12px}
+.crow{display:flex;align-items:flex-end;gap:8px}
 .crow.user{justify-content:flex-end}
 .crow.bot{justify-content:flex-start}
-.cavatar{width:30px;height:30px;border-radius:15px;background:var(--bg);display:flex;align-items:center;justify-content:center;font-size:16px;margin-right:8px;flex-shrink:0}
-.cbubble{max-width:78%;padding:10px 14px;border-radius:16px;font-size:15px;line-height:22px}
-.cbubble.user{background:var(--navy);color:var(--white);border-bottom-right-radius:4px}
-.cbubble.bot{background:var(--white);color:var(--text);border-bottom-left-radius:4px;box-shadow:0 1px 4px rgba(0,0,0,.06)}
-.cloading{display:flex;gap:4px;padding:12px 14px;background:var(--white);border-radius:16px;border-bottom-left-radius:4px;box-shadow:0 1px 4px rgba(0,0,0,.06)}
-.dot{width:7px;height:7px;border-radius:50%;background:var(--muted);animation:bounce 1.2s infinite}
-.dot:nth-child(2){animation-delay:.2s}
-.dot:nth-child(3){animation-delay:.4s}
-@keyframes bounce{0%,60%,100%{transform:translateY(0)}30%{transform:translateY(-6px)}}
-.csugg{margin-top:8px}
-.csugg-lbl{font-size:11px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.4px;margin-bottom:8px}
-.csugg-chip{background:var(--white);border:1px solid var(--border);border-radius:10px;padding:10px 14px;font-size:14px;color:var(--navy);margin-bottom:8px;cursor:pointer;display:block;width:100%;text-align:left;font-family:inherit;-webkit-tap-highlight-color:transparent}
+.cavatar{width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg,var(--n1),var(--n2));display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0}
+.cbubble{max-width:80%;padding:11px 15px;border-radius:18px;font-size:14.5px;line-height:1.55}
+.cbubble.user{background:var(--n1);color:#fff;border-bottom-right-radius:5px}
+.cbubble.bot{background:var(--surface);color:var(--text);border-bottom-left-radius:5px;box-shadow:var(--sh1);border:1px solid var(--border)}
+.cloading{display:flex;gap:5px;padding:14px 18px;background:var(--surface);border-radius:18px;border-bottom-left-radius:5px;box-shadow:var(--sh1);border:1px solid var(--border);align-self:flex-start}
+.dot{width:7px;height:7px;border-radius:50%;background:var(--muted);animation:bop 1.1s infinite ease-in-out}
+.dot:nth-child(2){animation-delay:.14s}
+.dot:nth-child(3){animation-delay:.28s}
+@keyframes bop{0%,60%,100%{transform:translateY(0)}30%{transform:translateY(-7px)}}
+.csugg{display:flex;flex-direction:column;gap:8px;align-self:stretch}
+.csugg-lbl{font-size:10.5px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.7px;margin-bottom:4px}
+.csugg-chip{background:var(--surface);border:1.5px solid var(--border);border-radius:12px;padding:11px 14px;font-size:14px;color:var(--n1);cursor:pointer;text-align:left;font-family:inherit;font-weight:600;-webkit-tap-highlight-color:transparent;transition:border-color .12s,background .12s}
 .csugg-chip:active{background:var(--bg)}
-.cinput-bar{display:flex;align-items:flex-end;gap:10px;padding:10px 12px calc(var(--sb) + 10px);background:var(--white);border-top:1px solid var(--border);flex-shrink:0}
-.cinput{flex:1;background:var(--bg);border:none;border-radius:12px;padding:10px 14px;font-size:15px;color:var(--text);font-family:inherit;resize:none;max-height:100px;outline:none;line-height:1.4}
+.cinput-bar{display:flex;align-items:flex-end;gap:10px;padding:10px 14px calc(var(--sb) + 10px);background:var(--surface);border-top:1px solid var(--border);flex-shrink:0}
+.cinput{flex:1;background:var(--bg);border:1.5px solid var(--border);border-radius:13px;padding:11px 14px;font-size:15px;color:var(--text);font-family:inherit;resize:none;max-height:100px;outline:none;line-height:1.45;transition:border-color .15s}
+.cinput:focus{border-color:var(--n2)}
 .cinput::placeholder{color:var(--muted)}
-.send-btn{width:44px;height:44px;border-radius:22px;background:var(--navy);border:none;color:var(--white);font-size:20px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:background .15s;font-family:inherit}
+.send-btn{width:44px;height:44px;border-radius:13px;background:var(--n1);border:none;color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:background .12s,transform .1s;-webkit-tap-highlight-color:transparent}
+.send-btn svg{width:18px;height:18px}
 .send-btn:disabled{background:var(--border);cursor:not-allowed}
+.send-btn:not(:disabled):active{background:var(--n0);transform:scale(.93)}
 
 /* Settings */
-.ssec{background:var(--white);border-radius:14px;padding:16px;margin-bottom:14px;box-shadow:0 1px 4px rgba(0,0,0,.05)}
-.stitle{font-size:16px;font-weight:700;margin-bottom:8px}
-.sdesc{font-size:14px;color:var(--text2);line-height:21px}
-.kstatus{display:flex;align-items:center;gap:6px;margin-bottom:10px}
-.kdot{width:8px;height:8px;border-radius:4px;background:var(--success)}
-.kstatus-txt{font-size:13px;color:var(--success);font-weight:600}
-.sinput{width:100%;background:var(--bg);border:1.5px solid var(--border);border-radius:10px;padding:12px 14px;font-size:14px;color:var(--text);font-family:inherit;outline:none;margin-bottom:12px}
-.sinput:focus{border-color:var(--navy)}
+.ssec{background:var(--surface);border-radius:var(--r);padding:18px;margin-bottom:13px;box-shadow:var(--sh1);border:1px solid var(--border)}
+.stitle{font-size:16px;font-weight:700;color:var(--text);margin-bottom:8px;display:flex;align-items:center;gap:10px}
+.stitle-ico{width:32px;height:32px;border-radius:9px;background:var(--bg);display:flex;align-items:center;justify-content:center;color:var(--n2);flex-shrink:0}
+.stitle-ico svg{width:17px;height:17px}
+.sdesc{font-size:13px;color:var(--t2);line-height:1.6;margin-bottom:12px}
+.kstatus{display:flex;align-items:center;gap:8px;margin-bottom:12px;padding:9px 12px;background:var(--green-bg);border-radius:8px;border:1px solid rgba(16,185,129,.2)}
+.kdot{width:7px;height:7px;border-radius:50%;background:var(--green);flex-shrink:0}
+.kstatus-txt{font-size:13px;color:var(--green);font-weight:700}
+.sinput{width:100%;background:var(--bg);border:1.5px solid var(--border);border-radius:10px;padding:12px 14px;font-size:14px;color:var(--text);font-family:inherit;outline:none;margin-bottom:10px;transition:border-color .15s;font-weight:500}
+.sinput:focus{border-color:var(--n2)}
+.kerr{display:none;font-size:13px;color:var(--red);margin-bottom:10px;padding:9px 12px;background:var(--red-bg);border-radius:8px;border:1px solid rgba(239,68,68,.2);font-weight:500}
 .brow{display:flex;gap:10px}
-.btn-p{flex:1;background:var(--navy);color:var(--white);border:none;border-radius:10px;padding:12px;font-size:15px;font-weight:700;cursor:pointer;font-family:inherit}
-.btn-d{background:var(--err-bg);color:var(--error);border:none;border-radius:10px;padding:12px 16px;font-size:15px;font-weight:600;cursor:pointer;font-family:inherit}
-.shint{font-size:12px;color:var(--muted);margin-top:8px}
-.drow{display:flex;align-items:center;gap:12px;padding:8px 0;border-bottom:1px solid var(--border)}
+.btn-p{flex:1;background:var(--n1);color:#fff;border:none;border-radius:10px;padding:12px;font-size:14px;font-weight:700;cursor:pointer;font-family:inherit;transition:background .12s;-webkit-tap-highlight-color:transparent}
+.btn-p:active{background:var(--n0)}
+.btn-d{background:var(--red-bg);color:var(--red);border:1.5px solid rgba(239,68,68,.2);border-radius:10px;padding:12px 16px;font-size:14px;font-weight:600;cursor:pointer;font-family:inherit;-webkit-tap-highlight-color:transparent}
+.shint{font-size:12px;color:var(--muted);margin-top:8px;line-height:1.5}
+.drow{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--border)}
 .drow:last-child{border-bottom:none}
-.dtag{font-size:11px;font-weight:700;color:var(--navy);background:var(--bg);border-radius:6px;padding:2px 6px;width:54px;text-align:center;flex-shrink:0}
-.dname{font-size:13px;flex:1}
-
-.footer{text-align:center;padding:20px 0 8px;font-size:11px;color:var(--muted);line-height:16px}
+.dtag{font-size:10.5px;font-weight:700;color:var(--n2);background:var(--blue-l);border-radius:6px;padding:3px 8px;width:58px;text-align:center;flex-shrink:0}
+.dname{font-size:13px;color:var(--t2);font-weight:500}
+.footer{text-align:center;padding:28px 0 8px;font-size:11px;color:var(--muted);line-height:1.6}
 </style>
 </head>
 <body>
@@ -168,32 +194,38 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
   <div class="hdr hdr-home">
     <div class="hdr-row">
       <div>
-        <div class="hdr-title">BruneiForms 🇧🇳</div>
-        <div class="hdr-sub">Panduan Borang Kerajaan Brunei</div>
+        <div class="brand-name">BruneiForms 🇧🇳</div>
+        <div class="brand-sub">Panduan Borang Kerajaan Brunei</div>
       </div>
-      <button class="icon-btn" onclick="go('settings')" aria-label="Settings">⚙️</button>
+      <button class="hdr-btn" onclick="go('settings')" aria-label="Settings">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+      </button>
     </div>
-    <div class="search">
-      <span style="font-size:16px">🔍</span>
-      <input id="search-inp" type="search" placeholder="Search forms... / Cari borang..." oninput="onSearch(this.value)" autocomplete="off" autocorrect="off" spellcheck="false">
-      <button class="clr-btn" id="clr-btn" onclick="clearSearch()" style="display:none">✕</button>
+    <div class="search-bar">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input id="search-inp" type="search" placeholder="Search forms… / Cari borang…" oninput="onSearch(this.value)" autocomplete="off" autocorrect="off" spellcheck="false">
+      <button class="search-clr" id="clr-btn" onclick="clearSearch()" style="display:none" aria-label="Clear">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
     </div>
   </div>
-  <div class="vbody" id="home-body">
+  <div class="vbody">
     <div class="vinner">
       <div class="ai-cta" onclick="go('chat')">
-        <span style="font-size:28px;flex-shrink:0">🤖</span>
-        <div class="ai-cta-text">
+        <div class="ai-cta-badge">🤖</div>
+        <div class="ai-cta-body">
           <div class="ai-cta-title">Ask AI anything</div>
-          <div class="ai-cta-sub">"What do I need for IC renewal?" · "Berapa bayaran pasport?"</div>
+          <div class="ai-cta-sub">"IC renewal requirements?" · "Berapa bayaran pasport?"</div>
         </div>
-        <span style="font-size:22px;color:var(--navy);font-weight:700">›</span>
+        <div class="ai-cta-arr">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>
+        </div>
       </div>
       <div class="slabel" id="cat-lbl">Browse by Category</div>
-      <div class="cats" id="cats"></div>
-      <div class="slabel" id="count-lbl">All Forms (11)</div>
+      <div class="chips" id="chips"></div>
+      <div class="slabel" id="count-lbl">All Forms</div>
       <div id="flist"></div>
-      <div class="footer">Information is for general guidance only.<br>Always verify with the relevant department.</div>
+      <div class="footer">Guidance only. Always verify with the relevant department.</div>
     </div>
   </div>
 </div>
@@ -201,54 +233,63 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 <!-- FORM DETAIL -->
 <div id="view-form" class="view">
   <div class="hdr">
-    <div style="display:flex;align-items:center;gap:8px">
-      <button class="back-btn" onclick="back()">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>Back
+    <div style="display:flex;align-items:center;gap:4px">
+      <button class="hdr-btn" onclick="back()" aria-label="Back">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M15 18l-6-6 6-6"/></svg>
+        Back
       </button>
-      <span class="hdr-name" id="form-title"></span>
+      <span class="hdr-mid" id="form-title"></span>
     </div>
   </div>
-  <div class="vbody" id="form-body">
-    <div class="vinner" id="form-content"></div>
-  </div>
+  <div class="vbody" id="form-body"><div class="vinner" id="form-content"></div></div>
 </div>
 
 <!-- CHAT -->
 <div id="view-chat" class="view">
   <div class="hdr">
-    <div style="display:flex;align-items:center;gap:8px">
-      <button class="back-btn" onclick="back()">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>Back
+    <div style="display:flex;align-items:center;gap:4px">
+      <button class="hdr-btn" onclick="back()" aria-label="Back">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M15 18l-6-6 6-6"/></svg>
+        Back
       </button>
-      <span class="hdr-name" id="chat-title">Ask AI</span>
-      <button class="icon-btn" onclick="go('settings')" style="margin-left:auto;width:auto;padding:0 8px;font-size:13px" aria-label="API Key">🔑</button>
+      <span class="hdr-mid" id="chat-title">Ask AI</span>
+      <button class="hdr-btn" onclick="go('settings')" aria-label="API Key" style="margin-left:auto;font-size:12px;font-weight:700;padding:0 10px">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4"/></svg>
+        Key
+      </button>
     </div>
   </div>
   <div id="ctx-banner" style="display:none" class="ctx-banner"></div>
   <div class="cmsg-list" id="cmsg-list"></div>
   <div class="cinput-bar">
-    <textarea class="cinput" id="cinput" placeholder="Ask anything... / Tanya apa saja..." rows="1" onkeydown="onChatKey(event)" oninput="autoH(this)"></textarea>
-    <button class="send-btn" id="send-btn" onclick="sendMsg()" disabled aria-label="Send">↑</button>
+    <textarea class="cinput" id="cinput" placeholder="Ask anything… / Tanya apa saja…" rows="1" onkeydown="onChatKey(event)" oninput="autoH(this)"></textarea>
+    <button class="send-btn" id="send-btn" onclick="sendMsg()" disabled aria-label="Send">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+    </button>
   </div>
 </div>
 
 <!-- SETTINGS -->
 <div id="view-settings" class="view">
   <div class="hdr">
-    <div style="display:flex;align-items:center;gap:8px">
-      <button class="back-btn" onclick="back()">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>Back
+    <div style="display:flex;align-items:center;gap:4px">
+      <button class="hdr-btn" onclick="back()" aria-label="Back">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M15 18l-6-6 6-6"/></svg>
+        Back
       </button>
-      <span class="hdr-name">Settings</span>
+      <span class="hdr-mid">Settings</span>
     </div>
   </div>
   <div class="vbody"><div class="vinner">
     <div class="ssec">
-      <div class="stitle">🔑 Anthropic API Key</div>
-      <div class="sdesc" style="margin-bottom:10px">Powers the AI assistant. Stored in your browser only — sent directly to Anthropic when you chat.</div>
+      <div class="stitle">
+        <div class="stitle-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4"/></svg></div>
+        Anthropic API Key
+      </div>
+      <div class="sdesc">Powers the AI assistant. Stored only in your browser — sent directly to Anthropic when you chat.</div>
       <div id="kstatus" style="display:none" class="kstatus"><div class="kdot"></div><span class="kstatus-txt">API key is set</span></div>
-      <input type="password" class="sinput" id="kinput" placeholder="sk-ant-api03-..." autocomplete="off" spellcheck="false" oninput="document.getElementById('kerr').style.display='none'">
-      <div id="kerr" style="display:none;font-size:13px;color:var(--error);margin-bottom:10px"></div>
+      <input type="password" class="sinput" id="kinput" placeholder="sk-ant-api03-…" autocomplete="off" spellcheck="false" oninput="document.getElementById('kerr').style.display='none'">
+      <div id="kerr" class="kerr"></div>
       <div class="brow">
         <button class="btn-p" id="save-btn" onclick="saveKey()">Save Key</button>
         <button class="btn-d" id="rm-btn" style="display:none" onclick="removeKey()">Remove</button>
@@ -256,12 +297,18 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
       <div class="shint">Get your key at console.anthropic.com → API Keys</div>
     </div>
     <div class="ssec">
-      <div class="stitle">ℹ️ About</div>
-      <div class="sdesc">An unofficial guide to Brunei Darussalam government forms and processes. For general guidance only — always verify with the relevant department before your visit.</div>
-      <div class="sdesc" style="margin-top:8px;color:var(--muted)">Version 1.0.0 · Made with ❤️ for Brunei</div>
+      <div class="stitle">
+        <div class="stitle-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></div>
+        About
+      </div>
+      <div class="sdesc">An unofficial guide to Brunei government forms and processes. For general guidance only — always verify with the relevant department before your visit.</div>
+      <div class="sdesc" style="color:var(--muted);margin-bottom:0">Version 1.0 · Made with ❤️ for Brunei</div>
     </div>
     <div class="ssec">
-      <div class="stitle">📞 Key Departments</div>
+      <div class="stitle">
+        <div class="stitle-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.07 3.18 2 2 0 0 1 3.05 1h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.09 8.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 21 16.92z"/></svg></div>
+        Key Departments
+      </div>
       <div id="dlist"></div>
     </div>
   </div></div>
@@ -269,7 +316,17 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 
 </div>
 <script>
-// ── DATA ─────────────────────────────────────────────────
+// ── CATEGORY COLORS ───────────────────────────────
+const CC={
+  identity:   {bg:'#EFF6FF',text:'#1D4ED8',border:'#BFDBFE'},
+  immigration:{bg:'#FAF5FF',text:'#7C3AED',border:'#DDD6FE'},
+  vehicle:    {bg:'#FFF7ED',text:'#C2410C',border:'#FED7AA'},
+  business:   {bg:'#F0FDF4',text:'#15803D',border:'#BBF7D0'},
+  health:     {bg:'#FFF1F2',text:'#BE123C',border:'#FECDD3'},
+  other:      {bg:'#F8FAFC',text:'#475569',border:'#E2E8F0'},
+};
+
+// ── DATA ──────────────────────────────────────────
 const CATS={
   identity:   {l:'Identity',   ms:'Identiti',  i:'🪪'},
   immigration:{l:'Immigration',ms:'Imigresen', i:'✈️'},
@@ -283,7 +340,7 @@ const FORMS=[
    desc:'Replace a lost, damaged, or stolen Brunei identity card (IC).',descMs:'Gantikan kad pengenalan Brunei yang hilang, rosak, atau dicuri.',
    docs:['Completed KP/IC/1 form (available at JPIN counter)','One (1) passport-sized photo — blue background','Police report (if lost or stolen)','Original damaged IC (if damaged)','Birth certificate (for first-time IC applicants)'],
    steps:['Obtain and fill in the KP/IC/1 form at the JPIN counter or download from JPIN website.','Attach your passport-sized photo with blue background (taken within the last 3 months).','If IC was lost or stolen, attach a copy of the police report.','Submit the completed form at any JPIN office during working hours.','Pay the replacement fee at the payment counter.','Collect your new IC within the processing period.'],
-   fee:'BND $5 (1st replacement) / BND $20 (subsequent)',time:'3–5 working days',hours:'Mon–Thu & Sat: 7:45am–4:30pm',loc:'JPIN Office, Old Airport Road, BSB',
+   fee:'BND $5 (1st) / BND $20 (subsequent)',time:'3–5 working days',hours:'Mon–Thu & Sat: 7:45am–4:30pm',loc:'JPIN Office, Old Airport Road, BSB',
    tips:['Blue background photos only — white or grey will be rejected.','Bring more than one photo — the officer may ask for extras.','Police report must be obtained within 24 hours of discovering the loss.','Saturday counter service is available but busier — go on weekday mornings.']},
   {id:'ic-renewal',name:'IC Renewal (Expired)',ms:'Pembaharuan Kad Pengenalan',dept:'JPIN — Immigration & National Registration',cat:'identity',
    desc:'Renew your Brunei IC that has expired or is about to expire.',descMs:'Baharukan IC Brunei anda yang telah atau hampir tamat tempoh.',
@@ -307,13 +364,13 @@ const FORMS=[
    desc:'Apply for a new Brunei driving licence after passing the required tests.',descMs:'Mohon lesen memandu Brunei baharu selepas lulus ujian.',
    docs:['Completed application form (JPD/DL/1)','IC (original + photocopy)','Theory test pass certificate','Road test pass certificate','Medical certificate from a JPD-approved doctor','Two (2) passport-sized photos'],
    steps:['Enrol at an approved driving school and complete required training hours.','Pass the theory (computer) test at JPD.','Pass the road test conducted by an approved examiner.','Obtain a medical certificate from a JPD-approved doctor.','Submit all documents to JPD with the completed application form.','Pay the licence fee — typically issued the same day.'],
-   fee:'BND $20 (Class B — motorcycle) / BND $25 (Class D — car)',time:'Same day after submission',hours:'Mon–Thu & Sat: 7:45am–4:30pm',loc:'JPD Office, Jalan Gadong, BSB',
+   fee:'BND $20 (Class B) / BND $25 (Class D)',time:'Same day after submission',hours:'Mon–Thu & Sat: 7:45am–4:30pm',loc:'JPD Office, Jalan Gadong, BSB',
    tips:['Driving schools typically handle most paperwork — confirm what you need personally.','The medical form expires after 3 months — time it with your test.']},
   {id:'vehicle-registration',name:'Vehicle Registration',ms:'Pendaftaran Kenderaan',dept:'Land Transport Department (JPD)',cat:'vehicle',
    desc:'Register a new or imported vehicle in Brunei.',descMs:'Daftarkan kenderaan baharu atau import di Brunei.',
    docs:['Vehicle purchase invoice / Bill of Lading (imports)','Customs clearance certificate (imported vehicles)','Active motor insurance certificate','IC (original + photocopy)','Completed JPD vehicle registration form'],
    steps:['Ensure customs clearance is complete (for imported vehicles).','Obtain motor insurance from an approved insurer before visiting JPD.','Complete the JPD vehicle registration form.','Submit all documents — officer will inspect the VIN/chassis number.','Pay the registration fee and road tax.','Collect your number plates.'],
-   fee:'Varies by vehicle type. Road tax: BND $40–$200+/year',time:'1–3 working days',hours:'Mon–Thu & Sat: 7:45am–4:30pm',loc:'JPD Office, Jalan Gadong, BSB',
+   fee:'Varies. Road tax: BND $40–$200+/year',time:'1–3 working days',hours:'Mon–Thu & Sat: 7:45am–4:30pm',loc:'JPD Office, Jalan Gadong, BSB',
    tips:['Insurance must be active before registration — get your policy first.','Car dealers usually handle registration for new purchases.','For imported vehicles, Customs clearance can take several weeks.']},
   {id:'business-reg',name:'Sole Proprietorship Registration',ms:'Pendaftaran Perniagaan Tunggal',dept:'Registry of Companies & Business Names (ROCBN)',cat:'business',
    desc:'Register a sole proprietorship business in Brunei.',descMs:'Daftarkan perniagaan milikan tunggal di Brunei.',
@@ -357,10 +414,10 @@ const DEPTS=[
 ];
 const SUGG=['What documents do I need for IC replacement?','Berapa lama proses pasport?','How do I register a business in Brunei?','What is the fee for a driving licence?'];
 
-// ── STATE ─────────────────────────────────────────────
+// ── STATE ─────────────────────────────────────────
 const S={view:'home',prev:'home',formId:null,chatFormId:null,search:'',cat:null,msgs:[],loading:false,key:localStorage.getItem('bf_k')||''};
 
-// ── NAV ──────────────────────────────────────────────
+// ── NAV ───────────────────────────────────────────
 function go(view,opts={}){
   const pEl=document.getElementById('view-'+S.view);
   if(pEl){pEl.classList.remove('active');if(view!=='home')pEl.classList.add('behind')}
@@ -379,7 +436,7 @@ function back(){
   S.view=S.prev; S.prev='home';
 }
 
-// ── DRAW ─────────────────────────────────────────────
+// ── DRAW ──────────────────────────────────────────
 function draw(v){
   if(v==='home')drawHome();
   else if(v==='form')drawForm();
@@ -388,9 +445,8 @@ function draw(v){
 }
 
 function drawHome(){
-  // Cats
   const cats=[...new Set(FORMS.map(f=>f.cat))];
-  document.getElementById('cats').innerHTML=
+  document.getElementById('chips').innerHTML=
     `<button class="chip${S.cat===null?' on':''}" onclick="setCat(null)">All</button>`+
     cats.map(c=>{const C=CATS[c];return`<button class="chip${S.cat===c?' on':''}" onclick="setCat('${c}')">${C.i} ${C.l}</button>`}).join('');
   drawList();
@@ -401,34 +457,68 @@ function drawList(){
   const list=FORMS.filter(f=>(!q||f.name.toLowerCase().includes(q)||f.ms.toLowerCase().includes(q)||f.dept.toLowerCase().includes(q))&&(!S.cat||f.cat===S.cat));
   const lbl=document.getElementById('count-lbl');
   const catLbl=document.getElementById('cat-lbl');
-  const catsEl=document.getElementById('cats');
-  if(q){lbl.textContent=`${list.length} result${list.length!==1?'s':''}`;catLbl.style.display='none';catsEl.style.display='none'}
-  else{lbl.textContent=S.cat?`${CATS[S.cat].l} (${list.length})`:`All Forms (${list.length})`;catLbl.style.display='';catsEl.style.display='flex'}
+  const chipsEl=document.getElementById('chips');
+  if(q){lbl.textContent=`${list.length} result${list.length!==1?'s':''}`;catLbl.style.display='none';chipsEl.style.display='none'}
+  else{lbl.textContent=S.cat?`${CATS[S.cat].l} (${list.length})`:`All Forms (${list.length})`;catLbl.style.display='';chipsEl.style.display='flex'}
   const el=document.getElementById('flist');
-  if(!list.length){el.innerHTML=`<div class="empty"><div class="empty-emoji">📭</div><div class="empty-title">No forms found</div><div class="empty-sub">Try asking our AI assistant about any Brunei government process.</div><button class="empty-btn" onclick="go('chat',{chatFormId:null})">Ask AI →</button></div>`;return}
-  el.innerHTML=list.map(f=>{const C=CATS[f.cat];const fee=f.fee.split('/')[0].trim();return`<div class="fcard" onclick="go('form',{formId:'${f.id}'})"><div class="ficon">${C.i}</div><div class="fcontent"><div class="fname">${f.name}</div><div class="fms">${f.ms}</div><div class="fdept">${f.dept}</div><div class="fpills"><span class="pill">${f.time}</span><span class="pill">${fee}</span></div></div><span class="farrow">›</span></div>`}).join('');
+  if(!list.length){el.innerHTML=`<div class="empty"><div style="font-size:44px;margin-bottom:14px">📭</div><div class="empty-title">No forms found</div><div class="empty-sub">Try asking our AI assistant about any Brunei government process.</div><button class="empty-btn" onclick="go('chat',{chatFormId:null})">Ask AI →</button></div>`;return}
+  el.innerHTML=list.map(f=>{
+    const C=CATS[f.cat];const cc=CC[f.cat]||CC.other;
+    const fee=f.fee.split('/')[0].trim();
+    return`<div class="fcard" onclick="go('form',{formId:'${f.id}'})" style="--cat-c:${cc.text}">
+      <style>.fcard[onclick*="${f.id}"]::before{background:${cc.text}}</style>
+      <div class="fcard-ico" style="background:${cc.bg};color:${cc.text}">${C.i}</div>
+      <div class="fcard-body">
+        <div class="fcard-name">${f.name}</div>
+        <div class="fcard-ms">${f.ms}</div>
+        <div class="fcard-dept">${f.dept}</div>
+        <div class="fcard-pills">
+          <span class="pill" style="background:${cc.bg};color:${cc.text};border-color:${cc.border}">${f.time}</span>
+          <span class="pill" style="background:var(--bg);color:var(--t2);border-color:var(--border)">${fee}</span>
+        </div>
+      </div>
+      <div class="fcard-arr"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg></div>
+    </div>`;
+  }).join('');
 }
 
 function drawForm(){
   const f=FORMS.find(x=>x.id===S.formId);
   if(!f)return;
-  const C=CATS[f.cat];
+  const C=CATS[f.cat];const cc=CC[f.cat]||CC.other;
   document.getElementById('form-title').textContent=f.name;
   document.getElementById('form-content').innerHTML=`
-    <div class="fhero"><div class="fhero-icon">${C.i}</div><div><div class="fhero-name">${f.name}</div><div class="fhero-ms">${f.ms}</div><div class="fhero-dept">${f.dept}</div></div></div>
-    <div class="fdesc">${f.desc}</div><div class="fdesc-ms">${f.descMs}</div>
-    <div class="igrid">
-      <div class="icell"><div class="icell-icon">⏱</div><div class="icell-lbl">Processing</div><div class="icell-val">${f.time}</div></div>
-      <div class="icell"><div class="icell-icon">💰</div><div class="icell-lbl">Fee</div><div class="icell-val">${f.fee.split('/')[0].trim()}</div></div>
-      <div class="icell"><div class="icell-icon">🕐</div><div class="icell-lbl">Office Hours</div><div class="icell-val">${f.hours}</div></div>
-      <div class="icell"><div class="icell-icon">📍</div><div class="icell-lbl">Location</div><div class="icell-val">${f.loc}</div></div>
+    <div class="fhero">
+      <div class="fhero-ico" style="background:${cc.bg};color:${cc.text}">${C.i}</div>
+      <div>
+        <div class="fhero-name">${f.name}</div>
+        <div class="fhero-ms">${f.ms}</div>
+        <div class="fhero-dept">${f.dept}</div>
+      </div>
     </div>
-    <div class="shdr"><span class="shdr-emoji">📎</span><div><div class="shdr-title">Required Documents</div><div class="shdr-sub">Dokumen Diperlukan</div></div></div>
-    ${f.docs.map((d,i)=>`<div class="doc-item"><div class="doc-num">${i+1}</div><div class="doc-txt">${d}</div></div>`).join('')}
-    <div class="shdr"><span class="shdr-emoji">📋</span><div><div class="shdr-title">Step-by-Step</div><div class="shdr-sub">Langkah-langkah</div></div></div>
+    <div class="fdesc">${f.desc}</div>
+    <div class="fdesc-ms">${f.descMs}</div>
+    <div class="igrid">
+      <div class="icell"><div class="icell-ico">⏱</div><div class="icell-lbl">Processing</div><div class="icell-val">${f.time}</div></div>
+      <div class="icell"><div class="icell-ico">💰</div><div class="icell-lbl">Fee</div><div class="icell-val">${f.fee.split('/')[0].trim()}</div></div>
+      <div class="icell"><div class="icell-ico">🕐</div><div class="icell-lbl">Office Hours</div><div class="icell-val">${f.hours}</div></div>
+      <div class="icell"><div class="icell-ico">📍</div><div class="icell-lbl">Location</div><div class="icell-val">${f.loc}</div></div>
+    </div>
+    <div class="shdr">
+      <div class="shdr-ico" style="background:${cc.bg};color:${cc.text}">📎</div>
+      <div><div class="shdr-title">Required Documents</div><div class="shdr-sub">Dokumen Diperlukan</div></div>
+    </div>
+    ${f.docs.map((d,i)=>`<div class="doc-item"><div class="doc-num" style="background:${cc.bg};color:${cc.text};border:1px solid ${cc.border}">${i+1}</div><div class="doc-txt">${d}</div></div>`).join('')}
+    <div class="shdr">
+      <div class="shdr-ico" style="background:${cc.bg};color:${cc.text}">📋</div>
+      <div><div class="shdr-title">Step-by-Step</div><div class="shdr-sub">Langkah-langkah</div></div>
+    </div>
     ${f.steps.map((s,i)=>`<div class="step-item"><div class="step-num">${i+1}</div><div class="step-txt">${s}</div></div>`).join('')}
-    <div class="shdr"><span class="shdr-emoji">💡</span><div><div class="shdr-title">Helpful Tips</div><div class="shdr-sub">Petua Berguna</div></div></div>
-    ${f.tips.map(t=>`<div class="tip-item"><span class="tip-dot">•</span><span class="tip-txt">${t}</span></div>`).join('')}
+    <div class="shdr">
+      <div class="shdr-ico" style="background:var(--gold-bg);color:var(--gold-d)">💡</div>
+      <div><div class="shdr-title">Helpful Tips</div><div class="shdr-sub">Petua Berguna</div></div>
+    </div>
+    ${f.tips.map(t=>`<div class="tip-item"><span class="tip-dot">›</span><span class="tip-txt">${t}</span></div>`).join('')}
     <button class="ask-btn" onclick="go('chat',{chatFormId:'${f.id}'})">🤖 Ask AI about this form</button>
     <div class="disclaimer">⚠️ Information is for general guidance only. Fees and requirements may change — always confirm with the relevant department.</div>`;
   document.getElementById('form-body').scrollTop=0;
@@ -471,18 +561,24 @@ function drawSettings(){
   document.getElementById('dlist').innerHTML=DEPTS.map(d=>`<div class="drow"><span class="dtag">${d.t}</span><span class="dname">${d.n}</span></div>`).join('');
 }
 
-// ── HANDLERS ─────────────────────────────────────────
-function onSearch(v){S.search=v;document.getElementById('clr-btn').style.display=v?'block':'none';drawList()}
+// ── HANDLERS ─────────────────────────────────────
+function onSearch(v){S.search=v;document.getElementById('clr-btn').style.display=v?'flex':'none';drawList()}
 function clearSearch(){S.search='';document.getElementById('search-inp').value='';document.getElementById('clr-btn').style.display='none';drawList()}
-function setCat(c){S.cat=c;document.getElementById('cats').querySelectorAll('.chip').forEach((el,i)=>{el.classList.toggle('on',i===0?c===null:FORMS.map(f=>f.cat).filter((v,i,a)=>a.indexOf(v)===i)[i-1]===c)});drawList()}
+function setCat(c){S.cat=c;document.getElementById('chips').querySelectorAll('.chip').forEach((el,i)=>{el.classList.toggle('on',i===0?c===null:FORMS.map(f=>f.cat).filter((v,i,a)=>a.indexOf(v)===i)[i-1]===c)});drawList()}
 function onChatKey(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendMsg()}document.getElementById('send-btn').disabled=!e.target.value.trim()}
 function autoH(el){el.style.height='auto';el.style.height=Math.min(el.scrollHeight,100)+'px';document.getElementById('send-btn').disabled=!el.value.trim()}
-function suggest(t){document.getElementById('cinput').value=t;sendMsg()}
-function saveKey(){const v=document.getElementById('kinput').value.trim();if(!v){showKErr('Please enter an API key.');return}if(!v.startsWith('sk-ant-')){showKErr('Anthropic keys start with sk-ant-');return}S.key=v;localStorage.setItem('bf_k',v);drawSettings();const b=document.getElementById('save-btn');b.textContent='✓ Saved!';setTimeout(()=>b.textContent='Save Key',2000)}
+function suggest(t){document.getElementById('cinput').value=t;document.getElementById('send-btn').disabled=false;sendMsg()}
+function saveKey(){
+  const v=document.getElementById('kinput').value.trim();
+  if(!v){showKErr('Please enter an API key.');return}
+  if(!v.startsWith('sk-ant-')){showKErr('Anthropic keys start with sk-ant-');return}
+  S.key=v;localStorage.setItem('bf_k',v);drawSettings();
+  const b=document.getElementById('save-btn');b.textContent='✓ Saved!';setTimeout(()=>b.textContent='Save Key',2000);
+}
 function showKErr(m){const e=document.getElementById('kerr');e.textContent=m;e.style.display='block'}
 function removeKey(){if(!confirm('Remove your API key?'))return;S.key='';localStorage.removeItem('bf_k');document.getElementById('kinput').value='';drawSettings()}
 
-// ── CLAUDE API ────────────────────────────────────────
+// ── CLAUDE API ────────────────────────────────────
 const SYS=`You are BruneiForms Helper — a friendly, knowledgeable assistant helping Bruneians understand government forms and processes. Cover all Brunei departments: JPIN, JPD, JPAS, ROCBN, MOH, and more. Respond in the same language the user writes in (English or Bahasa Melayu). Keep answers concise and practical. Use numbered steps for processes. If unsure about specific fees or recent changes, say so and recommend calling the department. Never give legal advice.`;
 
 async function sendMsg(){
@@ -509,14 +605,12 @@ async function sendMsg(){
   S.loading=false;drawMsgs();
 }
 
-// ── UTILS ─────────────────────────────────────────────
+// ── UTILS ─────────────────────────────────────────
 function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\n/g,'<br>')}
 function fmt(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>').replace(/\n/g,'<br>')}
 
-// ── SERVICE WORKER ────────────────────────────────────
+// ── PWA + INIT ────────────────────────────────────
 if('serviceWorker' in navigator)navigator.serviceWorker.register('sw.js');
-
-// ── INIT ──────────────────────────────────────────────
 drawHome();
 </script>
 </body>
